@@ -51,8 +51,9 @@ public class FriendlyModeView {
         JButton back = new JButton("Go Back");
         panel.add(back);
 
-        FriendlyModeController fmc = new FriendlyModeController(frame, panel, matches, button, back, name, sender, mm);
+        FriendlyModeController fmc = new FriendlyModeController(frame, panel, matches, button, back, content, name, sender, mm);
 
+        content.setVisible(true);
         panel.setVisible(true);
     }
 

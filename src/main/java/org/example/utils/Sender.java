@@ -8,9 +8,9 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 public class Sender {
-    private ObjectOutputStream out;
-    private ObjectInputStream in;
-    private Socket socket;
+    public ObjectOutputStream out;
+    public ObjectInputStream in;
+    public Socket socket;
 
     public Sender(Socket socket){
         try {
