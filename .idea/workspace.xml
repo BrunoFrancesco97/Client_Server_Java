@@ -7,8 +7,10 @@
     <list default="true" id="d3c4e324-6e11-4d55-9052-60d7e00a7092" name="Changes" comment="CLient application">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/controller/FriendlyModeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/controller/FriendlyModeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/utils/Sender.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/utils/Sender.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/view/FriendlyModeView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/view/FriendlyModeView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/controller/MatchCreatorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/controller/MatchCreatorController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/controller/ModeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/controller/ModeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/view/MatchCreatorView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/view/MatchCreatorView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/view/ModeView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/view/ModeView.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,15 +61,15 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.JavaFX"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.JavaFX&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="org.example.model" />
@@ -125,7 +127,8 @@
       <workItem from="1667314353177" duration="18955000" />
       <workItem from="1667376134671" duration="17984000" />
       <workItem from="1667495095063" duration="10530000" />
-      <workItem from="1667576705216" duration="16523000" />
+      <workItem from="1667576705216" duration="17116000" />
+      <workItem from="1667637799060" duration="1717000" />
     </task>
     <task id="LOCAL-00001" summary="CLient application">
       <created>1667589869777</created>
@@ -141,7 +144,14 @@
       <option name="project" value="LOCAL" />
       <updated>1667591345654</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="CLient application">
+      <created>1667595362015</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1667595362015</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

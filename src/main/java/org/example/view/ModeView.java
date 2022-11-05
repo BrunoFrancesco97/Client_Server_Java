@@ -7,10 +7,19 @@ import org.example.utils.Sender;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.util.Timer;
 
 public class ModeView {
     private JPanel mode;
     public ModeView(JFrame frame, String name, Sender sender, MatchChecker mm){
+        print(frame,name,sender,mm);
+    }
+    public ModeView(JFrame frame, String name, Sender sender, MatchChecker mm, Timer t){
+        t.cancel();
+        print(frame,name,sender,mm);
+    }
+
+    private void print(JFrame frame, String name, Sender sender, MatchChecker mm){
         mode = new JPanel();
         mode.setLayout(new GridLayout(6,1));
 
@@ -41,7 +50,6 @@ public class ModeView {
         ModeController mc = new ModeController(frame,mode,select,list,name,sender, mm);
         mode.setVisible(true);
     }
-
     public JPanel getPanel(){
         return this.mode;
     }

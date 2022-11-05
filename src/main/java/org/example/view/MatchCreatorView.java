@@ -9,10 +9,11 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Timer;
 
 public class MatchCreatorView {
     private JPanel panel;
-    public MatchCreatorView(JFrame frame, String name, ArrayList<Match> matches, Sender sender, MatchChecker mm){
+    public MatchCreatorView(JFrame frame, String name, ArrayList<Match> matches, Sender sender, MatchChecker mm, Timer t){
         panel = new JPanel();
         panel.setBorder(new EmptyBorder(25,25,25,25));
         panel.setLayout(new GridLayout(5,1));
@@ -30,7 +31,7 @@ public class MatchCreatorView {
         JButton back = new JButton("Go back");
         panel.add(back);
 
-        MatchCreatorController mc = new MatchCreatorController(frame,panel,nameMatch, back, create, name,matches, sender, mm);
+        MatchCreatorController mc = new MatchCreatorController(frame,panel,nameMatch, back, create, name,matches, sender, mm, t);
 
         panel.setVisible(true);
 

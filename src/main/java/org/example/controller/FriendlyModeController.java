@@ -42,15 +42,14 @@ public class FriendlyModeController {
         };
         t.scheduleAtFixedRate(tt,2000,2000);
 
-
         create.addActionListener(e -> {
             frame.remove(panel);
-            frame.add(new MatchCreatorView(frame, name, matches, sender, mm).getPanel());
+            frame.add(new MatchCreatorView(frame, name, matches, sender, mm,t).getPanel());
             frame.validate();
         });
         back.addActionListener(e -> {
             frame.remove(panel);
-            frame.add(new ModeView(frame, name, sender, mm).getPanel());
+            frame.add(new ModeView(frame, name, sender, mm, t).getPanel());
             frame.validate();
         });
     }
