@@ -8,7 +8,7 @@ import java.util.Objects;
 
 public class Match implements Serializable {
     public ArrayList<Player> players;
-    public boolean available; //Tells if the match can be join by other users
+    public boolean available; //Tells if the match can be joined by other users
     public String type; //Practice/Tournament/Friendly
     public int id;
     public String name;
@@ -36,6 +36,10 @@ public class Match implements Serializable {
             players.add(p);
     }
 
+    public synchronized  void removePlayer(Player p){
+        if(players.size() > 0)
+            players.remove(p);
+    }
     public synchronized String returnListOfPlayers(){
         String list = "";
         for(Player el : players){

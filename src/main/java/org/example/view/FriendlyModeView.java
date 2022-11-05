@@ -8,7 +8,12 @@ import org.example.utils.Sender;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class FriendlyModeView {
     private JPanel panel;
@@ -31,13 +36,18 @@ public class FriendlyModeView {
         content.setLayout(new GridLayout((matches.size()),1));
         for(Match m : matches){
             JPanel content2 = new JPanel();
-            content2.setLayout(new GridLayout(4,1));
+            content2.setLayout(new GridLayout(5,1));
             JLabel l1 = new JLabel("Match: "+m.name);
             content2.add(l1);
             JLabel l2 = new JLabel("Host: "+m.host);
             content2.add(l2);
             JLabel l3 = new JLabel("Size: "+m.players.size());
             content2.add(l3);
+            JButton enter = new JButton("Enter");
+            enter.addActionListener(e -> {
+                System.out.println("Button clicked of match: "+m.name);
+            });
+            content2.add(enter);
             JSeparator js = new JSeparator();
             content2.add(js);
             content.add(content2);

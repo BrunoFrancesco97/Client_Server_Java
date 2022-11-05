@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class RoomView {
     private JPanel panel;
-    public RoomView(JFrame frame, String name, String nameMatch, ArrayList<Match> matches, ArrayList<Player> players, Sender sender, MatchChecker mm){
+    public RoomView(JFrame frame, String name, String nameMatch, ArrayList<Match> matches, Match match, Sender sender, MatchChecker mm){
         panel = new JPanel();
         panel.setLayout(new GridLayout(5,1));
         JLabel matchName = new JLabel(nameMatch);
@@ -24,9 +24,9 @@ public class RoomView {
         JPanel content = new JPanel();
         JScrollPane scrollable = new JScrollPane();
         scrollable.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        content.setLayout(new GridLayout(players.size()*3,1));
+        content.setLayout(new GridLayout(match.players.size()*3,1));
         int i = 1;
-        for(Player p : players){
+        for(Player p : match.players){
             JLabel el1 = new JLabel(i+". Name: ");
             el1.setFont(new Font(font.getFontName(),Font.BOLD,font.getSize()));
             content.add(el1);
@@ -44,7 +44,7 @@ public class RoomView {
         JButton close = new JButton("Close match");
         panel.add(close);
 
-        RoomController rc = new RoomController(frame, panel, close, start, name, nameMatch, matches, sender, mm);
+        RoomController rc = new RoomController(frame, panel, close, start, name, nameMatch, matches, match, sender, mm);
         panel.setVisible(true);
     }
     public JPanel getPanel(){

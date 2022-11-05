@@ -24,17 +24,18 @@ public class FriendlyModeController {
                 Message responsef = sender.send(new Message<>(name, "START","friendly"));
                 ArrayList<Match> newMatches = (ArrayList<Match>) responsef.getMessage();
                 content.removeAll();
-                //JPanel content = new JPanel();
                 content.setLayout(new GridLayout((newMatches.size()),1));
                 for(Match m : newMatches){
                     JPanel content2 = new JPanel();
-                    content2.setLayout(new GridLayout(4,1));
+                    content2.setLayout(new GridLayout(5,1));
                     JLabel l1 = new JLabel("Match: "+m.name);
                     content2.add(l1);
                     JLabel l2 = new JLabel("Host: "+m.host);
                     content2.add(l2);
                     JLabel l3 = new JLabel("Size: "+m.players.size());
                     content2.add(l3);
+                    JButton enter = new JButton("Enter");
+                    content2.add(enter);
                     JSeparator js = new JSeparator();
                     content2.add(js);
                     content.add(content2);

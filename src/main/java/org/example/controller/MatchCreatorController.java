@@ -24,11 +24,11 @@ public class MatchCreatorController {
                 }else{
                     Message response2 = sender.send(new Message(name, "CREATE",nameM));
                     if(response2.getMessage() != null){
-                        ArrayList<Player> players = (ArrayList<Player>) response2.getMessage();
+                        Match match = (Match) response2.getMessage();
                         mm.setType("friendly");
                         mm.setGoingOn(true);
                         frame.remove(panel);
-                        frame.add(new RoomView(frame, name, nameM, matches,players, sender, mm).getPanel());
+                        frame.add(new RoomView(frame, name, nameM, matches,match, sender, mm).getPanel());
                         frame.validate();
                     }
                 }
