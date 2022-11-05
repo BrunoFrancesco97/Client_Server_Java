@@ -8,6 +8,7 @@ import org.example.view.MatchCreatorView;
 import org.example.view.ModeView;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -22,20 +23,24 @@ public class FriendlyModeController {
                 System.out.println("Running");
                 Message responsef = sender.send(new Message<>(name, "START","friendly"));
                 ArrayList<Match> newMatches = (ArrayList<Match>) responsef.getMessage();
-                if(!newMatches.equals(matches)){
-                    content.removeAll();
-                    for(Match m : newMatches){
-                        JLabel l1 = new JLabel("Match: "+m.name);
-                        content.add(l1);
-                        JLabel l2 = new JLabel("Host: "+m.host);
-                        content.add(l2);
-                        JLabel l3 = new JLabel("Size: "+m.players.size());
-                        content.add(l3);
-                        JSeparator js = new JSeparator();
-                        content.add(js);
-                    }
-
+                content.removeAll();
+                //JPanel content = new JPanel();
+                content.setLayout(new GridLayout((newMatches.size()),1));
+                for(Match m : newMatches){
+                    JPanel content2 = new JPanel();
+                    content2.setLayout(new GridLayout(4,1));
+                    JLabel l1 = new JLabel("Match: "+m.name);
+                    content2.add(l1);
+                    JLabel l2 = new JLabel("Host: "+m.host);
+                    content2.add(l2);
+                    JLabel l3 = new JLabel("Size: "+m.players.size());
+                    content2.add(l3);
+                    JSeparator js = new JSeparator();
+                    content2.add(js);
+                    content.add(content2);
+                    content2.setVisible(true);
                 }
+                content.setVisible(true);
                 frame.revalidate();
                 frame.repaint();
             };

@@ -28,17 +28,22 @@ public class FriendlyModeView {
         JScrollPane scrollable = new JScrollPane();
         scrollable.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         JPanel content = new JPanel();
-        content.setLayout(new GridLayout((matches.size()*3)+1,1));
+        content.setLayout(new GridLayout((matches.size()),1));
         for(Match m : matches){
+            JPanel content2 = new JPanel();
+            content2.setLayout(new GridLayout(4,1));
             JLabel l1 = new JLabel("Match: "+m.name);
-            content.add(l1);
+            content2.add(l1);
             JLabel l2 = new JLabel("Host: "+m.host);
-            content.add(l2);
+            content2.add(l2);
             JLabel l3 = new JLabel("Size: "+m.players.size());
-            content.add(l3);
+            content2.add(l3);
             JSeparator js = new JSeparator();
-            content.add(js);
+            content2.add(js);
+            content.add(content2);
+            content2.setVisible(true);
         }
+        content.setVisible(true);
         scrollable.setViewportView(content);
 
         panel.add(scrollable);
