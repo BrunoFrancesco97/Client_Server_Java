@@ -15,6 +15,14 @@ public class Match implements Serializable {
 
     public Player host;
     private final int SIZE = 4;
+    public Match(){
+        this.players = new ArrayList<>();
+        this.available = false ;
+        this.type = null;
+        this.id = Utility.randomIDGenerator(10000);
+        this.name = ""+this.id;
+        this.host = null;
+    }
     public Match(String type, Player host){
         this.players = new ArrayList<>();
         this.available = false ;

@@ -16,7 +16,7 @@ public class QuestionController {
             if(answer.getText() != null && answer.getText().length() > 0){ //TODO: DOVREI TOGLIERE TUTTI GLI SPAZI VUOTI E CONFRONTARE LA STRINGA SOLO A QUEL PUNTO
                 String text = answer.getText();
                 q.checkAnswer(text);
-                Message response = sender.send(new Message<>(name, "GAME",q));
+                Message response = sender.sendAndRead(new Message<>(name, "GAME",q));
                 switch (response.getEvent().toLowerCase()){
                     case "game":
                         frame.remove(question);
@@ -25,12 +25,14 @@ public class QuestionController {
                         frame.validate();
                         break;
                     case "end":
-                        mm.setGoingOn(false);
-                        frame.remove(question);
-                        Score score = (Score) response.getMessage();
-                        frame.add(new ResultsView(frame,name,score,sender, mm).getPanel());
-                        frame.validate();
-                        break;
+                        if(mm.getType().equals("practice")){
+                            mm.setGoingOn(false);
+                            frame.remove(question);
+                            Score score = (Score) response.getMessage();
+                            frame.add(new ResultsView(frame,name,score,sender, mm).getPanel());
+                            frame.validate();
+                            break;
+                        }
                 }
             }
         });

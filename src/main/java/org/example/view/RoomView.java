@@ -13,11 +13,16 @@ import java.util.Timer;
 
 public class RoomView {
     private JPanel panel;
-    public RoomView(JFrame frame, String name, String nameMatch, ArrayList<Match> matches, Match match, Sender sender, MatchChecker mm){
+    public RoomView(JFrame frame, String name, ArrayList<Match> matches, Match match, Sender sender, MatchChecker mm){
         Timer t = new Timer();
         panel = new JPanel();
-        panel.setLayout(new GridLayout(5,1));
-        JLabel matchName = new JLabel(nameMatch);
+        if(match.host.name.equals(name)) {
+            panel.setLayout(new GridLayout(5,1));
+        }else{
+            panel.setLayout(new GridLayout(4,1));
+        }
+
+        JLabel matchName = new JLabel(match.name);
         Font font = matchName.getFont();
         matchName.setFont(new Font(font.getFontName(),Font.BOLD,font.getSize()));
         panel.add(matchName);
@@ -28,7 +33,6 @@ public class RoomView {
         scrollable.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         content.setLayout(new GridLayout(match.players.size(),1));
         int i = 1;
-        System.out.println(match.toString());
         for(Player p : match.players){
             JPanel contentPl = new JPanel();
             JLabel el1 = new JLabel(i+". Name: ");
@@ -44,13 +48,15 @@ public class RoomView {
         }
         scrollable.setViewportView(content);
         panel.add(scrollable);
-
-        JButton start = new JButton("Start match");
-        panel.add(start);
+        JButton start = null;
+        if(match.host.name.equals(name)){
+            start = new JButton("Start match");
+            panel.add(start);
+        }
         JButton close = new JButton("Close match");
         panel.add(close);
 
-        RoomController rc = new RoomController(frame, panel, close, start, content, name, nameMatch, matches, match, sender, mm, t);
+        RoomController rc = new RoomController(frame, panel, close, start, content, name, matches, match, sender, mm, t);
         panel.setVisible(true);
     }
     public JPanel getPanel(){

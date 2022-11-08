@@ -14,8 +14,8 @@ public class LoginController {
             String name = nameJ.getText();
             if(name != null && name.length() > 0){
                 mm.setName(name);
-                Message response = sender.send(new Message(name, "NAME"));
-                if(response.getMessage() != null){
+                Message response = sender.sendAndRead(new Message(name, "NAME"));
+                if(response.getMessage() != null && response.getMessage() instanceof String){
                     frame.remove(login);
                     frame.add(new AlertView(frame,name, (String) response.getMessage(),sender, mm).getPanel());
                     frame.validate();

@@ -14,8 +14,8 @@ import java.awt.event.ActionListener;
 public class AlertController {
     public AlertController(JFrame frame, JPanel alert, String name, String type, JButton buttonYes, JButton buttonNo, Sender sender, MatchChecker mm){
         buttonYes.addActionListener(e -> {
-            Message response = sender.send(new Message(name, "RESUME",type));
-            if(response != null){
+            Message response = sender.sendAndRead(new Message(name, "RESUME",type));
+            if(response != null && response.getMessage() != null && response.getEvent().equals("GAME")){
                 frame.remove(alert);
                 frame.add(new QuestionView(frame,name, (Question) response.getMessage(),sender, mm).getPanel());
                 frame.validate();

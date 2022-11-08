@@ -36,7 +36,7 @@ public class ModeController {
                     if(result == 0){
                         mm.setType("practice");
                         mm.setGoingOn(true);
-                        Message response = sender.send(new Message<>(name, "START","practice"));
+                        Message response = sender.sendAndRead(new Message<>(name, "START","practice"));
                         Question q = (Question) response.getMessage();
                         frame.remove(mode);
                         frame.add(new QuestionView(frame,name,q,sender, mm).getPanel());
@@ -45,7 +45,7 @@ public class ModeController {
                     break;
                 case "friendly mode":
                     mm.setType("friendly");
-                    Message responsef = sender.send(new Message<>(name, "START","friendly"));
+                    Message responsef = sender.sendAndRead(new Message<>(name, "START","friendly"));
                     if(responsef != null && responsef.getEvent().equals("LIST") && responsef.getMessage() != null && responsef.getMessage() instanceof  ArrayList<?>){
                         ArrayList<Match> matches = (ArrayList<Match>) responsef.getMessage();
                         frame.remove(mode);

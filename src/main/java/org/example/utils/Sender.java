@@ -24,19 +24,36 @@ public class Sender {
 
     }
 
-    public Message send(Message message){
-        Message result = null;
+    public Message sendAndRead(Message message){
+        Object result;
         try{
             this.out.writeObject(message);
             this.out.flush();
             this.out.reset();
-            result = (Message) this.in.readObject();
+            result = this.in.readObject();
+            Message result2;
+            if(result != null){
+                System.out.println("Result: "+result);
+                result2 = (Message) result;
+                System.out.println("Incoming message: "+result2);
+                return result2;
+            }
+
         }catch(Exception e){
             e.printStackTrace();
         }
-        return result;
+        return null;
     }
 
+    public void send(Message message){
+        try{
+            this.out.writeObject(message);
+            this.out.flush();
+            this.out.reset();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
     public void close(){
         System.out.println("Closing the connection with the server!");
         try {

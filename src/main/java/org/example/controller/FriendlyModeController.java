@@ -21,8 +21,7 @@ public class FriendlyModeController {
         TimerTask tt = new TimerTask() {
             @Override
             public void run() {
-                System.out.println("Running");
-                Message responsef = sender.send(new Message<>(name, "START","friendly"));
+                Message responsef = sender.sendAndRead(new Message<>(name, "START","friendly"));
                 if(responsef != null && responsef.getEvent().equals("LIST") && responsef.getMessage() instanceof ArrayList<?>){
                     ArrayList<Match> newMatches = (ArrayList<Match>) responsef.getMessage();
                     content.removeAll();
@@ -39,13 +38,13 @@ public class FriendlyModeController {
                         JButton enter = new JButton("Enter");
                         content2.add(enter);
                         enter.addActionListener(e -> {
-                            Message response = sender.send(new Message<>(name, "GET_IN",m.name));
+                            Message response = sender.sendAndRead(new Message<>(name, "GET_IN",m.name));
                             if(response != null && response.getMessage() != null && response.getEvent().equals("GET_IN") && response.getMessage() instanceof Match){
+                                t.cancel();
                                 Match mGet = (Match) response.getMessage();
                                 frame.remove(panel);
-                                frame.add(new RoomView(frame, name, m.name, matches, mGet, sender, mm).getPanel());
+                                frame.add(new RoomView(frame, name, matches, mGet, sender, mm).getPanel());
                                 frame.validate();
-                                t.cancel();
                             }
                         });
                         JSeparator js = new JSeparator();

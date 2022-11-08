@@ -48,13 +48,13 @@ public class FriendlyModeView {
             content2.add(l3);
             JButton enter = new JButton("Enter");
             enter.addActionListener(e -> {
-                Message response = sender.send(new Message(name, "GET_IN",m.name));
+                Message response = sender.sendAndRead(new Message(name, "GET_IN",m.name));
                 if(response != null && response.getMessage() != null && response.getEvent().equals("GET_IN") && response.getMessage() instanceof Match){
+                    t.cancel();
                     Match mGet = (Match) response.getMessage();
                     frame.remove(panel);
-                    frame.add(new RoomView(frame, name, m.name, matches, mGet, sender, mm).getPanel());
+                    frame.add(new RoomView(frame, name, matches, mGet, sender, mm).getPanel());
                     frame.validate();
-                    t.cancel();
                 }
             });
             content2.add(enter);

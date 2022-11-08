@@ -43,7 +43,11 @@ public class Player implements Serializable {
         questions.remove(random_int);
         return q;
     }
-
+    public Question popQuestion(){
+        Question q = questions.get(0);
+        questions.remove(0);
+        return q;
+    }
     public boolean hasQuestion(){
         return (this.questions.size() > 0);
     }

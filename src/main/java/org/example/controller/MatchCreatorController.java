@@ -18,17 +18,17 @@ public class MatchCreatorController {
         create.addActionListener(e -> {
             String nameM = nameMatch.getText();
             if(nameM != null && nameM.length() > 0){
-                Message response = sender.send(new Message(name, "NAME_CHECKER",nameM));
+                Message response = sender.sendAndRead(new Message(name, "NAME_CHECKER",nameM));
                 if(response.getMessage() != null && response.getMessage().equals("Y")){
                     JOptionPane.showMessageDialog(frame,"Game match already used!","Warning!",JOptionPane.WARNING_MESSAGE);
                 }else{
-                    Message response2 = sender.send(new Message(name, "CREATE",nameM));
+                    Message response2 = sender.sendAndRead(new Message(name, "CREATE",nameM));
                     if(response2.getMessage() != null){
                         Match match = (Match) response2.getMessage();
                         mm.setType("friendly");
                         mm.setGoingOn(true);
                         frame.remove(panel);
-                        frame.add(new RoomView(frame, name, nameM, matches,match, sender, mm).getPanel());
+                        frame.add(new RoomView(frame, name, matches,match, sender, mm).getPanel());
                         frame.validate();
                     }
                 }
