@@ -29,6 +29,7 @@ public class Sender {
         try{
             this.out.writeObject(message);
             this.out.flush();
+            this.out.reset();
             result = (Message) this.in.readObject();
             //System.out.println("Response from server: "+result);
         }catch(Exception e){
