@@ -54,7 +54,7 @@ public class RoomController {
         t.scheduleAtFixedRate(tt,10,500);
 
         back.addActionListener(e -> {
-            if(!match.host.name.equals(name)){
+            if(match.host.name.equals(name)){
                 Message response = sender.send(new Message(name, "MATCH_REMOVER",nameMatch));
                 if(response != null && response.getMessage().equals("ok")){
                     frame.remove(panel);
