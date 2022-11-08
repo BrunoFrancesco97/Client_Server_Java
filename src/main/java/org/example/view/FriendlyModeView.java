@@ -49,7 +49,7 @@ public class FriendlyModeView {
             JButton enter = new JButton("Enter");
             enter.addActionListener(e -> {
                 Message response = sender.send(new Message(name, "GET_IN",m.name));
-                if(response.getMessage() != null){
+                if(response != null && response.getMessage() != null && response.getEvent().equals("GET_IN") && response.getMessage() instanceof Match){
                     Match mGet = (Match) response.getMessage();
                     frame.remove(panel);
                     frame.add(new RoomView(frame, name, m.name, matches, mGet, sender, mm).getPanel());

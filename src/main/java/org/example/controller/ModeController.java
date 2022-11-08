@@ -46,10 +46,12 @@ public class ModeController {
                 case "friendly mode":
                     mm.setType("friendly");
                     Message responsef = sender.send(new Message<>(name, "START","friendly"));
-                    ArrayList<Match> matches = (ArrayList<Match>) responsef.getMessage();
-                    frame.remove(mode);
-                    frame.add(new FriendlyModeView(frame, name, matches, sender, mm).getPanel());
-                    frame.validate();
+                    if(responsef != null && responsef.getEvent().equals("LIST") && responsef.getMessage() != null && responsef.getMessage() instanceof  ArrayList<?>){
+                        ArrayList<Match> matches = (ArrayList<Match>) responsef.getMessage();
+                        frame.remove(mode);
+                        frame.add(new FriendlyModeView(frame, name, matches, sender, mm).getPanel());
+                        frame.validate();
+                    }
                     break;
                 case "tournament mode":
                     break;

@@ -19,7 +19,8 @@ public class RoomController {
             @Override
             public void run() {
                 Message responsef = sender.send(new Message<>(name, "UPDATE_PLAYERS",nameMatch));
-                if(responsef != null && responsef.getMessage() != null){
+                System.out.println(responsef);
+                if(responsef != null && responsef.getMessage() != null && responsef.getEvent().equals("UPDATE_PLAYERS") && responsef.getMessage() instanceof ArrayList<?>){
                     ArrayList<Player> players = (ArrayList<Player>) responsef.getMessage();
                     content.removeAll();
                     content.setLayout(new GridLayout((players.size()),1));
@@ -43,7 +44,7 @@ public class RoomController {
                     frame.revalidate();
                     frame.repaint();
                 }else{
-                    //TODO: IL MATCH E' STATO CANCELLATO DEVO USCIRE DA QUESTA VIEW
+                    System.out.println("SONO QUI");
                     frame.remove(panel);
                     frame.add(new FriendlyModeView(frame, name, matches, sender, mm).getPanel());
                     frame.validate();
@@ -51,7 +52,7 @@ public class RoomController {
                 }
             }
         };
-        t.scheduleAtFixedRate(tt,10,500);
+        t.scheduleAtFixedRate(tt,1000,2500);
 
         back.addActionListener(e -> {
             if(match.host.name.equals(name)){
