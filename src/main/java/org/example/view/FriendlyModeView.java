@@ -3,6 +3,7 @@ package org.example.view;
 import org.example.controller.FriendlyModeController;
 import org.example.model.Match;
 import org.example.model.MatchChecker;
+import org.example.model.Message;
 import org.example.utils.Sender;
 
 import javax.swing.*;
@@ -13,11 +14,13 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class FriendlyModeView {
     private JPanel panel;
     public FriendlyModeView(JFrame frame, String name, ArrayList<Match> matches, Sender sender, MatchChecker mm){
+        Timer t = new Timer();
         panel = new JPanel();
         panel.setBorder(new EmptyBorder(25,25,25,25));
         panel.setLayout(new GridLayout(7,1));
@@ -45,7 +48,14 @@ public class FriendlyModeView {
             content2.add(l3);
             JButton enter = new JButton("Enter");
             enter.addActionListener(e -> {
-                System.out.println("Button clicked of match: "+m.name);
+                Message response = sender.send(new Message(name, "GET_IN",m.name));
+                if(response.getMessage() != null){
+                    Match mGet = (Match) response.getMessage();
+                    frame.remove(panel);
+                    frame.add(new RoomView(frame, name, m.name, matches, mGet, sender, mm).getPanel());
+                    frame.validate();
+                    t.cancel();
+                }
             });
             content2.add(enter);
             JSeparator js = new JSeparator();
@@ -66,7 +76,7 @@ public class FriendlyModeView {
         JButton back = new JButton("Go Back");
         panel.add(back);
 
-        FriendlyModeController fmc = new FriendlyModeController(frame, panel, matches, button, back, content, name, sender, mm);
+        FriendlyModeController fmc = new FriendlyModeController(frame, panel, matches, button, back, content, name, sender, mm, t);
 
         content.setVisible(true);
         panel.setVisible(true);

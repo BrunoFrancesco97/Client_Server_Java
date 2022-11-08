@@ -18,6 +18,5 @@ public class Main {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        //Window w = new Window();
     }
 }
