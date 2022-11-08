@@ -57,7 +57,7 @@ public class RoomController {
         back.addActionListener(e -> {
             if(match.host.name.equals(name)){
                 Message response = sender.send(new Message(name, "MATCH_REMOVER",nameMatch));
-                if(response != null && response.getMessage().equals("ok")){
+                if(response != null && response.getMessage() != null && response.getEvent().equals("MATCH_REMOVER") && response.getMessage().equals("ok")){
                     frame.remove(panel);
                     frame.add(new FriendlyModeView(frame, name, matches, sender, mm).getPanel());
                     frame.validate();
