@@ -12,13 +12,12 @@ import java.util.TimerTask;
 
 public class RoomController {
     public RoomController(JFrame frame, JPanel panel, JButton back, JButton start, JPanel content, String name, String nameMatch, ArrayList<Match> matches, Match match, Sender sender, MatchChecker mm, Timer t){
-        if(!match.host.equals(name)){
+        if(!match.host.name.equals(name)){
             back.setText("Exit");
         }
         TimerTask tt = new TimerTask() {
             @Override
             public void run() {
-                System.out.println("Update");
                 Message responsef = sender.send(new Message<>(name, "UPDATE_PLAYERS",nameMatch));
                 if(responsef != null && responsef.getMessage() != null){
                     ArrayList<Player> players = (ArrayList<Player>) responsef.getMessage();
@@ -55,7 +54,7 @@ public class RoomController {
         t.scheduleAtFixedRate(tt,10,500);
 
         back.addActionListener(e -> {
-            if(!match.host.equals(name)){
+            if(!match.host.name.equals(name)){
                 Message response = sender.send(new Message(name, "MATCH_REMOVER",nameMatch));
                 if(response != null && response.getMessage().equals("ok")){
                     frame.remove(panel);
