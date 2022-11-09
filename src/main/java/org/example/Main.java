@@ -13,7 +13,7 @@ public class Main {
 
     public static void main(String[] args) {
         try{
-            Socket socket = new Socket("localhost", PORT);
+            Socket socket = new Socket("192.168.1.12", PORT);
             WindowView w = new WindowView(new Sender(socket));
         } catch (Exception e) {
             e.printStackTrace();

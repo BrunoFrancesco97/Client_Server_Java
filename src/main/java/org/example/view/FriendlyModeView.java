@@ -37,7 +37,7 @@ public class FriendlyModeView {
         scrollable.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         JPanel content = new JPanel();
         content.setLayout(new GridLayout((matches.size()),1));
-        for(Match m : matches){
+        /*for(Match m : matches){
             JPanel content2 = new JPanel();
             content2.setLayout(new GridLayout(5,1));
             JLabel l1 = new JLabel("Match: "+m.getName());
@@ -62,7 +62,7 @@ public class FriendlyModeView {
             content2.add(js);
             content.add(content2);
             content2.setVisible(true);
-        }
+        }*/
         content.setVisible(true);
         scrollable.setViewportView(content);
 

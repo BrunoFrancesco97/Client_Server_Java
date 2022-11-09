@@ -13,8 +13,7 @@ import java.util.ArrayList;
 import java.util.Timer;
 
 public class MatchCreatorController {
-    public MatchCreatorController(JFrame frame, JPanel panel, JTextField nameMatch, JButton back, JButton create, String name, ArrayList<Match> matches, Sender sender, MatchChecker mm, Timer t){
-        t.cancel();
+    public MatchCreatorController(JFrame frame, JPanel panel, JTextField nameMatch, JButton back, JButton create, String name, ArrayList<Match> matches, Sender sender, MatchChecker mm){
         create.addActionListener(e -> {
             String nameM = nameMatch.getText();
             if(nameM != null && nameM.length() > 0){

@@ -1,10 +1,9 @@
 package org.example.utils;
 
+import com.google.gson.Gson;
 import org.example.model.Message;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.net.Socket;
 
 public class Sender {
@@ -37,7 +36,6 @@ public class Sender {
                 System.out.println("Incoming message: "+result2);
                 return result2;
             }
-
         }catch(Exception e){
             e.printStackTrace();
         }

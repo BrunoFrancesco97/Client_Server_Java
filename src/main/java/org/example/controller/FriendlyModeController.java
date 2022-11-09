@@ -58,16 +58,18 @@ public class FriendlyModeController {
                 }
             };
         };
-        t.scheduleAtFixedRate(tt,2000,2000);
+        t.scheduleAtFixedRate(tt,2000,  10000);
 
         create.addActionListener(e -> {
+            t.cancel();
             frame.remove(panel);
-            frame.add(new MatchCreatorView(frame, name, matches, sender, mm,t).getPanel());
+            frame.add(new MatchCreatorView(frame, name, matches, sender, mm).getPanel());
             frame.validate();
         });
         back.addActionListener(e -> {
+            t.cancel();
             frame.remove(panel);
-            frame.add(new ModeView(frame, name, sender, mm, t).getPanel());
+            frame.add(new ModeView(frame, name, sender, mm).getPanel());
             frame.validate();
         });
     }

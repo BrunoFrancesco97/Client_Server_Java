@@ -37,7 +37,7 @@ public class RoomController {
                             content.removeAll();
                             content.setLayout(new GridLayout((mmm.getPlayers().size()),1));
                             int i = 1;
-                            printerCicle(match,i,content);
+                            printerCicle(mmm,i,content);
                             content.setVisible(true);
                             frame.revalidate();
                             frame.repaint();

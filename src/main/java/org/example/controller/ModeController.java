@@ -16,10 +16,7 @@ public class ModeController {
     public ModeController(JFrame frame, JPanel mode, JButton jb, JRadioButton[] list, String name, Sender sender, MatchChecker mm){
         this.controller(frame,mode,jb,list,name,sender,mm);
     }
-    public ModeController(JFrame frame, JPanel mode, JButton jb, JRadioButton[] list, String name, Sender sender, MatchChecker mm, Timer t){
-        t.cancel();
-        this.controller(frame,mode,jb,list,name,sender,mm);
-    }
+
     private void controller(JFrame frame, JPanel mode, JButton jb, JRadioButton[] list, String name, Sender sender, MatchChecker mm){
         jb.addActionListener(e -> {
             String value = null;

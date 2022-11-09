@@ -14,10 +14,6 @@ public class ModeView {
     public ModeView(JFrame frame, String name, Sender sender, MatchChecker mm){
         print(frame,name,sender,mm);
     }
-    public ModeView(JFrame frame, String name, Sender sender, MatchChecker mm, Timer t){
-        t.cancel();
-        print(frame,name,sender,mm);
-    }
 
     private void print(JFrame frame, String name, Sender sender, MatchChecker mm){
         mode = new JPanel();
