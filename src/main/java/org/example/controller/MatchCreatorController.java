@@ -3,17 +3,16 @@ package org.example.controller;
 import org.example.model.Match;
 import org.example.model.MatchChecker;
 import org.example.model.Message;
-import org.example.model.Player;
 import org.example.utils.Sender;
 import org.example.view.FriendlyModeView;
 import org.example.view.RoomView;
 
 import javax.swing.*;
 import java.util.ArrayList;
-import java.util.Timer;
+import java.util.Objects;
 
 public class MatchCreatorController {
-    public MatchCreatorController(JFrame frame, JPanel panel, JTextField nameMatch, JButton back, JButton create, String name, ArrayList<Match> matches, Sender sender, MatchChecker mm){
+    public MatchCreatorController(JFrame frame, JPanel panel, JTextField nameMatch, JButton back, JButton create, String name, JSpinner maxSize, ArrayList<Match> matches, Sender sender, MatchChecker mm){
         create.addActionListener(e -> {
             String nameM = nameMatch.getText();
             if(nameM != null && nameM.length() > 0){
@@ -21,7 +20,10 @@ public class MatchCreatorController {
                 if(response.getMessage() != null && response.getMessage().equals("Y")){
                     JOptionPane.showMessageDialog(frame,"Game match already used!","Warning!",JOptionPane.WARNING_MESSAGE);
                 }else{
-                    Message response2 = sender.sendAndRead(new Message(name, "CREATE",nameM));
+                    Object[] o = new Object[2];
+                    o[0] = nameM;
+                    o[1] = new Integer((int)maxSize.getValue());
+                    Message response2 = sender.sendAndRead(new Message(name, "CREATE",o));
                     if(response2.getMessage() != null){
                         Match match = (Match) response2.getMessage();
                         mm.setType("friendly");

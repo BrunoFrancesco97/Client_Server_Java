@@ -31,7 +31,7 @@ public class Match implements Serializable {
         this.id = Utility.randomIDGenerator(10000);
         this.name = ""+this.id;
         this.host = host;
-        this.size = 4; //DEFAULT SIZE
+        this.size = 1; //DEFAULT SIZE
     }
     public Match(String type, String name, Player host, int size){
         this.players = new ArrayList<>();
