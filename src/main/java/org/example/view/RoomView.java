@@ -17,9 +17,9 @@ public class RoomView {
         Timer t = new Timer();
         panel = new JPanel();
         if(match.getHost().name.equals(name)) {
-            panel.setLayout(new GridLayout(5,1));
+            panel.setLayout(new GridLayout(6,1));
         }else{
-            panel.setLayout(new GridLayout(4,1));
+            panel.setLayout(new GridLayout(5,1));
         }
 
         JLabel matchName = new JLabel(match.getName());
@@ -28,6 +28,8 @@ public class RoomView {
         panel.add(matchName);
         JLabel title = new JLabel("Players");
         panel.add(title);
+        JLabel description = new JLabel("Max size: "+match.getSize());
+        panel.add(description);
         JPanel content = new JPanel();
         JScrollPane scrollable = new JScrollPane();
         scrollable.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);

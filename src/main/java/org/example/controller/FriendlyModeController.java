@@ -42,6 +42,8 @@ public class FriendlyModeController {
                             frame.remove(panel);
                             frame.add(new RoomView(frame, name, matches, mGet, sender, mm).getPanel());
                             frame.validate();
+                        }else{
+                            JOptionPane.showMessageDialog(frame,"Can't join to this match!","Warning!",JOptionPane.WARNING_MESSAGE);
                         }
                     });
                     JSeparator js = new JSeparator();

@@ -20,10 +20,7 @@ public class MatchCreatorController {
                 if(response.getMessage() != null && response.getMessage().equals("Y")){
                     JOptionPane.showMessageDialog(frame,"Game match already used!","Warning!",JOptionPane.WARNING_MESSAGE);
                 }else{
-                    Object[] o = new Object[2];
-                    o[0] = nameM;
-                    o[1] = new Integer((int)maxSize.getValue());
-                    Message response2 = sender.sendAndRead(new Message(name, "CREATE",o));
+                    Message response2 = sender.sendAndRead(new Message(name, "CREATE",nameM+""+maxSize.getValue()));
                     if(response2.getMessage() != null){
                         Match match = (Match) response2.getMessage();
                         mm.setType("friendly");
