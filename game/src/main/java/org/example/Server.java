@@ -179,7 +179,7 @@ public class Server extends Thread{
             String nameGot = (String) mex.getMessage();
             Match mm = new Match("friendly",nameGot,null,1);
             Match m = this.matchesList.get(mm);
-            if(m != null && m.getPlayers().size() < m.getSize()){
+            if(m != null && m.getPlayers().size() < m.getSize() && m.isAvailable()){
                 this.match = m;
                 this.match.addPlayer(this.player);
                 this.senderClient.sendToClient(mex,"GET_IN",this.match);
