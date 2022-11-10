@@ -1,6 +1,4 @@
 package org.example.utils;
-
-import com.google.gson.Gson;
 import org.example.model.Message;
 
 import java.io.*;

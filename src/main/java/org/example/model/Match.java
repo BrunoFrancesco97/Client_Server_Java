@@ -14,7 +14,7 @@ public class Match implements Serializable {
     private String name;
 
     private Player host;
-    private final int SIZE = 4;
+    private int size;
     public Match(){
         this.players = new ArrayList<>();
         this.available = false ;
@@ -22,6 +22,7 @@ public class Match implements Serializable {
         this.id = Utility.randomIDGenerator(10000);
         this.name = ""+this.id;
         this.host = null;
+        this.size = 0;
     }
     public Match(String type, Player host){
         this.players = new ArrayList<>();
@@ -30,14 +31,20 @@ public class Match implements Serializable {
         this.id = Utility.randomIDGenerator(10000);
         this.name = ""+this.id;
         this.host = host;
+        this.size = 4; //DEFAULT SIZE
     }
-    public Match(String type, String name, Player host){
+    public Match(String type, String name, Player host, int size){
         this.players = new ArrayList<>();
         this.available = false ;
         this.type = type;
         this.id = Utility.randomIDGenerator(10000);
         this.name = name;
         this.host = host;
+        this.size = size;
+    }
+
+    public synchronized int getSize() {
+        return size;
     }
 
     public synchronized ArrayList<Player> getPlayers() {
@@ -81,7 +88,7 @@ public class Match implements Serializable {
     }
 
     public synchronized void addPlayer(Player p){
-        if(players.size() < SIZE)
+        if(players.size() < this.size)
             players.add(p);
     }
 

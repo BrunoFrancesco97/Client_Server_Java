@@ -33,12 +33,12 @@ public class Score implements Serializable {
         if(q != null)
             this.questions.add(q);
     }
+
     @Override
     public String toString() {
-        String answer = "**REPORT**\nName: "+this.name;
-        for(Question q : questions){
-            answer = answer+"\n"+q.quest+"\nGiven: "+q.given+"\nExpected: "+q.answer+"\nIs correct?: "+q.correct+"\n******";
-        }
-        return answer;
+        return "Score{" +
+                "questions=" + questions +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

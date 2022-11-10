@@ -10,6 +10,7 @@ public class Player implements Serializable {
 
     public String name;
     public ArrayList<Question> questions;
+    public boolean hasFinished;
     public Score score;
     private int id;
     public Player(){
@@ -17,13 +18,24 @@ public class Player implements Serializable {
         this.questions = new ArrayList<>();
         this.score = null;
         this.id = Utility.randomIDGenerator(10000);
+        this.hasFinished = false;
     }
     public Player(String name){
         this.name = name;
         this.questions = new ArrayList<>();
         this.score = new Score(this.name);
         this.id = Utility.randomIDGenerator(10000);
+        this.hasFinished = false;
     }
+
+    public boolean isHasFinished() {
+        return hasFinished;
+    }
+
+    public void setHasFinished(boolean hasFinished) {
+        this.hasFinished = hasFinished;
+    }
+
     public void setName(String name){
         this.name = name;
         this.score = new Score(this.name);

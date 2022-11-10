@@ -20,10 +20,9 @@ import java.util.concurrent.ConcurrentHashMap;
 public class FriendlyModeView {
     private JPanel panel;
     public FriendlyModeView(JFrame frame, String name, ArrayList<Match> matches, Sender sender, MatchChecker mm){
-        Timer t = new Timer();
         panel = new JPanel();
         panel.setBorder(new EmptyBorder(25,25,25,25));
-        panel.setLayout(new GridLayout(7,1));
+        panel.setLayout(new GridLayout(8,1));
 
         JLabel title = new JLabel("Friendly mode");
         Font font = title.getFont();
@@ -37,36 +36,12 @@ public class FriendlyModeView {
         scrollable.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         JPanel content = new JPanel();
         content.setLayout(new GridLayout((matches.size()),1));
-        /*for(Match m : matches){
-            JPanel content2 = new JPanel();
-            content2.setLayout(new GridLayout(5,1));
-            JLabel l1 = new JLabel("Match: "+m.getName());
-            content2.add(l1);
-            JLabel l2 = new JLabel("Host: "+m.getHost());
-            content2.add(l2);
-            JLabel l3 = new JLabel("Size: "+m.getPlayers().size());
-            content2.add(l3);
-            JButton enter = new JButton("Enter");
-            enter.addActionListener(e -> {
-                Message response = sender.sendAndRead(new Message(name, "GET_IN",m.getName()));
-                if(response != null && response.getMessage() != null && response.getEvent().equals("GET_IN") && response.getMessage() instanceof Match){
-                    t.cancel();
-                    Match mGet = (Match) response.getMessage();
-                    frame.remove(panel);
-                    frame.add(new RoomView(frame, name, matches, mGet, sender, mm).getPanel());
-                    frame.validate();
-                }
-            });
-            content2.add(enter);
-            JSeparator js = new JSeparator();
-            content2.add(js);
-            content.add(content2);
-            content2.setVisible(true);
-        }*/
         content.setVisible(true);
         scrollable.setViewportView(content);
 
         panel.add(scrollable);
+        JButton reload = new JButton("Reload");
+        panel.add(reload);
         JLabel or = new JLabel("or");
         panel.add(or);
         JButton button = new JButton("Create a new match");
@@ -76,7 +51,7 @@ public class FriendlyModeView {
         JButton back = new JButton("Go Back");
         panel.add(back);
 
-        FriendlyModeController fmc = new FriendlyModeController(frame, panel, matches, button, back, content, name, sender, mm, t);
+        FriendlyModeController fmc = new FriendlyModeController(frame, panel, matches, button, back, reload, content, name, sender, mm);
 
         content.setVisible(true);
         panel.setVisible(true);

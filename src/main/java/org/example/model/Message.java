@@ -5,6 +5,7 @@ import org.example.interfaces.Messages;
 import java.io.Serializable;
 
 public class Message<K> implements Messages<String,K,String>, Serializable {
+    private static final long serialVersionUID = 1L;
     private String owner;
     private String event;
     private K message;

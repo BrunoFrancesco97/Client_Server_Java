@@ -9,6 +9,7 @@ import org.example.view.QuestionView;
 import org.example.view.ResultsView;
 
 import javax.swing.*;
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -40,9 +41,6 @@ public class QuestionController {
                                 frame.validate();
                                 break;
                             case "friendly":
-                                System.out.println("Sono qui");
-                                //mm.setGoingOn(false);
-                                //mm.setType(null);
                                 frame.remove(question);
                                 Score score2 = (Score) response.getMessage();
                                 JPanel waiting = new ResultsView(frame,name,score2,sender, mm,true).getPanel();
@@ -53,14 +51,14 @@ public class QuestionController {
                                     @Override
                                     public void run() {
                                         Message check = sender.sendAndRead(new Message<>(name, "IS_END", mm.getMatch()));
-                                        if(check != null && check.getMessage() != null && check.getMessage() instanceof String){
-                                            if(check.getMessage().equals("Y")){
+                                        if(check != null && check.getMessage() != null){
+                                            if(check.getMessage() instanceof ArrayList<?>){
                                                 t.cancel();
                                                 mm.setGoingOn(false);
                                                 mm.setType(null);
                                                 mm.setMatch(null);
                                                 frame.remove(waiting);
-                                                frame.add(new ResultsView(frame,name,score2,sender, mm,false).getPanel());
+                                                frame.add(new ResultsView(frame,name,(ArrayList<Score>) check.getMessage(),sender, mm,false).getPanel());
                                                 frame.validate();
                                             }
                                         }
