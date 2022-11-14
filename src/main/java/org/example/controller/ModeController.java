@@ -36,7 +36,7 @@ public class ModeController {
                         Message response = sender.sendAndRead(new Message<>(name, "START","practice"));
                         Question q = (Question) response.getMessage();
                         frame.remove(mode);
-                        frame.add(new QuestionView(frame,name,q,sender, mm, true, null, null).getPanel());
+                        frame.add(new QuestionView(frame,name,q,sender, mm, true, null, null, null).getPanel());
                         frame.validate();
                     }
                     break;

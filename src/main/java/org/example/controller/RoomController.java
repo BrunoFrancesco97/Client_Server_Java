@@ -33,7 +33,7 @@ public class RoomController {
                                 mm.setGoingOn(true);
                                 mm.setMatch(match.getName());
                                 frame.remove(panel);
-                                frame.add(new QuestionView(frame, name, (Question) responseD.getMessage(), sender, mm, false, tQuiz, seconds).getPanel());
+                                frame.add(new QuestionView(frame, name, (Question) responseD.getMessage(), sender, mm, false, tQuiz, seconds, new JLabel()).getPanel());
                                 frame.validate();
                             }
                         }else{

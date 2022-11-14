@@ -9,31 +9,32 @@ import org.example.view.QuestionView;
 import org.example.view.ResultsView;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class QuestionController {
-    public QuestionController(JFrame frame, JPanel question, JButton jb, JTextField answer, Question q, String name, Sender sender, MatchChecker mm, boolean lecit, Timer tQuiz, AtomicInteger seconds){
+    public QuestionController(JFrame frame, JPanel question, JButton jb, JTextField answer, Question q, String name, Sender sender, MatchChecker mm, boolean lecit, Timer tQuiz, AtomicInteger seconds, JLabel label){
         if(!lecit){
             TimerTask task = new TimerTask() {
-                public int i = 0;
+                public int i = seconds.get();
                 @Override
                 public void run() {
                     i++;
+                    int minutes = i / 60;
+                    int secondss = i % 60;
                     seconds.getAndAdd(1);
-                    System.out.println("Seconds passed: "+i);
-                    if(i > 60){
+                    if(secondss < 10)
+                        label.setText("Time passed in minutes: "+minutes+":"+"0"+secondss);
+                    else  label.setText("Time passed in minutes: "+minutes+":"+secondss);
+                    if(i > 125){
                         tQuiz.cancel(); //Delete timer if test is taking more than n/60 minutes
-                        System.out.println("Timer ended!");
-                        String text = answer.getText();
-                        q.checkAnswer(text);
-                        Message response = sender.sendAndRead(new Message<>(name, "END_TIMER",q));
+                        Message response = sender.sendAndRead(new Message<>(name, "END_TIMER"));
                         if(response != null && response.getEvent().equals("END_TIMER") && response.getMessage() != null){
                             printScoresFriendly(frame, question, response, name, sender, mm);
                         }
-                        //TODO: Ho un dubbio, mm sotto lo setto solo su practice e non su friendly, controllare se ci sono bug
                     }
                 }
             };
@@ -48,7 +49,7 @@ public class QuestionController {
                     case "game":
                         frame.remove(question);
                         Question newQuestion = (Question) response.getMessage();
-                        frame.add(new QuestionView(frame,name,newQuestion,sender, mm, true, tQuiz, seconds).getPanel());
+                        frame.add(new QuestionView(frame,name,newQuestion,sender, mm, true, tQuiz, seconds, label).getPanel());
                         frame.validate();
                         break;
                     case "end":

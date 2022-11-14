@@ -21,7 +21,7 @@ public class AlertController {
                 mm.setQuestion((Question) response.getMessage());
                 System.out.println(mm);
                 frame.remove(alert);
-                frame.add(new QuestionView(frame,name, (Question) response.getMessage(),sender, mm, true, null, null).getPanel());
+                frame.add(new QuestionView(frame,name, (Question) response.getMessage(),sender, mm, true, null, null, null).getPanel());
                 frame.validate();
             }
         });
