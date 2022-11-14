@@ -30,6 +30,7 @@ public class Sender {
             result = this.in.readObject();
             Message result2;
             if(result != null){
+                System.out.println(result);
                 result2 = (Message) result;
                 System.out.println("Incoming message: "+result2);
                 return result2;

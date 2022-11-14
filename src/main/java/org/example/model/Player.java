@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class Player implements Serializable {
+    private static final long serialVersionUID = 3L;
 
     public String name;
     public ArrayList<Question> questions;

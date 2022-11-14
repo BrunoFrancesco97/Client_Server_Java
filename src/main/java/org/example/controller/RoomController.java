@@ -80,9 +80,11 @@ public class RoomController {
                 frame.validate();
             }
         });
+
         if(start != null){
             start.addActionListener(e -> {
                 if(!ready){
+                    sender.send(new Message(name, "UPDATE_READY", true));
                     t.cancel();
                     frame.remove(panel);
                     frame.add(new RoomView(frame, name, matches, match, sender, mm, true).getPanel());
@@ -90,6 +92,7 @@ public class RoomController {
                 }else{
                     sender.send(new Message(name, "FRIENDLY_START",match.getName()));
                 }
+
             });
         }
     }
@@ -100,7 +103,7 @@ public class RoomController {
             JLabel el1 = new JLabel(i+". Name: ");
             el1.setFont(new Font(el1.getFont().getFontName(),Font.BOLD,el1.getFont().getSize()));
             contentPl.add(el1);
-            JLabel el2 = new JLabel(p.name);
+            JLabel el2 = new JLabel(p.name+ " - Ready: "+p.isReady());
             contentPl.add(el2);
             JSeparator sp = new JSeparator();
             contentPl.add(sp);

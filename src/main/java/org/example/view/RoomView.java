@@ -40,7 +40,7 @@ public class RoomView {
             JLabel el1 = new JLabel(i+". Name: ");
             el1.setFont(new Font(font.getFontName(),Font.BOLD,font.getSize()));
             contentPl.add(el1);
-            JLabel el2 = new JLabel(p.name);
+            JLabel el2 = new JLabel(p.name+ " - Ready: "+p.isReady());
             contentPl.add(el2);
             JSeparator sp = new JSeparator();
             contentPl.add(sp);

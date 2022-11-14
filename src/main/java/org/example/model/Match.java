@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class Match implements Serializable {
+    private static final long serialVersionUID = 2L;
     private ArrayList<Player> players;
     private boolean available; //Tells if the match can be join by other users
     private String type; //Practice/Tournament/Friendly
