@@ -4,6 +4,7 @@ import org.example.model.*;
 import org.example.utils.Sender;
 import org.example.view.FriendlyModeView;
 import org.example.view.QuestionView;
+import org.example.view.RoomView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,7 +14,7 @@ import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class RoomController {
-    public RoomController(JFrame frame, JPanel panel, JButton back, JButton start, JPanel content, String name, ArrayList<Match> matches, Match match, Sender sender, MatchChecker mm, Timer t){
+    public RoomController(JFrame frame, JPanel panel, JButton back, JButton start, JPanel content, String name, ArrayList<Match> matches, Match match, Sender sender, MatchChecker mm, Timer t, boolean ready){
         if(!match.getHost().name.equals(name)){
             back.setText("Exit");
         }
@@ -81,7 +82,14 @@ public class RoomController {
         });
         if(start != null){
             start.addActionListener(e -> {
-                sender.send(new Message(name, "FRIENDLY_START",match.getName()));
+                if(!ready){
+                    t.cancel();
+                    frame.remove(panel);
+                    frame.add(new RoomView(frame, name, matches, match, sender, mm, true).getPanel());
+                    frame.validate();
+                }else{
+                    sender.send(new Message(name, "FRIENDLY_START",match.getName()));
+                }
             });
         }
     }

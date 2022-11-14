@@ -26,7 +26,7 @@ public class MatchCreatorController {
                         mm.setType("friendly");
                         mm.setGoingOn(true);
                         frame.remove(panel);
-                        frame.add(new RoomView(frame, name, matches,match, sender, mm).getPanel());
+                        frame.add(new RoomView(frame, name, matches,match, sender, mm,false).getPanel());
                         frame.validate();
                     }
                 }

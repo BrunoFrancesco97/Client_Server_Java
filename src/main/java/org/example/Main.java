@@ -14,12 +14,12 @@ import java.net.Socket;
 
 
 public class Main {
-    private static final int PORT = 9001;
+    private static final int PORT = 9000;
     private static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
     public static void main(String[] args) {
         try{
-            Socket socket = new Socket("localhost", PORT);
+            Socket socket = new Socket("192.168.1.27", PORT);
             WindowView w = new WindowView(new Sender(socket));
         } catch (Exception e) {
             e.printStackTrace();

@@ -29,7 +29,7 @@ public class QuestionController {
                     if(secondss < 10)
                         label.setText("Time passed in minutes: "+minutes+":"+"0"+secondss);
                     else  label.setText("Time passed in minutes: "+minutes+":"+secondss);
-                    if(i > 125){
+                    if(i > 10){
                         tQuiz.cancel(); //Delete timer if test is taking more than n/60 minutes
                         Message response = sender.sendAndRead(new Message<>(name, "END_TIMER"));
                         if(response != null && response.getEvent().equals("END_TIMER") && response.getMessage() != null){
