@@ -10,6 +10,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class RoomController {
     public RoomController(JFrame frame, JPanel panel, JButton back, JButton start, JPanel content, String name, ArrayList<Match> matches, Match match, Sender sender, MatchChecker mm, Timer t){
@@ -27,10 +28,12 @@ public class RoomController {
                             t.cancel();
                             Message responseD = sender.sendAndRead(new Message<>(name, "DROP_QUESTION",match.getName()));
                             if(responseD != null && responseD.getMessage() != null && responseD.getMessage() instanceof Question){
+                                Timer tQuiz = new Timer();
+                                AtomicInteger seconds = new AtomicInteger(0);
                                 mm.setGoingOn(true);
                                 mm.setMatch(match.getName());
                                 frame.remove(panel);
-                                frame.add(new QuestionView(frame, name, (Question) responseD.getMessage(), sender, mm).getPanel());
+                                frame.add(new QuestionView(frame, name, (Question) responseD.getMessage(), sender, mm, false, tQuiz, seconds).getPanel());
                                 frame.validate();
                             }
                         }else{

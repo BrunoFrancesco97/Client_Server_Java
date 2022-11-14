@@ -68,10 +68,12 @@ public class ResultsView {
             content.setLayout(new GridLayout(scores.size(),1));
             for(Score score : scores){
                 JPanel content2 = new JPanel();
-                content2.setLayout(new GridLayout(score.questions.size()*5,1));
+                content2.setLayout(new GridLayout(score.questions.size()*7,1));
                 JLabel namePlayer = new JLabel(score.name);
                 namePlayer.setFont(new Font(font.getFontName(),Font.BOLD,font.getSize()));
                 content2.add(namePlayer);
+                JLabel completed = new JLabel("Completed: "+score.isCompleted());
+                content2.add(completed);
                 for(Question q : score.questions){
                     JLabel el1 = new JLabel("Question: "+q.quest);
                     el1.setFont(new Font(font.getFontName(),Font.BOLD,font.getSize()));

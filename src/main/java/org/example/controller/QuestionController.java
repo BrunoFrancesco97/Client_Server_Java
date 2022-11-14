@@ -12,9 +12,33 @@ import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class QuestionController {
-    public QuestionController(JFrame frame, JPanel question, JButton jb, JTextField answer, Question q, String name, Sender sender, MatchChecker mm){
+    public QuestionController(JFrame frame, JPanel question, JButton jb, JTextField answer, Question q, String name, Sender sender, MatchChecker mm, boolean lecit, Timer tQuiz, AtomicInteger seconds){
+        if(!lecit){
+            TimerTask task = new TimerTask() {
+                public int i = 0;
+                @Override
+                public void run() {
+                    i++;
+                    seconds.getAndAdd(1);
+                    System.out.println("Seconds passed: "+i);
+                    if(i > 60){
+                        tQuiz.cancel(); //Delete timer if test is taking more than n/60 minutes
+                        System.out.println("Timer ended!");
+                        String text = answer.getText();
+                        q.checkAnswer(text);
+                        Message response = sender.sendAndRead(new Message<>(name, "END_TIMER",q));
+                        if(response != null && response.getEvent().equals("END_TIMER") && response.getMessage() != null){
+                            printScoresFriendly(frame, question, response, name, sender, mm);
+                        }
+                        //TODO: Ho un dubbio, mm sotto lo setto solo su practice e non su friendly, controllare se ci sono bug
+                    }
+                }
+            };
+            tQuiz.schedule(task, 1500, 1000);
+        }
         jb.addActionListener(e -> {
             if(answer.getText() != null && answer.getText().length() > 0){ //TODO: DOVREI TOGLIERE TUTTI GLI SPAZI VUOTI E CONFRONTARE LA STRINGA SOLO A QUEL PUNTO
                 String text = answer.getText();
@@ -22,14 +46,12 @@ public class QuestionController {
                 Message response = sender.sendAndRead(new Message<>(name, "GAME",q));
                 switch (response.getEvent().toLowerCase()){
                     case "game":
-                        System.out.println(mm);
                         frame.remove(question);
                         Question newQuestion = (Question) response.getMessage();
-                        frame.add(new QuestionView(frame,name,newQuestion,sender, mm).getPanel());
+                        frame.add(new QuestionView(frame,name,newQuestion,sender, mm, true, tQuiz, seconds).getPanel());
                         frame.validate();
                         break;
                     case "end":
-                        System.out.println(mm);
                         switch (mm.getType()){
                             case "practice":
                                 mm.setGoingOn(false);
@@ -41,37 +63,42 @@ public class QuestionController {
                                 frame.validate();
                                 break;
                             case "friendly":
-                                frame.remove(question);
-                                Score score2 = (Score) response.getMessage();
-                                JPanel waiting = new ResultsView(frame,name,score2,sender, mm,true).getPanel();
-                                frame.add(waiting);
-                                frame.validate();
-                                Timer t = new Timer();
-                                TimerTask tt = new TimerTask() {
-                                    @Override
-                                    public void run() {
-                                        Message check = sender.sendAndRead(new Message<>(name, "IS_END", mm.getMatch()));
-                                        if(check != null && check.getMessage() != null){
-                                            if(check.getMessage() instanceof ArrayList<?>){
-                                                t.cancel();
-                                                mm.setGoingOn(false);
-                                                mm.setType(null);
-                                                mm.setMatch(null);
-                                                frame.remove(waiting);
-                                                frame.add(new ResultsView(frame,name,(ArrayList<Score>) check.getMessage(),sender, mm,false).getPanel());
-                                                frame.validate();
-                                            }
-                                        }
-                                    }
-                                };
-                                t.scheduleAtFixedRate(tt,1000,1000);
-                                //TODO: DOVREI CONTROLLARE CHE TUTTI ABBIANO TERMINATO, QUINDI FACCIO UN POLLING, SE HANNO TERMINATO
-                                //TODO: MOSTRO LA VIEW DEI RISULTATI E SETTO MM.SETGOINGON A FALSE E SETTYPE A NULL
-
+                                if(tQuiz != null)
+                                    tQuiz.cancel();
+                                printScoresFriendly(frame, question, response, name, sender, mm);
                                 break;
                         }
                 }
             }
         });
+
+
+    }
+
+    private void printScoresFriendly(JFrame frame, JPanel question, Message response, String name, Sender sender, MatchChecker mm){
+        frame.remove(question);
+        Score score2 = (Score) response.getMessage();
+        JPanel waiting = new ResultsView(frame,name,score2,sender, mm,true).getPanel();
+        frame.add(waiting);
+        frame.validate();
+        Timer t = new Timer();
+        TimerTask tt = new TimerTask() {
+            @Override
+            public void run() {
+                Message check = sender.sendAndRead(new Message<>(name, "IS_END", mm.getMatch()));
+                if(check != null && check.getMessage() != null){
+                    if(check.getMessage() instanceof ArrayList<?>){
+                        t.cancel();
+                        mm.setGoingOn(false);
+                        mm.setType(null);
+                        mm.setMatch(null);
+                        frame.remove(waiting);
+                        frame.add(new ResultsView(frame,name,(ArrayList<Score>) check.getMessage(),sender, mm,false).getPanel());
+                        frame.validate();
+                    }
+                }
+            }
+        };
+        t.scheduleAtFixedRate(tt,1000,1000);
     }
 }

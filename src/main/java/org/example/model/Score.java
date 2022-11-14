@@ -6,10 +6,21 @@ import java.util.ArrayList;
 public class Score implements Serializable {
     public ArrayList<Question> questions;
     public String name;
+    public boolean completed;
     public Score(String name){
         this.name = name;
         questions = new ArrayList<>();
+        this.completed = false;
     }
+
+    public boolean isCompleted() {
+        return completed;
+    }
+
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
+    }
+
     public int getNumberOfCorrectAnswers(){
         int i = 0;
         for(Question q : questions){

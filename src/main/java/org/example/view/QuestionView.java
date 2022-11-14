@@ -8,14 +8,18 @@ import org.example.utils.Sender;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class QuestionView {
     JPanel question;
-    public QuestionView(JFrame frame, String name, Question q, Sender sender, MatchChecker mm){
+    public QuestionView(JFrame frame, String name, Question q, Sender sender, MatchChecker mm, boolean lecit, Timer tQuiz, AtomicInteger seconds){
         question = new JPanel();
-        question.setLayout(new GridLayout(4,1));
+        question.setLayout(new GridLayout(5,1));
         question.setBorder(new EmptyBorder(25,25,25,25));
-
+        JLabel timeLabel = new JLabel();
+        question.add(timeLabel);
         JLabel questionLabel = new JLabel("Question: ");
         question.add(questionLabel);
 
@@ -31,7 +35,7 @@ public class QuestionView {
         JButton sendButton = new JButton("Send answer");
         question.add(sendButton);
 
-        QuestionController qc = new QuestionController(frame,question,sendButton,result,q, name, sender, mm);
+        QuestionController qc = new QuestionController(frame,question,sendButton,result,q, name, sender, mm, lecit, tQuiz, seconds);
         mm.setQuestion(q);
         question.setVisible(true);
     }
