@@ -13,12 +13,14 @@ public class Player implements Serializable {
     public boolean hasFinished;
     public Score score;
     private int id;
+    private boolean ready;
     public Player(){
         this.name = null;
         this.questions = new ArrayList<>();
         this.score = null;
         this.id = Utility.randomIDGenerator(10000);
         this.hasFinished = false;
+        this.ready = false;
     }
     public Player(String name){
         this.name = name;
@@ -26,6 +28,15 @@ public class Player implements Serializable {
         this.score = new Score(this.name);
         this.id = Utility.randomIDGenerator(10000);
         this.hasFinished = false;
+        this.ready = false;
+    }
+
+    public boolean isReady() {
+        return ready;
+    }
+
+    public void setReady(boolean ready) {
+        this.ready = ready;
     }
 
     public boolean isHasFinished() {

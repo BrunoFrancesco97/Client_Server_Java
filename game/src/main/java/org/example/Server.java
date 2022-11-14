@@ -71,6 +71,9 @@ public class Server extends Thread{
                         case "END":
                             handleClosing(mex);
                             break;
+                        case "END_TIMER":
+                            handleEndTimer(mex);
+                            break;
                         case "REMOVE":
                             handleRemove(mex);
                             break;
@@ -188,12 +191,19 @@ public class Server extends Thread{
             }
         }
     }
+
+    public void handleEndTimer(Message mex){
+        player.score.addQuestion((Question) mex.getMessage());
+        this.senderClient.sendToClient(mex,"end_timer",player.score);
+        player.setHasFinished(true);
+
+    }
+
     /**
      * Metodo usato per la gestione di un match di tipo practice
      * */
     private void handleGaming(Message mex){
         player.score.addQuestion((Question) mex.getMessage());
-        System.out.println("Score: "+player.score);
         if(player.hasQuestion()){
             player.setHasFinished(false);
             Question q = player.pickQuestion();
@@ -203,12 +213,14 @@ public class Server extends Thread{
         }else{
             switch (this.match.getType()){
                 case "practice":
+                    player.score.setCompleted(true);
                     this.senderClient.sendToClient(mex,"end",player.score);
                     this.player.score.questions.clear();
                     this.matchesList.remove(this.match);
                     this.match = null;
                     break;
                 case "friendly":
+                    player.score.setCompleted(true);
                     this.senderClient.sendToClient(mex,"end",player.score);
                     break;
             }
