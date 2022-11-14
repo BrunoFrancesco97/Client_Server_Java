@@ -107,6 +107,9 @@ public class Server extends Thread{
                         case "IS_END":
                             handleIsEnd(mex);
                             break;
+                        case "UPDATE_READY":
+                            handleUpdateReady(mex);
+                            break;
                     }
                 }
             }
@@ -116,10 +119,20 @@ public class Server extends Thread{
         }
     }
 
+    private void handleUpdateReady(Message mex){
+        if(mex.getMessage() != null){
+            this.player.setReady((Boolean) mex.getMessage());
+        }
+    }
+
+
     private void handleIsEnd(Message mex){
         String result = "N";
         if(this.match != null){
             for(Player p : this.match.getPlayers()){
+                System.out.println(p + " "+(p.hasQuestion() && !p.isHasFinished()));
+                System.out.println(p.hasQuestion());
+                System.out.println(!p.isHasFinished());
                 if((p.hasQuestion() && !p.isHasFinished())){
                     System.out.println(p);
                     result = "Y";
@@ -184,6 +197,7 @@ public class Server extends Thread{
             Match m = this.matchesList.get(mm);
             if(m != null && m.getPlayers().size() < m.getSize() && m.isAvailable()){
                 this.match = m;
+                this.player.setReady(false);
                 this.match.addPlayer(this.player);
                 this.senderClient.sendToClient(mex,"GET_IN",this.match);
             }else{
@@ -270,6 +284,9 @@ public class Server extends Thread{
                 this.match.setPlayers(new ArrayList<>(playersQuestions));
                 for(Player p : this.match.getPlayers()){
                     p.score.questions.clear();
+                    p.score.setCompleted(false);
+                    p.setHasFinished(false);
+                    p.setReady(false);
                 }
             }
         }
@@ -363,6 +380,7 @@ public class Server extends Thread{
                 String name = ((String) mex.getMessage()).substring(0,((String) mex.getMessage()).length()-2);
                 int size = Character.getNumericValue(((String)mex.getMessage()).charAt(((String) mex.getMessage()).length()-1));
                 this.match = new Match("friendly", name, this.player, size);
+                this.player.setReady(false);
                 this.match.addPlayer(this.player);
                 this.match.setAvailable(true);
                 this.matchesList.add(this.match);

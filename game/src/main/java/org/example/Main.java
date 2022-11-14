@@ -10,7 +10,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 public class Main {
-    private static final int PORT = 9001;
+    private static final int PORT = 9000;
     public static void main(String[] args) {
         try(ServerSocket serverSocket = new ServerSocket(PORT)){
             //Memory<Socket> usersConnected = new Memory<>();
