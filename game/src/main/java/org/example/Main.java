@@ -13,7 +13,7 @@ public class Main {
     private static final int PORT = 9001;
     public static void main(String[] args) {
         try(ServerSocket serverSocket = new ServerSocket(PORT)){
-            Memory<Socket> usersConnected = new Memory<>();
+            //Memory<Socket> usersConnected = new Memory<>();
             Memory<Match> matchesSaved = new Memory<>();
             Memory<Match> matchesList = new Memory<>();
             Memory<Player> onlinePLayers = new Memory<>();

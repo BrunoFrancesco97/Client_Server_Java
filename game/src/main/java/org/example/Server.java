@@ -120,7 +120,7 @@ public class Server extends Thread{
         String result = "N";
         if(this.match != null){
             for(Player p : this.match.getPlayers()){
-                if(p.hasQuestion() || !p.isHasFinished()){
+                if((p.hasQuestion() && !p.isHasFinished())){
                     System.out.println(p);
                     result = "Y";
                     break;
@@ -193,7 +193,6 @@ public class Server extends Thread{
     }
 
     public void handleEndTimer(Message mex){
-        player.score.addQuestion((Question) mex.getMessage());
         this.senderClient.sendToClient(mex,"end_timer",player.score);
         player.setHasFinished(true);
 
@@ -208,6 +207,7 @@ public class Server extends Thread{
             player.setHasFinished(false);
             Question q = player.pickQuestion();
             if(q != null){
+                System.out.println(player.score);
                 this.senderClient.sendToClient(mex,"game",q);
             }
         }else{
