@@ -24,6 +24,8 @@ public class RoomController {
         System.out.println(match);
         TimerTask tt = new TimerTask() {
             AtomicBoolean startAdded = new AtomicBoolean(false);
+            AtomicInteger timerStart = new AtomicInteger(0);
+            Timer t2 = new Timer();
             @Override
             public void run() {
                 Message responsef = sender.sendAndRead(new Message<>(name, "UPDATE_PLAYERS",match.getName()));
@@ -32,6 +34,7 @@ public class RoomController {
                     if(mmm.getPlayers().size() > 0){
                         if(!mmm.isAvailable()){
                             t.cancel();
+                            t2.cancel();
                             Message responseD = sender.sendAndRead(new Message<>(name, "DROP_QUESTION",match.getName()));
                             if(responseD != null && responseD.getMessage() != null && responseD.getMessage() instanceof Question){
                                 Timer tQuiz = new Timer();
@@ -49,15 +52,11 @@ public class RoomController {
                             int readyness = printerCicle(mmm,i,content, 0);
                             if(readyness == mmm.getPlayers().size()){
                                 if(match.getHost().name.equals(name) && ready && !startAdded.get()){
-                                    //TODO: Aggiungere timer di 5 secondi in cui al suo termine viene avviato il match se l'host non preme start
-                                    Timer t2 = new Timer();
                                     TimerTask tt2 = new TimerTask() {
-                                        int i = 0;
                                         @Override
                                         public void run() {
-                                            i++;
-                                            System.out.println(i);
-                                            if(i > 5){
+                                            int val = timerStart.addAndGet(1);
+                                            if(val > 5){
                                                 t2.cancel();
                                                 adderActionListener(ready, t, name, sender, frame, panel, matches, match, mm);
                                             }
@@ -71,6 +70,8 @@ public class RoomController {
                                     });
                                     panel.add(startNew);
                                 }
+                            }else{
+                                timerStart.set(0);
                             }
                             content.setVisible(true);
                             frame.revalidate();
