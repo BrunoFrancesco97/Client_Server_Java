@@ -49,6 +49,21 @@ public class RoomController {
                             int readyness = printerCicle(mmm,i,content, 0);
                             if(readyness == mmm.getPlayers().size()){
                                 if(match.getHost().name.equals(name) && ready && !startAdded.get()){
+                                    //TODO: Aggiungere timer di 5 secondi in cui al suo termine viene avviato il match se l'host non preme start
+                                    Timer t2 = new Timer();
+                                    TimerTask tt2 = new TimerTask() {
+                                        int i = 0;
+                                        @Override
+                                        public void run() {
+                                            i++;
+                                            System.out.println(i);
+                                            if(i > 5){
+                                                t2.cancel();
+                                                adderActionListener(ready, t, name, sender, frame, panel, matches, match, mm);
+                                            }
+                                        }
+                                    };
+                                    t2.schedule(tt2, 400,1000);
                                     startAdded.set(true);
                                     JButton startNew = new JButton("Start match");
                                     startNew.addActionListener(e -> {
