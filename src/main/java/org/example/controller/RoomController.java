@@ -8,9 +8,12 @@ import org.example.view.RoomView;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class RoomController {
@@ -18,7 +21,9 @@ public class RoomController {
         if(!match.getHost().name.equals(name)){
             back.setText("Exit");
         }
+        System.out.println(match);
         TimerTask tt = new TimerTask() {
+            AtomicBoolean startAdded = new AtomicBoolean(false);
             @Override
             public void run() {
                 Message responsef = sender.sendAndRead(new Message<>(name, "UPDATE_PLAYERS",match.getName()));
@@ -41,7 +46,17 @@ public class RoomController {
                             content.removeAll();
                             content.setLayout(new GridLayout((mmm.getPlayers().size()),1));
                             int i = 1;
-                            printerCicle(mmm,i,content);
+                            int readyness = printerCicle(mmm,i,content, 0);
+                            if(readyness == mmm.getPlayers().size()){
+                                if(match.getHost().name.equals(name) && ready && !startAdded.get()){
+                                    startAdded.set(true);
+                                    JButton startNew = new JButton("Start match");
+                                    startNew.addActionListener(e -> {
+                                        adderActionListener(ready, t, name, sender, frame, panel, matches, match, mm);
+                                    });
+                                    panel.add(startNew);
+                                }
+                            }
                             content.setVisible(true);
                             frame.revalidate();
                             frame.repaint();
@@ -83,21 +98,12 @@ public class RoomController {
 
         if(start != null){
             start.addActionListener(e -> {
-                if(!ready){
-                    sender.send(new Message(name, "UPDATE_READY", true));
-                    t.cancel();
-                    frame.remove(panel);
-                    frame.add(new RoomView(frame, name, matches, match, sender, mm, true).getPanel());
-                    frame.validate();
-                }else{
-                    sender.send(new Message(name, "FRIENDLY_START",match.getName()));
-                }
-
+                adderActionListener(ready, t, name, sender, frame, panel, matches, match, mm);
             });
         }
     }
 
-    private void printerCicle(Match match, int i, JPanel content){
+    private int printerCicle(Match match, int i, JPanel content, int readyness){
         for(Player p : match.getPlayers()){
             JPanel contentPl = new JPanel();
             JLabel el1 = new JLabel(i+". Name: ");
@@ -108,8 +114,23 @@ public class RoomController {
             JSeparator sp = new JSeparator();
             contentPl.add(sp);
             i++;
+            if(p.isReady())
+                readyness++;
             contentPl.setVisible(true);
             content.add(contentPl);
+        }
+        return readyness;
+    }
+
+    private void adderActionListener(boolean ready, Timer t, String name, Sender sender, JFrame frame, JPanel panel, ArrayList<Match> matches, Match match, MatchChecker mm){
+        if(!ready){
+            t.cancel();
+            sender.send(new Message(name, "UPDATE_READY", true));
+            frame.remove(panel);
+            frame.add(new RoomView(frame, name, matches, match, sender, mm, true).getPanel());
+            frame.validate();
+        }else{
+            sender.send(new Message(name, "FRIENDLY_START",match.getName()));
         }
     }
 }

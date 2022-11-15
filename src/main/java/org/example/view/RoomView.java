@@ -16,7 +16,7 @@ public class RoomView {
     public RoomView(JFrame frame, String name, ArrayList<Match> matches, Match match, Sender sender, MatchChecker mm, boolean ready){
         Timer t = new Timer();
         panel = new JPanel();
-        if(match.getHost().name.equals(name)) {
+        if(match.getHost().name.equals(name) || !ready) {
             panel.setLayout(new GridLayout(6,1));
         }else{
             panel.setLayout(new GridLayout(5,1));
@@ -35,6 +35,7 @@ public class RoomView {
         scrollable.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         content.setLayout(new GridLayout(match.getPlayers().size(),1));
         int i = 1;
+        int readyness = 0;
         for(Player p : match.getPlayers()){
             JPanel contentPl = new JPanel();
             JLabel el1 = new JLabel(i+". Name: ");
@@ -45,6 +46,8 @@ public class RoomView {
             JSeparator sp = new JSeparator();
             contentPl.add(sp);
             i++;
+            if(p.isReady())
+                readyness++;
             contentPl.setVisible(true);
             content.add(contentPl);
         }
@@ -55,7 +58,7 @@ public class RoomView {
             start = new JButton("Ready");
             panel.add(start);
         }
-        if(match.getHost().name.equals(name) && ready){
+        if(match.getHost().name.equals(name) && ready && readyness == match.getPlayers().size()){
             start = new JButton("Start match");
             panel.add(start);
         }
