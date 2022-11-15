@@ -377,7 +377,7 @@ public class Server extends Thread{
     private void handleCreate(Message mex){
         try{
             if(mex.getMessage() instanceof String){
-                String name = ((String) mex.getMessage()).substring(0,((String) mex.getMessage()).length()-2);
+                String name = ((String) mex.getMessage()).substring(0,((String) mex.getMessage()).length()-1);
                 int size = Character.getNumericValue(((String)mex.getMessage()).charAt(((String) mex.getMessage()).length()-1));
                 this.match = new Match("friendly", name, this.player, size);
                 this.player.setReady(false);
