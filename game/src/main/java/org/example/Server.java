@@ -352,11 +352,20 @@ public class Server extends Thread{
                 this.matchesList.remove(this.match);
             }
         }
+        boolean hostDeleted = false;
         for(Match m : this.matchesList.getMemory()){
             if(m.getType().equals("friendly") && m.containsUser(this.player)){
+                if(this.player.equals(m.getHost())){
+                    hostDeleted = true;
+                }
                 m.removePlayer(this.player);
                 if(m.getPlayers().size() < 1){
                     this.matchesList.remove(m);
+                }else{
+                    if(hostDeleted){
+                        m.setHost(m.getFirstPLayer());
+                        break;
+                    }
                 }
             }
         }
