@@ -51,14 +51,15 @@ public class RoomController {
                             int i = 1;
                             int readyness = printerCicle(mmm,i,content, 0);
                             if(readyness == mmm.getPlayers().size()){
-                                if(match.getHost().name.equals(name) && ready && !startAdded.get()){
+                                if(mmm.getHost().name.equals(name) && ready && !startAdded.get()){
+                                    panel.setLayout(new GridLayout(6,1));
                                     TimerTask tt2 = new TimerTask() {
                                         @Override
                                         public void run() {
                                             int val = timerStart.addAndGet(1);
                                             if(val > 5){
                                                 t2.cancel();
-                                                adderActionListener(ready, t, name, sender, frame, panel, matches, match, mm);
+                                                adderActionListener(ready, t, name, sender, frame, panel, matches, mmm, mm);
                                             }
                                         }
                                     };
@@ -66,7 +67,7 @@ public class RoomController {
                                     startAdded.set(true);
                                     JButton startNew = new JButton("Start match");
                                     startNew.addActionListener(e -> {
-                                        adderActionListener(ready, t, name, sender, frame, panel, matches, match, mm);
+                                        adderActionListener(ready, t, name, sender, frame, panel, matches, mmm, mm);
                                     });
                                     panel.add(startNew);
                                 }

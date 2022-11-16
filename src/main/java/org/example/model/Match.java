@@ -147,4 +147,8 @@ public class Match implements Serializable {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+    public Player getFirstPLayer(){
+        return this.players.get(0);
+    }
 }
