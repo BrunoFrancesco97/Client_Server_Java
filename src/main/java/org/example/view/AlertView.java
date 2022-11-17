@@ -38,7 +38,6 @@ public class AlertView {
         alert.add(attentionLabel3, c);
 
         JButton buttonYes = new JButton("Yes");
-        c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 0;
         c.gridy = 3;
         alert.add(buttonYes, c);

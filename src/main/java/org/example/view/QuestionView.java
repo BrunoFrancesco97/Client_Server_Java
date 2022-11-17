@@ -35,6 +35,7 @@ public class QuestionView {
         JButton sendButton = new JButton("Send answer");
         question.add(sendButton);
         mm.setQuestion(q);
+        mm.setPosition(iterator);
         question.setVisible(true);
         QuestionController qc = new QuestionController(frame,question,sendButton,result,q, name, sender, mm, lecit, tQuiz, seconds, timeLabel,time, questions, iterator);
 

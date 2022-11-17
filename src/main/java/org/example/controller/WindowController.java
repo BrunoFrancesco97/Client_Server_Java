@@ -16,7 +16,6 @@ public class WindowController {
                 if(mm.isGoingOn()){
                     sender.send(new Message(mm.getName(),"END", mm));
                 }else{
-                    System.out.println(mm.getName());
                     sender.send(new Message(mm.getName(),"END"));
                 }
                 sender.close();

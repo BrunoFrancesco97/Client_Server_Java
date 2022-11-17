@@ -15,6 +15,7 @@ public class Player implements Serializable {
     public Score score;
     private int id;
     private boolean ready;
+    private int indexLastQuestion;
     public Player(){
         this.name = null;
         this.questions = new ArrayList<>();
@@ -22,6 +23,7 @@ public class Player implements Serializable {
         this.id = Utility.randomIDGenerator(10000);
         this.hasFinished = false;
         this.ready = false;
+        this.indexLastQuestion = -1;
     }
     public Player(String name){
         this.name = name;
@@ -30,6 +32,15 @@ public class Player implements Serializable {
         this.id = Utility.randomIDGenerator(10000);
         this.hasFinished = false;
         this.ready = false;
+        this.indexLastQuestion = -1;
+    }
+
+    public int getIndexLastQuestion() {
+        return indexLastQuestion;
+    }
+
+    public void setIndexLastQuestion(int indexLastQuestion) {
+        this.indexLastQuestion = indexLastQuestion;
     }
 
     public boolean isReady() {

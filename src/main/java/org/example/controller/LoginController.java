@@ -1,5 +1,6 @@
 package org.example.controller;
 
+import org.example.model.Match;
 import org.example.model.MatchChecker;
 import org.example.model.Message;
 import org.example.utils.Sender;
@@ -15,9 +16,10 @@ public class LoginController {
             if(name != null && name.length() > 0){
                 mm.setName(name);
                 Message response = sender.sendAndRead(new Message(name, "NAME"));
-                if(response.getMessage() != null && response.getMessage() instanceof String){
+                if(response.getMessage() != null && response.getMessage() instanceof Match){
                     frame.remove(login);
-                    frame.add(new AlertView(frame,name, (String) response.getMessage(),sender, mm).getPanel());
+                    mm.setPosition(((Match) response.getMessage()).getPlayer(name).getIndexLastQuestion());
+                    frame.add(new AlertView(frame,name, ((Match) response.getMessage()).getType(),sender, mm).getPanel());
                     frame.validate();
                 }else{
                     frame.remove(login);

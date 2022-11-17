@@ -33,10 +33,11 @@ public class ModeController {
                     if(result == 0){
                         mm.setType("practice");
                         mm.setGoingOn(true);
+                        mm.setPosition(1);
                         Message response = sender.sendAndRead(new Message<>(name, "START","practice"));
                         Question q = (Question) response.getMessage();
                         frame.remove(mode);
-                        frame.add(new QuestionView(frame,name,q,sender, mm, true, null, null, null,0, 10, 1).getPanel());
+                        frame.add(new QuestionView(frame,name,q,sender, mm, true, null, null, null,0, 10, mm.getPosition()).getPanel());
                         frame.validate();
                     }
                     break;

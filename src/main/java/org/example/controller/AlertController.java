@@ -19,9 +19,9 @@ public class AlertController {
                 mm.setType("practice");
                 mm.setGoingOn(true);
                 mm.setQuestion((Question) response.getMessage());
-                System.out.println(mm);
                 frame.remove(alert);
-                frame.add(new QuestionView(frame,name, (Question) response.getMessage(),sender, mm, true, null, null, null, 0,10,1).getPanel());
+                System.out.println(mm.getPosition());
+                frame.add(new QuestionView(frame,name, (Question) response.getMessage(),sender, mm, true, null, null, null, 0,10,mm.getPosition()).getPanel());
                 frame.validate();
             }
         });

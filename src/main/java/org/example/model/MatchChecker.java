@@ -10,12 +10,22 @@ public class MatchChecker implements Serializable {
     private Question question;
     private String match; //Name of the match
 
+    private int position;
     public MatchChecker(){
         this.isGoingOn = false;
         this.question = null;
         this.type = null;
         this.match = null;
         this.name = null;
+        this.position = 1;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
     }
 
     public String getName() {
@@ -65,7 +75,8 @@ public class MatchChecker implements Serializable {
                 ", isGoingOn=" + isGoingOn +
                 ", type='" + type + '\'' +
                 ", question=" + question +
-                ", match=" + match +
+                ", match='" + match + '\'' +
+                ", position=" + position +
                 '}';
     }
 }

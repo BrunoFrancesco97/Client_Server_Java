@@ -159,10 +159,19 @@ public class Match implements Serializable {
         }
         return null;
     }
+
     @Override
     public String toString() {
         return "Match{" +
                 "players=" + players +
+                ", available=" + available +
+                ", type='" + type + '\'' +
+                ", id=" + id +
+                ", name='" + name + '\'' +
+                ", host=" + host +
+                ", size=" + size +
+                ", time=" + time +
+                ", numberQuestions=" + numberQuestions +
                 '}';
     }
 
