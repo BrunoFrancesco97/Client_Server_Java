@@ -16,6 +16,7 @@ public class Match implements Serializable {
 
     private Player host;
     private int size;
+    private int time; //Time in minutes of max duration of the match
     public Match(){
         this.players = new ArrayList<>();
         this.available = false ;
@@ -24,6 +25,7 @@ public class Match implements Serializable {
         this.name = ""+this.id;
         this.host = null;
         this.size = 0;
+        this.time = 0;
     }
     public Match(String type, Player host){
         this.players = new ArrayList<>();
@@ -33,6 +35,7 @@ public class Match implements Serializable {
         this.name = ""+this.id;
         this.host = host;
         this.size = 1; //DEFAULT SIZE
+        this.time = 0;
     }
     public Match(String type, String name, Player host, int size){
         this.players = new ArrayList<>();
@@ -42,6 +45,25 @@ public class Match implements Serializable {
         this.name = name;
         this.host = host;
         this.size = size;
+        this.time = 0;
+    }
+    public Match(String type, String name, Player host, int size, int time){
+        this.players = new ArrayList<>();
+        this.available = false ;
+        this.type = type;
+        this.id = Utility.randomIDGenerator(10000);
+        this.name = name;
+        this.host = host;
+        this.size = size;
+        this.time = time;
+    }
+
+    public synchronized int getTime() {
+        return time;
+    }
+
+    public synchronized void setTime(int time) {
+        this.time = time;
     }
 
     public synchronized int getSize() {

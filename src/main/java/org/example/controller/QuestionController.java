@@ -16,7 +16,7 @@ import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class QuestionController {
-    public QuestionController(JFrame frame, JPanel question, JButton jb, JTextField answer, Question q, String name, Sender sender, MatchChecker mm, boolean lecit, Timer tQuiz, AtomicInteger seconds, JLabel label){
+    public QuestionController(JFrame frame, JPanel question, JButton jb, JTextField answer, Question q, String name, Sender sender, MatchChecker mm, boolean lecit, Timer tQuiz, AtomicInteger seconds, JLabel label, int time){
         if(!lecit){
             TimerTask task = new TimerTask() {
                 public int i = seconds.get();
@@ -27,9 +27,9 @@ public class QuestionController {
                     int secondss = i % 60;
                     seconds.getAndAdd(1);
                     if(secondss < 10)
-                        label.setText("Time passed in minutes: "+minutes+":"+"0"+secondss);
-                    else  label.setText("Time passed in minutes: "+minutes+":"+secondss);
-                    if(i > 10){
+                        label.setText("Time passed in minutes: "+minutes+":"+"0"+secondss+"/"+time+":00");
+                    else  label.setText("Time passed in minutes: "+minutes+":"+secondss+"/"+time+":00");
+                    if(i > time * 60){
                         tQuiz.cancel(); //Delete timer if test is taking more than n/60 minutes
                         Message response = sender.sendAndRead(new Message<>(name, "END_TIMER"));
                         if(response != null && response.getEvent().equals("END_TIMER") && response.getMessage() != null){
@@ -49,7 +49,7 @@ public class QuestionController {
                     case "game":
                         frame.remove(question);
                         Question newQuestion = (Question) response.getMessage();
-                        frame.add(new QuestionView(frame,name,newQuestion,sender, mm, true, tQuiz, seconds, label).getPanel());
+                        frame.add(new QuestionView(frame,name,newQuestion,sender, mm, true, tQuiz, seconds, label, time).getPanel());
                         frame.validate();
                         break;
                     case "end":

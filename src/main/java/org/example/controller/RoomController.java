@@ -17,7 +17,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class RoomController {
-    public RoomController(JFrame frame, JPanel panel, JButton back, JButton start, JPanel content, String name, ArrayList<Match> matches, Match match, Sender sender, MatchChecker mm, Timer t, boolean ready){
+    public RoomController(JFrame frame, JPanel panel, JButton back, JButton start, JPanel content, String name, ArrayList<Match> matches, Match match, Sender sender, MatchChecker mm, Timer t, boolean ready, int time){
         if(!match.getHost().name.equals(name)){
             back.setText("Exit");
         }
@@ -42,7 +42,7 @@ public class RoomController {
                                 mm.setGoingOn(true);
                                 mm.setMatch(match.getName());
                                 frame.remove(panel);
-                                frame.add(new QuestionView(frame, name, (Question) responseD.getMessage(), sender, mm, false, tQuiz, seconds, new JLabel()).getPanel());
+                                frame.add(new QuestionView(frame, name, (Question) responseD.getMessage(), sender, mm, false, tQuiz, seconds, new JLabel(), time).getPanel());
                                 frame.validate();
                             }
                         }else{
@@ -59,7 +59,7 @@ public class RoomController {
                                             int val = timerStart.addAndGet(1);
                                             if(val > 5){
                                                 t2.cancel();
-                                                adderActionListener(ready, t, name, sender, frame, panel, matches, mmm, mm);
+                                                adderActionListener(ready, t, name, sender, frame, panel, matches, mmm, mm, time);
                                             }
                                         }
                                     };
@@ -67,7 +67,7 @@ public class RoomController {
                                     startAdded.set(true);
                                     JButton startNew = new JButton("Start match");
                                     startNew.addActionListener(e -> {
-                                        adderActionListener(ready, t, name, sender, frame, panel, matches, mmm, mm);
+                                        adderActionListener(ready, t, name, sender, frame, panel, matches, mmm, mm, time);
                                     });
                                     panel.add(startNew);
                                 }
@@ -115,7 +115,7 @@ public class RoomController {
 
         if(start != null){
             start.addActionListener(e -> {
-                adderActionListener(ready, t, name, sender, frame, panel, matches, match, mm);
+                adderActionListener(ready, t, name, sender, frame, panel, matches, match, mm, time);
             });
         }
     }
@@ -139,12 +139,12 @@ public class RoomController {
         return readyness;
     }
 
-    private void adderActionListener(boolean ready, Timer t, String name, Sender sender, JFrame frame, JPanel panel, ArrayList<Match> matches, Match match, MatchChecker mm){
+    private void adderActionListener(boolean ready, Timer t, String name, Sender sender, JFrame frame, JPanel panel, ArrayList<Match> matches, Match match, MatchChecker mm, int time){
         if(!ready){
             t.cancel();
             sender.send(new Message(name, "UPDATE_READY", true));
             frame.remove(panel);
-            frame.add(new RoomView(frame, name, matches, match, sender, mm, true).getPanel());
+            frame.add(new RoomView(frame, name, matches, match, sender, mm, true, time).getPanel());
             frame.validate();
         }else{
             sender.send(new Message(name, "FRIENDLY_START",match.getName()));

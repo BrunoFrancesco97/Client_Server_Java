@@ -9,10 +9,9 @@ import org.example.view.RoomView;
 
 import javax.swing.*;
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class MatchCreatorController {
-    public MatchCreatorController(JFrame frame, JPanel panel, JTextField nameMatch, JButton back, JButton create, String name, JSpinner maxSize, ArrayList<Match> matches, Sender sender, MatchChecker mm){
+    public MatchCreatorController(JFrame frame, JPanel panel, JTextField nameMatch, JButton back, JButton create, String name, JSpinner maxSize, JSpinner timeMatch, ArrayList<Match> matches, Sender sender, MatchChecker mm){
         create.addActionListener(e -> {
             String nameM = nameMatch.getText();
             if(nameM != null && nameM.length() > 0){
@@ -20,13 +19,13 @@ public class MatchCreatorController {
                 if(response.getMessage() != null && response.getMessage().equals("Y")){
                     JOptionPane.showMessageDialog(frame,"Game match already used!","Warning!",JOptionPane.WARNING_MESSAGE);
                 }else{
-                    Message response2 = sender.sendAndRead(new Message(name, "CREATE",nameM+""+maxSize.getValue()));
+                    Message response2 = sender.sendAndRead(new Message(name, "CREATE",nameM+":"+maxSize.getValue()+":"+timeMatch.getValue()));
                     if(response2.getMessage() != null){
                         Match match = (Match) response2.getMessage();
                         mm.setType("friendly");
                         mm.setGoingOn(true);
                         frame.remove(panel);
-                        frame.add(new RoomView(frame, name, matches,match, sender, mm,false).getPanel());
+                        frame.add(new RoomView(frame, name, matches,match, sender, mm,false, (Integer) timeMatch.getValue()).getPanel());
                         frame.validate();
                     }
                 }

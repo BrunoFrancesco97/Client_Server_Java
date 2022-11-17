@@ -14,7 +14,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class QuestionView {
     JPanel question;
-    public QuestionView(JFrame frame, String name, Question q, Sender sender, MatchChecker mm, boolean lecit, Timer tQuiz, AtomicInteger seconds, JLabel timeLabel){
+    public QuestionView(JFrame frame, String name, Question q, Sender sender, MatchChecker mm, boolean lecit, Timer tQuiz, AtomicInteger seconds, JLabel timeLabel,int time){
         question = new JPanel();
         question.setLayout(new GridLayout(5,1));
         question.setBorder(new EmptyBorder(25,25,25,25));
@@ -36,7 +36,7 @@ public class QuestionView {
         question.add(sendButton);
         mm.setQuestion(q);
         question.setVisible(true);
-        QuestionController qc = new QuestionController(frame,question,sendButton,result,q, name, sender, mm, lecit, tQuiz, seconds, timeLabel);
+        QuestionController qc = new QuestionController(frame,question,sendButton,result,q, name, sender, mm, lecit, tQuiz, seconds, timeLabel,time);
 
 
     }

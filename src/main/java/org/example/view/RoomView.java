@@ -13,7 +13,7 @@ import java.util.Timer;
 
 public class RoomView {
     private JPanel panel;
-    public RoomView(JFrame frame, String name, ArrayList<Match> matches, Match match, Sender sender, MatchChecker mm, boolean ready){
+    public RoomView(JFrame frame, String name, ArrayList<Match> matches, Match match, Sender sender, MatchChecker mm, boolean ready, int time){
         Timer t = new Timer();
         panel = new JPanel();
         if(match.getHost().name.equals(name) || !ready) {
@@ -65,7 +65,7 @@ public class RoomView {
         JButton close = new JButton("Close match");
         panel.add(close);
 
-        RoomController rc = new RoomController(frame, panel, close, start, content, name, matches, match, sender, mm, t, ready);
+        RoomController rc = new RoomController(frame, panel, close, start, content, name, matches, match, sender, mm, t, ready, time);
         panel.setVisible(true);
     }
     public JPanel getPanel(){

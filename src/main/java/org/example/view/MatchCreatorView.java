@@ -16,7 +16,7 @@ public class MatchCreatorView {
     public MatchCreatorView(JFrame frame, String name, ArrayList<Match> matches, Sender sender, MatchChecker mm){
         panel = new JPanel();
         panel.setBorder(new EmptyBorder(25,25,25,25));
-        panel.setLayout(new GridLayout(7,1));
+        panel.setLayout(new GridLayout(9,1));
         JLabel title = new JLabel("Create a new match");
         Font font = title.getFont();
         title.setFont(new Font(font.getFontName(),Font.BOLD,font.getSize()));
@@ -27,16 +27,21 @@ public class MatchCreatorView {
         panel.add(nameMatch);
         JLabel description2 = new JLabel("Maximum number of people allowed:  ");
         panel.add(description2);
-        SpinnerModel value = new SpinnerNumberModel(4,1,10,1);
-        JSpinner maxSize = new JSpinner(value);
+        SpinnerModel people = new SpinnerNumberModel(4,1,9,1);
+        JSpinner maxSize = new JSpinner(people);
         panel.add(maxSize);
+        JLabel description3 = new JLabel("Maximum duration of the match in minutes:");
+        panel.add(description3);
+        SpinnerModel time = new SpinnerNumberModel(4,2,10,2);
+        JSpinner timeMatch = new JSpinner(time);
+        panel.add(timeMatch);
         JButton create = new JButton("Create");
         panel.add(create);
 
         JButton back = new JButton("Go back");
         panel.add(back);
 
-        MatchCreatorController mc = new MatchCreatorController(frame,panel,nameMatch, back, create, name,maxSize,matches, sender, mm);
+        MatchCreatorController mc = new MatchCreatorController(frame,panel,nameMatch, back, create, name,maxSize,timeMatch, matches, sender, mm);
 
         panel.setVisible(true);
 
