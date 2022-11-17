@@ -13,7 +13,6 @@ public class AlertView {
     private JPanel alert;
     public AlertView(JFrame frame, String name,  String type, Sender sender, MatchChecker mm){
         alert = new JPanel();
-        alert.setBorder(new EmptyBorder(25,25,25,25));
         alert.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         c.anchor = GridBagConstraints.CENTER;
@@ -50,12 +49,14 @@ public class AlertView {
         alert.add(pp,c);
 
         JButton buttonYes = new JButton("Yes");
+        buttonYes.setPreferredSize(new Dimension(120,50));
         cc.gridx = 0;
         cc.gridy = 0;
         buttonYes.setOpaque(true);
         pp.add(buttonYes, cc);
 
         JButton buttonNo = new JButton("No");
+        buttonNo.setPreferredSize(new Dimension(120,50));
         cc.gridx = 1;
         cc.gridy = 0;
         pp.add(buttonNo, cc);

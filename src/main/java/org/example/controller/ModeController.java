@@ -27,7 +27,7 @@ public class ModeController {
             switch (value.toLowerCase()){
                 case "practice mode":
                     String[] options = {"Yes","No"};
-                    int result = JOptionPane.showOptionDialog(frame , "A game will start soon.\n Do you want to start it now?", "Question",
+                    int result = JOptionPane.showOptionDialog(frame , "A game will start soon.\nDo you want to start it now?", "Question",
                             JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE,
                             null, options, options[0]);
                     if(result == 0){

@@ -48,7 +48,7 @@ public class FriendlyModeView {
         gcc1.gridy = 2;
         scrollable.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         JPanel content = new JPanel();
-        content.setPreferredSize(new Dimension(200,200));
+        scrollable.setPreferredSize(new Dimension(350,200));
         content.setLayout(new GridLayout((matches.size()),1));
         content.setVisible(true);
         scrollable.setViewportView(content);

@@ -14,7 +14,7 @@ public class WindowView {
     public WindowView(Sender sender){
         JFrame frame = new JFrame();
         frame.setTitle("Play game!");
-        frame.setSize(new Dimension(650,550));
+        frame.setSize(new Dimension(600,500));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         MatchChecker mm = new MatchChecker();

@@ -15,38 +15,77 @@ public class MatchCreatorView {
     private JPanel panel;
     public MatchCreatorView(JFrame frame, String name, ArrayList<Match> matches, Sender sender, MatchChecker mm){
         panel = new JPanel();
-        panel.setBorder(new EmptyBorder(25,25,25,25));
-        panel.setLayout(new GridLayout(12,1));
+        panel.setLayout(new GridBagLayout());
+        GridBagConstraints gcc = new GridBagConstraints();
+        gcc.anchor = GridBagConstraints.WEST;
+        gcc.insets = new Insets(5,5,5,5);
+
         JLabel title = new JLabel("Create a new match");
+        gcc.ipady = 60;
         Font font = title.getFont();
         title.setFont(new Font(font.getFontName(),Font.BOLD,font.getSize()));
-        panel.add(title);
+        gcc.gridx = 0;
+        gcc.gridy = 0;
+        panel.add(title,gcc);
+
+        gcc.ipady = 0;
+
         JLabel description = new JLabel("Name of the match: ");
-        panel.add(description);
+        gcc.gridy = 2;
+        panel.add(description,gcc);
+
         JTextField nameMatch = new JTextField(20);
-        panel.add(nameMatch);
+        gcc.gridy = 3;
+        panel.add(nameMatch,gcc);
+
         JLabel description2 = new JLabel("Maximum number of people allowed:  ");
-        panel.add(description2);
-        SpinnerModel people = new SpinnerNumberModel(4,1,9,1);
+        gcc.gridy = 4;
+        panel.add(description2,gcc);
+
+        SpinnerModel people = new SpinnerNumberModel(4,1,10,1);
         JSpinner maxSize = new JSpinner(people);
-        panel.add(maxSize);
+        gcc.gridy = 5;
+        panel.add(maxSize,gcc);
+
         JLabel description3 = new JLabel("Maximum duration of the match in minutes:");
-        panel.add(description3);
+        gcc.gridy = 6;
+        panel.add(description3,gcc);
+
         SpinnerModel time = new SpinnerNumberModel(2,2,10,2);
         JSpinner timeMatch = new JSpinner(time);
-        panel.add(timeMatch);
+        gcc.gridy = 7;
+        panel.add(timeMatch,gcc);
+
         JLabel description4 = new JLabel("Numbers of questions of the match:");
-        panel.add(description4);
+        gcc.gridy = 8;
+        panel.add(description4,gcc);
+
         SpinnerModel questions = new SpinnerNumberModel(5,5,15,1);
         JSpinner questionsSize = new JSpinner(questions);
-        panel.add(questionsSize);
+        gcc.gridy = 9;
+        panel.add(questionsSize,gcc);
+
         JSeparator sp = new JSeparator();
-        panel.add(sp);
+        gcc.gridy = 10;
+        panel.add(sp,gcc);
+
+        JPanel pp = new JPanel();
+        pp.setLayout(new GridBagLayout());
+        gcc.gridx = 0;
+        gcc.gridy = 11;
+        panel.add(pp,gcc);
+
         JButton create = new JButton("Create");
-        panel.add(create);
+        create.setPreferredSize(new Dimension(120,50));
+        gcc.gridx = 1;
+        gcc.gridy = 0;
+        pp.add(create,gcc);
 
         JButton back = new JButton("Go back");
-        panel.add(back);
+        back.setPreferredSize(new Dimension(120,50));
+        gcc.gridx = 0;
+        gcc.gridy = 0;
+        pp.add(back,gcc);
 
         MatchCreatorController mc = new MatchCreatorController(frame,panel,nameMatch, back, create, name,maxSize,timeMatch,questionsSize, matches, sender, mm);
 

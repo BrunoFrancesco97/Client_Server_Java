@@ -17,7 +17,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class RoomController {
-    public RoomController(JFrame frame, JPanel panel, JButton back, JButton start, JPanel content, String name, ArrayList<Match> matches, Match match, Sender sender, MatchChecker mm, Timer t, boolean ready, int time, int questions){
+    public RoomController(JFrame frame, JPanel panel, JButton back, JButton start, JPanel content, String name, ArrayList<Match> matches, Match match, Sender sender, MatchChecker mm, Timer t, boolean ready, int time, int questions, GridBagConstraints gcc, JPanel pp){
         if(!match.getHost().name.equals(name)){
             back.setText("Exit");
         }
@@ -51,9 +51,8 @@ public class RoomController {
                             content.setLayout(new GridLayout((mmm.getPlayers().size()),1));
                             int i = 1;
                             int readyness = printerCicle(mmm,i,content, 0);
-                            if(readyness == mmm.getPlayers().size()){
+                            if(readyness == mmm.getPlayers().size()){ //TODO: FIX IN THE FUTURE
                                 if(mmm.getHost().name.equals(name) && ready && !startAdded.get()){
-                                    panel.setLayout(new GridLayout(8,1));
                                     TimerTask tt2 = new TimerTask() {
                                         @Override
                                         public void run() {
@@ -67,10 +66,13 @@ public class RoomController {
                                     t2.schedule(tt2, 400,1000);
                                     startAdded.set(true);
                                     JButton startNew = new JButton("Start match");
+                                    startNew.setPreferredSize(new Dimension(120,50));
+                                    gcc.gridx = 1;
+                                    gcc.gridy = 0;
                                     startNew.addActionListener(e -> {
                                         adderActionListener(ready, t, name, sender, frame, panel, matches, mmm, mm, time, questions);
                                     });
-                                    panel.add(startNew);
+                                    pp.add(startNew,gcc);
                                 }
                             }else{
                                 timerStart.set(0);

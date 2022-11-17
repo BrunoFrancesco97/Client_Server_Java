@@ -17,29 +17,42 @@ public class ModeView {
 
     private void print(JFrame frame, String name, Sender sender, MatchChecker mm){
         mode = new JPanel();
-        mode.setLayout(new GridLayout(6,1));
-
-        mode.setBorder(new EmptyBorder(25,25,25,25));
+        mode.setLayout(new GridBagLayout());
+        GridBagConstraints gcc = new GridBagConstraints();
+        gcc.insets = new Insets(15,15,15,15);
+        gcc.anchor = GridBagConstraints.WEST;
 
         JLabel modeLabel1 = new JLabel("Choose your game mode");
         Font font = modeLabel1.getFont();
         modeLabel1.setFont(new Font(font.getFontName(),Font.BOLD,font.getSize()));
-        mode.add(modeLabel1);
-
+        gcc.gridx = 0;
+        gcc.gridy = 0;
+        gcc.ipady = 60;
+        mode.add(modeLabel1,gcc);
+        gcc.ipady = 0;
         JLabel modeLabel2 = new JLabel("Welcome "+name+"! Select the mode you want to play.");
-        mode.add(modeLabel2);
+        gcc.gridx = 0;
+        gcc.gridy = 1;
+        mode.add(modeLabel2,gcc);
 
         JRadioButton[] list = new JRadioButton[]{
                 new JRadioButton("Practice Mode", true),
                 new JRadioButton("Friendly Mode"),
                 new JRadioButton("Tournament Mode")};
         ButtonGroup group = new ButtonGroup();
+        int i = 2;
         for(JRadioButton el : list){
             group.add(el);
-            mode.add(el);
+            gcc.gridx = 0;
+            gcc.gridy = i;
+            mode.add(el,gcc);
+            i++;
         }
         JButton select = new JButton("Select");
-        mode.add(select);
+        select.setPreferredSize(new Dimension(120,40));
+        gcc.gridx = 0;
+        gcc.gridy = 5;
+        mode.add(select,gcc);
 
 
         ModeController mc = new ModeController(frame,mode,select,list,name,sender, mm);

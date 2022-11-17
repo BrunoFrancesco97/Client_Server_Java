@@ -17,26 +17,44 @@ public class RoomView {
     public RoomView(JFrame frame, String name, ArrayList<Match> matches, Match match, Sender sender, MatchChecker mm, boolean ready, int time, int questions){
         Timer t = new Timer();
         panel = new JPanel();
-        if(match.getHost().name.equals(name) || !ready) {
-            panel.setLayout(new GridLayout(8,1));
-        }else{
-            panel.setLayout(new GridLayout(7,1));
-        }
-        panel.setBorder(new EmptyBorder(25,25,25,25));
-        JLabel matchName = new JLabel(match.getName());
+        panel.setLayout(new GridBagLayout());
+        GridBagConstraints gcc = new GridBagConstraints();
+        gcc.insets = new Insets(5,0,5,5);
+        gcc.anchor = GridBagConstraints.WEST;
+
+        JLabel matchName = new JLabel("Name of the match: "+match.getName());
+        gcc.ipady = 30;
         Font font = matchName.getFont();
         matchName.setFont(new Font(font.getFontName(),Font.BOLD,font.getSize()));
-        panel.add(matchName);
+        gcc.gridx = 0;
+        gcc.gridy = 0;
+        panel.add(matchName,gcc);
+
+        gcc.ipady = 0;
+
         JLabel description = new JLabel("Max size: "+match.getSize());
-        panel.add(description);
+        gcc.gridx = 0;
+        gcc.gridy = 1;
+        panel.add(description,gcc);
+
         JLabel questionsLabel = new JLabel("Number of questions: "+questions);
-        panel.add(questionsLabel);
+        gcc.gridx = 0;
+        gcc.gridy = 2;
+        panel.add(questionsLabel,gcc);
+
         JLabel durationLabel = new JLabel("Maximum duration in minutes: "+time+":00");
-        panel.add(durationLabel);
-        JLabel title = new JLabel("Players");
-        panel.add(title);
+        gcc.gridx = 0;
+        gcc.gridy = 3;
+        panel.add(durationLabel,gcc);
+
+        JLabel title = new JLabel("Players:");
+        gcc.gridx = 0;
+        gcc.gridy = 4;
+        panel.add(title,gcc);
+
         JPanel content = new JPanel();
         JScrollPane scrollable = new JScrollPane();
+        scrollable.setPreferredSize(new Dimension(350,150));
         scrollable.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         content.setLayout(new GridLayout(match.getPlayers().size(),1));
         int i = 1;
@@ -57,20 +75,40 @@ public class RoomView {
             content.add(contentPl);
         }
         scrollable.setViewportView(content);
-        panel.add(scrollable);
+        gcc.gridx = 0;
+        gcc.gridy = 5;
+        panel.add(scrollable,gcc);
+
+
+        JPanel pp = new JPanel();
+        pp.setLayout(new GridBagLayout());
+        gcc.gridx = 0;
+        gcc.gridy = 6;
+        panel.add(pp,gcc);
+
         JButton start = null;
         if(!ready){
             start = new JButton("Ready");
-            panel.add(start);
+            start.setPreferredSize(new Dimension(120,50));
+            gcc.gridx = 1;
+            gcc.gridy = 0;
+            pp.add(start,gcc);
         }
         if(match.getHost().name.equals(name) && ready && readyness == match.getPlayers().size()){
             start = new JButton("Start match");
-            panel.add(start);
+            start.setPreferredSize(new Dimension(120,50));
+            gcc.gridx = 1;
+            gcc.gridy = 0;
+            pp.add(start,gcc);
         }
-        JButton close = new JButton("Close match");
-        panel.add(close);
 
-        RoomController rc = new RoomController(frame, panel, close, start, content, name, matches, match, sender, mm, t, ready, time, questions);
+        JButton close = new JButton("Close match");
+        close.setPreferredSize(new Dimension(120,50));
+        gcc.gridx = 0;
+        gcc.gridy = 0;
+        pp.add(close,gcc);
+
+        RoomController rc = new RoomController(frame, panel, close, start, content, name, matches, match, sender, mm, t, ready, time, questions, gcc, pp);
         panel.setVisible(true);
     }
     public JPanel getPanel(){
