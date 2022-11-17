@@ -16,7 +16,7 @@ import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class QuestionController {
-    public QuestionController(JFrame frame, JPanel question, JButton jb, JTextField answer, Question q, String name, Sender sender, MatchChecker mm, boolean lecit, Timer tQuiz, AtomicInteger seconds, JLabel label, int time){
+    public QuestionController(JFrame frame, JPanel question, JButton jb, JTextField answer, Question q, String name, Sender sender, MatchChecker mm, boolean lecit, Timer tQuiz, AtomicInteger seconds, JLabel label, int time, int questions, int iterator){
         if(!lecit){
             TimerTask task = new TimerTask() {
                 public int i = seconds.get();
@@ -49,7 +49,7 @@ public class QuestionController {
                     case "game":
                         frame.remove(question);
                         Question newQuestion = (Question) response.getMessage();
-                        frame.add(new QuestionView(frame,name,newQuestion,sender, mm, true, tQuiz, seconds, label, time).getPanel());
+                        frame.add(new QuestionView(frame,name,newQuestion,sender, mm, true, tQuiz, seconds, label, time, questions,iterator+1).getPanel());
                         frame.validate();
                         break;
                     case "end":

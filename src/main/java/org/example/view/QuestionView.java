@@ -14,13 +14,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class QuestionView {
     JPanel question;
-    public QuestionView(JFrame frame, String name, Question q, Sender sender, MatchChecker mm, boolean lecit, Timer tQuiz, AtomicInteger seconds, JLabel timeLabel,int time){
+    public QuestionView(JFrame frame, String name, Question q, Sender sender, MatchChecker mm, boolean lecit, Timer tQuiz, AtomicInteger seconds, JLabel timeLabel,int time, int questions, int iterator){
         question = new JPanel();
         question.setLayout(new GridLayout(5,1));
         question.setBorder(new EmptyBorder(25,25,25,25));
         if(timeLabel != null)
             question.add(timeLabel);
-        JLabel questionLabel = new JLabel("Question: ");
+        JLabel questionLabel = new JLabel("Question "+iterator+": ");
         question.add(questionLabel);
 
         JLabel questionLabel2 = new JLabel(q.quest);
@@ -36,7 +36,7 @@ public class QuestionView {
         question.add(sendButton);
         mm.setQuestion(q);
         question.setVisible(true);
-        QuestionController qc = new QuestionController(frame,question,sendButton,result,q, name, sender, mm, lecit, tQuiz, seconds, timeLabel,time);
+        QuestionController qc = new QuestionController(frame,question,sendButton,result,q, name, sender, mm, lecit, tQuiz, seconds, timeLabel,time, questions, iterator);
 
 
     }

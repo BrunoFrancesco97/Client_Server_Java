@@ -40,7 +40,7 @@ public class FriendlyModeController {
                         if(response != null && response.getMessage() != null && response.getEvent().equals("GET_IN") && response.getMessage() instanceof Match){
                             Match mGet = (Match) response.getMessage();
                             frame.remove(panel);
-                            frame.add(new RoomView(frame, name, matches, mGet, sender, mm, false,mGet.getTime()).getPanel());
+                            frame.add(new RoomView(frame, name, matches, mGet, sender, mm, false,mGet.getTime(),mGet.getNumberQuestions()).getPanel());
                             frame.validate();
                         }else{
                             JOptionPane.showMessageDialog(frame,"Can't join to this match!","Warning!",JOptionPane.WARNING_MESSAGE);

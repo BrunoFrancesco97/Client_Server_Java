@@ -17,6 +17,8 @@ public class Match implements Serializable {
     private Player host;
     private int size;
     private int time; //Time in minutes of max duration of the match
+
+    private int numberQuestions;
     public Match(){
         this.players = new ArrayList<>();
         this.available = false ;
@@ -26,6 +28,7 @@ public class Match implements Serializable {
         this.host = null;
         this.size = 0;
         this.time = 0;
+        this.numberQuestions = 0;
     }
     public Match(String type, Player host){
         this.players = new ArrayList<>();
@@ -36,6 +39,7 @@ public class Match implements Serializable {
         this.host = host;
         this.size = 1; //DEFAULT SIZE
         this.time = 0;
+        this.numberQuestions = 10;
     }
     public Match(String type, String name, Player host, int size){
         this.players = new ArrayList<>();
@@ -47,7 +51,7 @@ public class Match implements Serializable {
         this.size = size;
         this.time = 0;
     }
-    public Match(String type, String name, Player host, int size, int time){
+    public Match(String type, String name, Player host, int size, int time, int numberQuestions){
         this.players = new ArrayList<>();
         this.available = false ;
         this.type = type;
@@ -56,6 +60,11 @@ public class Match implements Serializable {
         this.host = host;
         this.size = size;
         this.time = time;
+        this.numberQuestions = numberQuestions;
+    }
+
+    public int getNumberQuestions() {
+        return numberQuestions;
     }
 
     public synchronized int getTime() {

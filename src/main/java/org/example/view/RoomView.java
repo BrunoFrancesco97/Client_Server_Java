@@ -13,23 +13,27 @@ import java.util.Timer;
 
 public class RoomView {
     private JPanel panel;
-    public RoomView(JFrame frame, String name, ArrayList<Match> matches, Match match, Sender sender, MatchChecker mm, boolean ready, int time){
+    public RoomView(JFrame frame, String name, ArrayList<Match> matches, Match match, Sender sender, MatchChecker mm, boolean ready, int time, int questions){
         Timer t = new Timer();
         panel = new JPanel();
         if(match.getHost().name.equals(name) || !ready) {
-            panel.setLayout(new GridLayout(6,1));
+            panel.setLayout(new GridLayout(8,1));
         }else{
-            panel.setLayout(new GridLayout(5,1));
+            panel.setLayout(new GridLayout(7,1));
         }
 
         JLabel matchName = new JLabel(match.getName());
         Font font = matchName.getFont();
         matchName.setFont(new Font(font.getFontName(),Font.BOLD,font.getSize()));
         panel.add(matchName);
-        JLabel title = new JLabel("Players");
-        panel.add(title);
         JLabel description = new JLabel("Max size: "+match.getSize());
         panel.add(description);
+        JLabel questionsLabel = new JLabel("Number of questions: "+questions);
+        panel.add(questionsLabel);
+        JLabel durationLabel = new JLabel("Maximum duration in minutes: "+time+":00");
+        panel.add(durationLabel);
+        JLabel title = new JLabel("Players");
+        panel.add(title);
         JPanel content = new JPanel();
         JScrollPane scrollable = new JScrollPane();
         scrollable.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -65,7 +69,7 @@ public class RoomView {
         JButton close = new JButton("Close match");
         panel.add(close);
 
-        RoomController rc = new RoomController(frame, panel, close, start, content, name, matches, match, sender, mm, t, ready, time);
+        RoomController rc = new RoomController(frame, panel, close, start, content, name, matches, match, sender, mm, t, ready, time, questions);
         panel.setVisible(true);
     }
     public JPanel getPanel(){

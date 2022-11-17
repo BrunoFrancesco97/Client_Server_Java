@@ -17,7 +17,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class RoomController {
-    public RoomController(JFrame frame, JPanel panel, JButton back, JButton start, JPanel content, String name, ArrayList<Match> matches, Match match, Sender sender, MatchChecker mm, Timer t, boolean ready, int time){
+    public RoomController(JFrame frame, JPanel panel, JButton back, JButton start, JPanel content, String name, ArrayList<Match> matches, Match match, Sender sender, MatchChecker mm, Timer t, boolean ready, int time, int questions){
         if(!match.getHost().name.equals(name)){
             back.setText("Exit");
         }
@@ -42,7 +42,7 @@ public class RoomController {
                                 mm.setGoingOn(true);
                                 mm.setMatch(match.getName());
                                 frame.remove(panel);
-                                frame.add(new QuestionView(frame, name, (Question) responseD.getMessage(), sender, mm, false, tQuiz, seconds, new JLabel(), time).getPanel());
+                                frame.add(new QuestionView(frame, name, (Question) responseD.getMessage(), sender, mm, false, tQuiz, seconds, new JLabel(), time, questions, 1).getPanel());
                                 frame.validate();
                             }
                         }else{
@@ -52,14 +52,14 @@ public class RoomController {
                             int readyness = printerCicle(mmm,i,content, 0);
                             if(readyness == mmm.getPlayers().size()){
                                 if(mmm.getHost().name.equals(name) && ready && !startAdded.get()){
-                                    panel.setLayout(new GridLayout(6,1));
+                                    panel.setLayout(new GridLayout(8,1));
                                     TimerTask tt2 = new TimerTask() {
                                         @Override
                                         public void run() {
                                             int val = timerStart.addAndGet(1);
                                             if(val > 5){
                                                 t2.cancel();
-                                                adderActionListener(ready, t, name, sender, frame, panel, matches, mmm, mm, time);
+                                                adderActionListener(ready, t, name, sender, frame, panel, matches, mmm, mm, time, questions);
                                             }
                                         }
                                     };
@@ -67,7 +67,7 @@ public class RoomController {
                                     startAdded.set(true);
                                     JButton startNew = new JButton("Start match");
                                     startNew.addActionListener(e -> {
-                                        adderActionListener(ready, t, name, sender, frame, panel, matches, mmm, mm, time);
+                                        adderActionListener(ready, t, name, sender, frame, panel, matches, mmm, mm, time, questions);
                                     });
                                     panel.add(startNew);
                                 }
@@ -115,7 +115,7 @@ public class RoomController {
 
         if(start != null){
             start.addActionListener(e -> {
-                adderActionListener(ready, t, name, sender, frame, panel, matches, match, mm, time);
+                adderActionListener(ready, t, name, sender, frame, panel, matches, match, mm, time, questions);
             });
         }
     }
@@ -139,12 +139,12 @@ public class RoomController {
         return readyness;
     }
 
-    private void adderActionListener(boolean ready, Timer t, String name, Sender sender, JFrame frame, JPanel panel, ArrayList<Match> matches, Match match, MatchChecker mm, int time){
+    private void adderActionListener(boolean ready, Timer t, String name, Sender sender, JFrame frame, JPanel panel, ArrayList<Match> matches, Match match, MatchChecker mm, int time, int questions){
         if(!ready){
             t.cancel();
             sender.send(new Message(name, "UPDATE_READY", true));
             frame.remove(panel);
-            frame.add(new RoomView(frame, name, matches, match, sender, mm, true, time).getPanel());
+            frame.add(new RoomView(frame, name, matches, match, sender, mm, true, time, questions).getPanel());
             frame.validate();
         }else{
             sender.send(new Message(name, "FRIENDLY_START",match.getName()));
