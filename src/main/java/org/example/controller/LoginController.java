@@ -22,9 +22,13 @@ public class LoginController {
                     frame.add(new AlertView(frame,name, ((Match) response.getMessage()).getType(),sender, mm).getPanel());
                     frame.validate();
                 }else{
-                    frame.remove(login);
-                    frame.add(new ModeView(frame,name,sender, mm).getPanel());
-                    frame.validate();
+                    if(response.getMessage() != null && response.getMessage() instanceof String){
+                        JOptionPane.showMessageDialog(frame,"A user with this name is already connected","Warning!",JOptionPane.WARNING_MESSAGE);
+                    }else{
+                        frame.remove(login);
+                        frame.add(new ModeView(frame,name,sender, mm).getPanel());
+                        frame.validate();
+                    }
                 }
             }
         });

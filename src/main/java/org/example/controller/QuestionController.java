@@ -38,7 +38,7 @@ public class QuestionController {
                     }
                 }
             };
-            tQuiz.schedule(task, 1500, 1000);
+            tQuiz.schedule(task, 500, 1000);
         }
         jb.addActionListener(e -> {
             if(answer.getText() != null && answer.getText().length() > 0){ //TODO: DOVREI TOGLIERE TUTTI GLI SPAZI VUOTI E CONFRONTARE LA STRINGA SOLO A QUEL PUNTO

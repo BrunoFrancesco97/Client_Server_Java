@@ -7,6 +7,7 @@ import org.example.model.Player;
 import org.example.utils.Sender;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Timer;
@@ -21,7 +22,7 @@ public class RoomView {
         }else{
             panel.setLayout(new GridLayout(7,1));
         }
-
+        panel.setBorder(new EmptyBorder(25,25,25,25));
         JLabel matchName = new JLabel(match.getName());
         Font font = matchName.getFont();
         matchName.setFont(new Font(font.getFontName(),Font.BOLD,font.getSize()));
