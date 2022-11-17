@@ -4,10 +4,7 @@ import org.example.model.Player;
 import org.example.model.Question;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Scanner;
+import java.util.*;
 
 public abstract class Utility {
     public static int randomIDGenerator(int max){
@@ -18,14 +15,15 @@ public abstract class Utility {
         try{
             player.clearQuestions();
             Scanner scan = new Scanner(questionFile);
-            int i = 0;
-            while(scan.hasNextLine() && i < DOMANDE){
+            ArrayList<Question> quest = new ArrayList<>();
+            while(scan.hasNextLine()){
                 String[] line = scan.nextLine().split("\\?");
                 Question q = new Question(line[0],line[1]);
-                player.addQuestion(q);
-                i++;
+                quest.add(q);
             }
-            Collections.shuffle(player.questions);
+            Collections.shuffle(quest);
+            List<Question> resized = quest.subList(0,DOMANDE);
+            player.questions = new ArrayList<>(resized);
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -36,17 +34,16 @@ public abstract class Utility {
         ArrayList<Question> questions = new ArrayList<>();
         try{
             Scanner scan = new Scanner(questionFile);
-            int i = 0;
-            while(scan.hasNextLine() && i < DOMANDE){
+            while(scan.hasNextLine()){
                 String[] line = scan.nextLine().split("\\?");
                 Question q = new Question(line[0],line[1]);
                 questions.add(q);
-                i++;
             }
             Collections.shuffle(questions);
+            List<Question> resized = questions.subList(0,DOMANDE);
             for(Player p : players){
                 p.clearQuestions();
-                p.questions = new ArrayList<>(questions);
+                p.questions = new ArrayList<>(resized);
             }
         }catch(Exception e) {
             e.printStackTrace();

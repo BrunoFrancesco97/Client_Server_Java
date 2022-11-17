@@ -1,3 +1,15 @@
 Quanto fa 1+1?2
 Come fa il cane?bau
 Quanto fa 15+18?33
+Quanto fa 2*5?10
+Qual è l'anno di inizio della seconda guerra mondiale?1939
+Di che colore era il cavallo bianco di Napoleone?Bianco
+Qual è il capoluogo del Veneto?Venezia
+Qual è la capitale della Francia?Parigi
+In che linguaggio è stato programmato questo software?Java
+Come si chiama il cane di Francesco?Anita
+Di che colore è il sole?Giallo
+Quanto fa logaritmo in base 2 di 8?3
+Quanto fa logaritmo in base 2 di 16?4
+Quanto fa logaritmo in base 2 di 32?5
+Quanto fa logaritmo in base 2 di 64?6

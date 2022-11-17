@@ -13,7 +13,6 @@ import java.util.Iterator;
 import java.util.Scanner;
 
 public class Server extends Thread{
-    private static final int DOMANDE = 2; //TODO: FARLO DEFINIRE DA UTENTE O LASCIARLO DI DEFAULT
     private static final String QUESTION_FILE = "./questions.txt";
     private final Socket s;
     private Match match;
@@ -264,11 +263,11 @@ public class Server extends Thread{
      * */
     private void handleStartGame(Message mex){
         try{
-            Utility.readQuestionsFromFile(QUESTION_FILE, this.player, DOMANDE);
             switch(mex.getMessage().toString().toLowerCase()){
                 case "practice":
                     this.match = new Match("practice", this.player);
                     this.match.addPlayer(this.player);
+                    Utility.readQuestionsFromFile(QUESTION_FILE, this.player, this.match.getNumberQuestions());
                     synchronized (lock){
                         this.matchesList.add(this.match);
                     }
@@ -304,7 +303,7 @@ public class Server extends Thread{
             }
             if(this.match != null){
                 this.match.setAvailable(false);
-                ArrayList<Player> playersQuestions = Utility.readQuestionsFromFile(QUESTION_FILE, this.match.getPlayers(),DOMANDE);
+                ArrayList<Player> playersQuestions = Utility.readQuestionsFromFile(QUESTION_FILE, this.match.getPlayers(),this.match.getNumberQuestions());
                 this.match.setPlayers(new ArrayList<>(playersQuestions));
                 for(Player p : this.match.getPlayers()){
                     p.score.questions.clear();
@@ -420,9 +419,12 @@ public class Server extends Thread{
     private void handleCreate(Message mex){
         try{
             if(mex.getMessage() instanceof String){
-                String name = ((String) mex.getMessage()).substring(0,((String) mex.getMessage()).length()-1);
-                int size = Character.getNumericValue(((String)mex.getMessage()).charAt(((String) mex.getMessage()).length()-1));
-                this.match = new Match("friendly", name, this.player, size);
+                String[] splitted = ((String) mex.getMessage()).split(":");
+                String name = splitted[0];
+                int size = Integer.parseInt(splitted[1]);
+                int time = Integer.parseInt(splitted[2]);
+                int nQuestions = Integer.parseInt(splitted[3]);
+                this.match = new Match("friendly", name, this.player, size,time,nQuestions);
                 this.player.setReady(false);
                 this.match.addPlayer(this.player);
                 this.match.setAvailable(true);
