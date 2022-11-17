@@ -97,13 +97,15 @@ public class FriendlyModeView {
     private void print(ArrayList<Match> matches, Sender sender, String name, JFrame frame, JPanel panel, JPanel content, MatchChecker mm){
         for(Match m : matches){
             JPanel content2 = new JPanel();
-            content2.setLayout(new GridLayout(5,1));
+            content2.setLayout(new GridLayout(6,1));
             JLabel l1 = new JLabel("Match: "+m.getName());
             content2.add(l1);
-            JLabel l2 = new JLabel("Host: "+m.getHost());
+            JLabel l2 = new JLabel("Mode: "+m.getType());
             content2.add(l2);
-            JLabel l3 = new JLabel("Size: "+m.getPlayers().size());
+            JLabel l3 = new JLabel("Host: "+m.getHost().name);
             content2.add(l3);
+            JLabel l4 = new JLabel("Size: "+m.getPlayers().size());
+            content2.add(l4);
             JButton enter = new JButton("Enter");
             content2.add(enter);
             enter.addActionListener(e2 -> {
