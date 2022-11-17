@@ -1,16 +1,13 @@
 package org.example;
 
-import com.google.gson.Gson;
 import org.example.model.*;
 import org.example.utils.SenderClient;
 import org.example.utils.Utility;
 
 import java.io.*;
-import java.lang.reflect.Array;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Scanner;
 
 public class Server extends Thread{
     private static final String QUESTION_FILE = "./questions.txt";
@@ -57,12 +54,16 @@ public class Server extends Thread{
                     switch (mex.getEvent()){
                         case "NAME":
                             this.player.setName(mex.getOwner());
-                            this.usersConnected.add(this.player);
-                            this.match = this.checkPreviousMatches();
-                            if(this.match != null){ //HO UN MATCH NON FINITO DA POTER FINIRE
-                                this.senderClient.sendToClient(mex,"mode",this.match);
+                            if(this.usersConnected.checkElement(this.player)){
+                                this.senderClient.sendToClient(mex,"mode","no");
                             }else{
-                                this.senderClient.sendToClient(mex,"mode");
+                                this.usersConnected.add(this.player);
+                                this.match = this.checkPreviousMatches();
+                                if(this.match != null){ //HO UN MATCH NON FINITO DA POTER FINIRE
+                                    this.senderClient.sendToClient(mex,"mode",this.match);
+                                }else{
+                                    this.senderClient.sendToClient(mex,"mode");
+                                }
                             }
                             break;
                         case "START":

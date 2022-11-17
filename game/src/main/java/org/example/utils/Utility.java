@@ -17,7 +17,7 @@ public abstract class Utility {
             Scanner scan = new Scanner(questionFile);
             ArrayList<Question> quest = new ArrayList<>();
             while(scan.hasNextLine()){
-                String[] line = scan.nextLine().split("\\?");
+                String[] line = scan.nextLine().split(";");
                 Question q = new Question(line[0],line[1]);
                 quest.add(q);
             }
@@ -35,7 +35,7 @@ public abstract class Utility {
         try{
             Scanner scan = new Scanner(questionFile);
             while(scan.hasNextLine()){
-                String[] line = scan.nextLine().split("\\?");
+                String[] line = scan.nextLine().split(";");
                 Question q = new Question(line[0],line[1]);
                 questions.add(q);
             }
