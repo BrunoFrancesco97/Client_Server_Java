@@ -14,7 +14,7 @@ public class Question implements Serializable {
 
     public final boolean checkAnswer(String answer){
         String newString = answer.toLowerCase().replaceAll("\\s+","");
-        if(newString.equals(this.answer)){
+        if(newString.equals(this.answer.toLowerCase())){
             this.correct = true;
         }
         this.given = answer;

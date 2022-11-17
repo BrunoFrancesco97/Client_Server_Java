@@ -60,7 +60,7 @@ public class Server extends Thread{
                             this.usersConnected.add(this.player);
                             this.match = this.checkPreviousMatches();
                             if(this.match != null){ //HO UN MATCH NON FINITO DA POTER FINIRE
-                                this.senderClient.sendToClient(mex,"mode",this.match.getType());
+                                this.senderClient.sendToClient(mex,"mode",this.match);
                             }else{
                                 this.senderClient.sendToClient(mex,"mode");
                             }
@@ -370,6 +370,7 @@ public class Server extends Thread{
         if(mex.getMessage() != null && this.match != null && this.match.getType().equals("practice")){//It happens only if I'm in practice and I haven't ended the match
             MatchChecker mm = (MatchChecker) mex.getMessage();
             this.match.getPlayer(mex.getOwner()).questions.add(mm.getQuestion());
+            this.match.getPlayer(mex.getOwner()).setIndexLastQuestion(mm.getPosition());
             synchronized (lock){
                 this.matchesList.remove(this.match);
             }
@@ -392,7 +393,6 @@ public class Server extends Thread{
                     m.removePlayer(this.player);
                     if(m.getPlayers().size() < 1){
                         it.remove();
-                        //this.matchesList.remove(m);
                     }else{
                         if(hostDeleted){
                             m.setHost(m.getFirstPLayer());
