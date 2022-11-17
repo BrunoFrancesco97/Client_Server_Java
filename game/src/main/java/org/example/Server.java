@@ -9,6 +9,7 @@ import java.io.*;
 import java.lang.reflect.Array;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Scanner;
 
 public class Server extends Thread{
@@ -24,8 +25,10 @@ public class Server extends Thread{
     private Memory<Player> usersConnected;
 
     private SenderClient senderClient;
+
+    private Object lock;
     private boolean flag;
-    public Server(Socket s, Memory<Match> matchesSaved, Memory<Match> matchesList, Memory<Player> usersConnected){
+    public Server(Socket s, Memory<Match> matchesSaved, Memory<Match> matchesList, Memory<Player> usersConnected, Object lock){
         this.s = s;
         this.match = null;
         this.player = new Player();
@@ -33,6 +36,7 @@ public class Server extends Thread{
         this.matchesSaved = matchesSaved;
         this.matchesList = matchesList;
         this.usersConnected = usersConnected;
+        this.lock = lock;
         try{
             this.in = new ObjectInputStream(this.s.getInputStream());
             this.out = new ObjectOutputStream(this.s.getOutputStream());
@@ -42,10 +46,10 @@ public class Server extends Thread{
         }
     }
     public void run() {
-        this.read();
+        this.read(this.lock);
     }
 
-    private void read(){
+    private void read(Object lock){
         try{
             while (!flag){
                 Message mex = (Message) this.in.readObject();
@@ -69,7 +73,7 @@ public class Server extends Thread{
                             handleGaming(mex);
                             break;
                         case "END":
-                            handleClosing(mex);
+                            handleClosing(mex, lock);
                             break;
                         case "END_TIMER":
                             handleEndTimer(mex);
@@ -144,7 +148,9 @@ public class Server extends Thread{
                 for(Player p : this.match.getPlayers()){
                     scores.add(p.score);
                 }
-                this.matchesList.remove(this.match);
+                synchronized (lock){
+                    this.matchesList.remove(this.match);
+                }
                 this.match = null;
                 this.senderClient.sendToClient(mex,"IS_END",scores);
             }else{
@@ -170,7 +176,10 @@ public class Server extends Thread{
     private void handleRemovePlayer(Message mex){
         String nameGot = (String) mex.getMessage();
         Match mm = new Match("friendly",nameGot,null,1);
-        Match m = this.matchesList.get(mm);
+        Match m;
+        synchronized (lock){
+            m = this.matchesList.get(mm);
+        }
         if(m != null){
             this.match = null;
             m.removePlayer(this.player);
@@ -179,7 +188,10 @@ public class Server extends Thread{
 
     private void handleUpdatePlayers(Message mex){
         if(this.match != null){
-            Match m = this.matchesList.get(this.match);
+            Match m;
+            synchronized (lock){
+                m = this.matchesList.get(this.match);
+            }
             if(m != null){
                 this.senderClient.sendToClient(mex,"UPDATE_PLAYERS",this.match);
             }else{
@@ -194,7 +206,10 @@ public class Server extends Thread{
         if(mex.getMessage() != null && mex.getMessage() instanceof String){
             String nameGot = (String) mex.getMessage();
             Match mm = new Match("friendly",nameGot,null,1);
-            Match m = this.matchesList.get(mm);
+            Match m;
+            synchronized (lock){
+                m = this.matchesList.get(mm);
+            }
             if(m != null && m.getPlayers().size() < m.getSize() && m.isAvailable()){
                 this.match = m;
                 this.player.setReady(false);
@@ -230,7 +245,9 @@ public class Server extends Thread{
                     player.score.setCompleted(true);
                     this.senderClient.sendToClient(mex,"end",player.score);
                     this.player.score.questions.clear();
-                    this.matchesList.remove(this.match);
+                    synchronized (lock){
+                        this.matchesList.remove(this.match);
+                    }
                     this.match = null;
                     break;
                 case "friendly":
@@ -252,14 +269,19 @@ public class Server extends Thread{
                 case "practice":
                     this.match = new Match("practice", this.player);
                     this.match.addPlayer(this.player);
-                    this.matchesList.add(this.match);
+                    synchronized (lock){
+                        this.matchesList.add(this.match);
+                    }
                     Question q = player.pickQuestion();
                     if(q != null){
                         this.senderClient.sendToClient(mex,"game",q);
                     }
                     break;
                 case "friendly":
-                    ArrayList<Match> matches = this.matchesList.clone();
+                    ArrayList<Match> matches;
+                    synchronized (lock){
+                        matches = this.matchesList.clone();
+                    }
                     ArrayList<Match> available = new ArrayList<>();
                     for(Match m : matches){
                         if(m.isAvailable() && m.getType().equals("friendly"))
@@ -277,7 +299,9 @@ public class Server extends Thread{
     private void handleFriendlyStartGame(Message mex){
         if(mex.getMessage() != null && mex.getMessage() instanceof String){
             Match m = new Match("friendly", (String) mex.getMessage(),null,1);
-            this.match = this.matchesList.get(m);
+            synchronized (lock){
+                this.match = this.matchesList.get(m);
+            }
             if(this.match != null){
                 this.match.setAvailable(false);
                 ArrayList<Player> playersQuestions = Utility.readQuestionsFromFile(QUESTION_FILE, this.match.getPlayers(),DOMANDE);
@@ -315,7 +339,9 @@ public class Server extends Thread{
                 case "practice":
                     this.matchesSaved.remove(this.match);
                     this.player.score = this.match.getPlayer(mex.getOwner()).score;
-                    this.matchesList.add(this.match);
+                    synchronized (lock){
+                        this.matchesList.add(this.match);
+                    }
                     this.player.questions = this.getPreviousQuestions(this.player.name, this.match);
                     Question q = this.player.pickQuestion();
                     if(q != null){
@@ -340,31 +366,39 @@ public class Server extends Thread{
     /**
      * Metodo usato per gestire la chiusura di una connessione con client
      * */
-    private void handleClosing(Message mex){
+    private void handleClosing(Message mex, Object lock){
         System.out.println("Closing the connection");
         if(mex.getMessage() != null && this.match != null && this.match.getType().equals("practice")){//It happens only if I'm in practice and I haven't ended the match
             MatchChecker mm = (MatchChecker) mex.getMessage();
             this.match.getPlayer(mex.getOwner()).questions.add(mm.getQuestion());
-            this.matchesList.remove(this.match);
+            synchronized (lock){
+                this.matchesList.remove(this.match);
+            }
             matchesSaved.add(this.match);//TODO: E SE IL MATCH FOSSE FRIENDLY O TOURNAMENT COME LO TRATTO?
         }else{
             if(this.match != null && this.match.getType().equals("practice")){ //It should not enter here since match couldn't be evaluated to something and at the same thing not entering on the previous branch of the if
-                this.matchesList.remove(this.match);
+                synchronized (lock){
+                    this.matchesList.remove(this.match);
+                }
             }
         }
         boolean hostDeleted = false;
-        for(Match m : this.matchesList.getMemory()){
-            if(m.getType().equals("friendly") && m.containsUser(this.player)){
-                if(this.player.equals(m.getHost())){
-                    hostDeleted = true;
-                }
-                m.removePlayer(this.player);
-                if(m.getPlayers().size() < 1){
-                    this.matchesList.remove(m);
-                }else{
-                    if(hostDeleted){
-                        m.setHost(m.getFirstPLayer());
-                        break;
+        synchronized (lock){
+            for(Iterator<Match> it = this.matchesList.getMemory().iterator();it.hasNext();){
+                Match m = it.next();
+                if(m.getType().equals("friendly") && m.containsUser(this.player)){
+                    if(this.player.equals(m.getHost())){
+                        hostDeleted = true;
+                    }
+                    m.removePlayer(this.player);
+                    if(m.getPlayers().size() < 1){
+                        it.remove();
+                        //this.matchesList.remove(m);
+                    }else{
+                        if(hostDeleted){
+                            m.setHost(m.getFirstPLayer());
+                            break;
+                        }
                     }
                 }
             }
@@ -392,7 +426,9 @@ public class Server extends Thread{
                 this.player.setReady(false);
                 this.match.addPlayer(this.player);
                 this.match.setAvailable(true);
-                this.matchesList.add(this.match);
+                synchronized (lock){
+                    this.matchesList.add(this.match);
+                }
                 this.senderClient.sendToClient(mex,"create",this.match);
             }
         }catch (Exception e){
@@ -404,7 +440,9 @@ public class Server extends Thread{
      * Metodo usato per la rimozione di un match in corso o in attesa di essere avviato
      * */
     private void handleRemover(Message mex){
-        this.matchesList.remove(this.match);
+        synchronized (lock){
+            this.matchesList.remove(this.match);
+        }
         this.match = null;
         this.senderClient.sendToClient(mex,"MATCH_REMOVER","ok");
     }
