@@ -16,24 +16,49 @@ public class QuestionView {
     JPanel question;
     public QuestionView(JFrame frame, String name, Question q, Sender sender, MatchChecker mm, boolean lecit, Timer tQuiz, AtomicInteger seconds, JLabel timeLabel,int time, int questions, int iterator){
         question = new JPanel();
-        question.setLayout(new GridLayout(5,1));
-        question.setBorder(new EmptyBorder(25,25,25,25));
-        if(timeLabel != null)
-            question.add(timeLabel);
+        question.setLayout(new GridBagLayout());
+
+        GridBagConstraints gcc = new GridBagConstraints();
+        gcc.anchor = GridBagConstraints.CENTER;
+        gcc.insets = new Insets(5,5,5,5);
+        gcc.gridwidth = 1;
+
+        if(timeLabel != null){
+            gcc.gridx = 0;
+            gcc.gridy = 0;
+            gcc.ipady=60;
+            question.add(timeLabel,gcc);
+
+        }
+        gcc.ipady=0;
         JLabel questionLabel = new JLabel("Question "+iterator+": ");
-        question.add(questionLabel);
+        gcc.gridx = 0;
+        gcc.gridy = 1;
+        question.add(questionLabel,gcc);
 
         JLabel questionLabel2 = new JLabel(q.quest);
         Font font = questionLabel2.getFont();
         questionLabel2.setFont(new Font(font.getFontName(),Font.BOLD,font.getSize()));
-        question.add(questionLabel2);
+        gcc.gridx = 0;
+        gcc.gridy = 2;
+        question.add(questionLabel2,gcc);
 
 
         JTextField result = new JTextField(20);
-        question.add(result);
+        gcc.gridx = 0;
+        gcc.gridy = 3;
+        question.add(result,gcc);
 
+        JSeparator sp = new JSeparator();
+        gcc.gridx = 0;
+        gcc.gridy = 4;
+        gcc.weightx = 1;
+        question.add(sp,gcc);
         JButton sendButton = new JButton("Send answer");
-        question.add(sendButton);
+        gcc.gridx = 0;
+        gcc.gridy = 5;
+        sendButton.setPreferredSize(new Dimension(120,50));
+        question.add(sendButton,gcc);
         mm.setQuestion(q);
         mm.setPosition(iterator);
         question.setVisible(true);

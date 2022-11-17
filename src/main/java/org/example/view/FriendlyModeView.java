@@ -21,35 +21,72 @@ public class FriendlyModeView {
     private JPanel panel;
     public FriendlyModeView(JFrame frame, String name, ArrayList<Match> matches, Sender sender, MatchChecker mm){
         panel = new JPanel();
-        panel.setBorder(new EmptyBorder(25,25,25,25));
-        panel.setLayout(new GridLayout(8,1));
-
+        panel.setLayout(new GridBagLayout());
+        GridBagConstraints gcc1 = new GridBagConstraints();
+        gcc1.fill = GridBagConstraints.HORIZONTAL;
+        gcc1.anchor = GridBagConstraints.CENTER;
+        gcc1.weightx = 0;
+        gcc1.weighty = 0;
+        gcc1.insets = new Insets(5,5,5,5);
         JLabel title = new JLabel("Friendly mode");
+        gcc1.ipady = 60;
+        gcc1.gridx = 0;
+        gcc1.gridy = 0;
         Font font = title.getFont();
         title.setFont(new Font(font.getFontName(),Font.BOLD,font.getSize()));
-        panel.add(title);
+        panel.add(title,gcc1);
+
+        gcc1.ipady = 0;
 
         JLabel description = new JLabel("Select a match or create a new one.");
-        panel.add(description);
+        gcc1.gridx = 0;
+        gcc1.gridy = 1;
+        panel.add(description,gcc1);
 
         JScrollPane scrollable = new JScrollPane();
+        gcc1.gridx = 0;
+        gcc1.gridy = 2;
         scrollable.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         JPanel content = new JPanel();
+        content.setPreferredSize(new Dimension(200,200));
         content.setLayout(new GridLayout((matches.size()),1));
         content.setVisible(true);
         scrollable.setViewportView(content);
+
         print(matches, sender, name, frame, panel, content, mm);
-        panel.add(scrollable);
+        panel.add(scrollable,gcc1);
+
+        JPanel panel2 = new JPanel();
+        panel2.setLayout(new GridBagLayout());
+        GridBagConstraints gcc2 = new GridBagConstraints();
+        gcc1.gridx = 0;
+        gcc1.gridy = 3;
+        panel.add(panel2,gcc1);
+
         JButton reload = new JButton("Reload");
-        panel.add(reload);
+        reload.setPreferredSize(new Dimension(160,40));
+        gcc2.gridx = 0;
+        gcc2.gridy = 0;
+        panel2.add(reload,gcc2);
+
         JLabel or = new JLabel("or");
-        panel.add(or);
-        JButton button = new JButton("Create a new match");
-        panel.add(button);
-        JSeparator sp = new JSeparator();
-        panel.add(sp);
+        gcc2.gridx = 0;
+        gcc2.gridy = 1;
+        panel2.add(or,gcc2);
+
         JButton back = new JButton("Go Back");
-        panel.add(back);
+        back.setPreferredSize(new Dimension(160,40));
+        gcc2.gridx = 0;
+        gcc2.gridy = 2;
+        panel2.add(back,gcc2);
+
+        JButton button = new JButton("Create a new match");
+        button.setPreferredSize(new Dimension(160,40));
+        gcc2.gridx = 1;
+        gcc2.gridy = 2;
+        panel2.add(button,gcc2);
+
+
 
         FriendlyModeController fmc = new FriendlyModeController(frame, panel, matches, button, back, reload, content, name, sender, mm);
 

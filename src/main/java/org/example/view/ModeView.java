@@ -39,7 +39,6 @@ public class ModeView {
             mode.add(el);
         }
         JButton select = new JButton("Select");
-
         mode.add(select);
 
 

@@ -14,7 +14,7 @@ public class WindowView {
     public WindowView(Sender sender){
         JFrame frame = new JFrame();
         frame.setTitle("Play game!");
-        frame.setSize(new Dimension(600,500));
+        frame.setSize(new Dimension(650,550));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         MatchChecker mm = new MatchChecker();
@@ -23,7 +23,7 @@ public class WindowView {
         frame.add(login.getPanel());
 
         WindowController wc = new WindowController(frame,mm,sender);
-
+        frame.setResizable(false);
         frame.setVisible(true);
     }
 }
