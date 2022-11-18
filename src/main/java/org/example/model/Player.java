@@ -108,7 +108,12 @@ public class Player implements Serializable {
     public String toString() {
         return "Player{" +
                 "name='" + name + '\'' +
+                ", questions=" + questions +
+                ", hasFinished=" + hasFinished +
+                ", score=" + score +
                 ", id=" + id +
+                ", ready=" + ready +
+                ", indexLastQuestion=" + indexLastQuestion +
                 '}';
     }
 }

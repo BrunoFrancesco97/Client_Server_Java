@@ -5,6 +5,7 @@ import org.example.utils.Sender;
 import org.example.view.FriendlyModeView;
 import org.example.view.QuestionView;
 import org.example.view.RoomView;
+import org.example.view.TournamentView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -42,9 +43,16 @@ public class RoomController {
                                 mm.setGoingOn(true);
                                 mm.setMatch(match.getName());
                                 mm.setPosition(1);
-                                frame.remove(panel);
-                                frame.add(new QuestionView(frame, name, (Question) responseD.getMessage(), sender, mm, false, tQuiz, seconds, new JLabel(), time, questions, 1).getPanel());
-                                frame.validate();
+                                if(mm.getType().equals("friendly")){
+                                    frame.remove(panel);
+                                    frame.add(new QuestionView(frame, name, (Question) responseD.getMessage(), sender, mm, false, tQuiz, seconds, new JLabel(), time, questions, 1).getPanel());
+                                    frame.validate();
+                                } else if (mm.getType().equals("tournament")) {
+                                    frame.remove(panel);
+                                    frame.add(new TournamentView(frame, name, (Question) responseD.getMessage(), sender, mm, new JLabel(), questions, 1, false).getPanel());
+                                    frame.validate();
+                                }
+
                             }
                         }else{
                             content.removeAll();

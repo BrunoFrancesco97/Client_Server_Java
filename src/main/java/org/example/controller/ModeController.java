@@ -43,7 +43,7 @@ public class ModeController {
                     break;
                 case "friendly/tournament mode":
                     mm.setType("friendly");
-                    Message responsef = sender.sendAndRead(new Message<>(name, "START","friendly"));
+                    Message responsef = sender.sendAndRead(new Message<>(name, "START","friendlytournament"));
                     if(responsef != null && responsef.getEvent().equals("LIST") && responsef.getMessage() != null && responsef.getMessage() instanceof  ArrayList<?>){
                         ArrayList<Match> matches = (ArrayList<Match>) responsef.getMessage();
                         frame.remove(mode);
