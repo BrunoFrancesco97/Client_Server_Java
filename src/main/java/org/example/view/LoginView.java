@@ -45,6 +45,7 @@ public class LoginView {
         login.add(username,c);
 
         JSeparator sp = new JSeparator();
+        sp.setPreferredSize(new Dimension(400,1));
         c.gridx = 0;
         c.gridy = 4;
         login.add(sp,c);

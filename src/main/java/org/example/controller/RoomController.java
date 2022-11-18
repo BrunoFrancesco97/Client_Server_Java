@@ -21,11 +21,11 @@ public class RoomController {
         if(!match.getHost().name.equals(name)){
             back.setText("Exit");
         }
-        System.out.println(match);
+        Timer t2 = new Timer();
         TimerTask tt = new TimerTask() {
             AtomicBoolean startAdded = new AtomicBoolean(false);
             AtomicInteger timerStart = new AtomicInteger(0);
-            Timer t2 = new Timer();
+
             @Override
             public void run() {
                 Message responsef = sender.sendAndRead(new Message<>(name, "UPDATE_PLAYERS",match.getName()));
@@ -82,12 +82,14 @@ public class RoomController {
                             frame.repaint();
                         }
                     }else{
+                        t2.cancel();
                         t.cancel();
                         frame.remove(panel);
                         frame.add(new FriendlyModeView(frame, name, matches, sender, mm).getPanel());
                         frame.validate();
                     }
                 }else{
+                    t2.cancel();
                     t.cancel();
                     frame.remove(panel);
                     frame.add(new FriendlyModeView(frame, name, matches, sender, mm).getPanel());
@@ -103,6 +105,7 @@ public class RoomController {
                 Message response = sender.sendAndRead(new Message(name, "MATCH_REMOVER",match.getName()));
                 if(response != null && response.getMessage() != null && response.getEvent().equals("MATCH_REMOVER") && response.getMessage().equals("ok")){
                     t.cancel();
+                    t2.cancel();
                     frame.remove(panel);
                     frame.add(new FriendlyModeView(frame, name, matches, sender, mm).getPanel());
                     frame.validate();

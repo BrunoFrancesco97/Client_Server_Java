@@ -48,10 +48,12 @@ public class ModeView {
             mode.add(el,gcc);
             i++;
         }
+
+
         JButton select = new JButton("Select");
         select.setPreferredSize(new Dimension(120,40));
         gcc.gridx = 0;
-        gcc.gridy = 5;
+        gcc.gridy = 6;
         mode.add(select,gcc);
 
 
