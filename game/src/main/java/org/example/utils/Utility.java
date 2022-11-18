@@ -36,7 +36,8 @@ public abstract class Utility {
             Scanner scan = new Scanner(questionFile);
             while(scan.hasNextLine()){
                 String[] line = scan.nextLine().split(";");
-                Question q = new Question(line[0],line[1]);
+                System.out.println(line);
+                Question q = new Question(line[0],line[1],line[2],line[3],line[4],line[5]);
                 questions.add(q);
             }
             Collections.shuffle(questions);

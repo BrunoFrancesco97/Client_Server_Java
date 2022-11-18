@@ -175,7 +175,7 @@ public class Server extends Thread{
     }
     private void handleRemovePlayer(Message mex){
         String nameGot = (String) mex.getMessage();
-        Match mm = new Match("friendly",nameGot,null,1);
+        Match mm = new Match(null,nameGot,null,1);
         Match m;
         synchronized (lock){
             m = this.matchesList.get(mm);
@@ -205,7 +205,7 @@ public class Server extends Thread{
     private void handleGetIn(Message mex){
         if(mex.getMessage() != null && mex.getMessage() instanceof String){
             String nameGot = (String) mex.getMessage();
-            Match mm = new Match("friendly",nameGot,null,1);
+            Match mm = new Match(null,nameGot,null,1);
             Match m;
             synchronized (lock){
                 m = this.matchesList.get(mm);
@@ -250,7 +250,7 @@ public class Server extends Thread{
                     }
                     this.match = null;
                     break;
-                case "friendly":
+                default:
                     player.score.setCompleted(true);
                     this.senderClient.sendToClient(mex,"end",player.score);
                     break;
@@ -277,7 +277,7 @@ public class Server extends Thread{
                         this.senderClient.sendToClient(mex,"game",q);
                     }
                     break;
-                case "friendly":
+                case "friendlytournament":
                     ArrayList<Match> matches;
                     synchronized (lock){
                         matches = this.matchesList.clone();
@@ -298,7 +298,7 @@ public class Server extends Thread{
 
     private void handleFriendlyStartGame(Message mex){
         if(mex.getMessage() != null && mex.getMessage() instanceof String){
-            Match m = new Match("friendly", (String) mex.getMessage(),null,1);
+            Match m = new Match(null, (String) mex.getMessage(),null,1);
             synchronized (lock){
                 this.match = this.matchesList.get(m);
             }
@@ -386,7 +386,7 @@ public class Server extends Thread{
         synchronized (lock){
             for(Iterator<Match> it = this.matchesList.getMemory().iterator();it.hasNext();){
                 Match m = it.next();
-                if(m.getType().equals("friendly") && m.containsUser(this.player)){
+                if((m.getType().equals("friendly") || m.getType().equals("tournament")) && m.containsUser(this.player)){
                     if(this.player.equals(m.getHost())){
                         hostDeleted = true;
                     }
