@@ -284,7 +284,7 @@ public class Server extends Thread{
                     }
                     ArrayList<Match> available = new ArrayList<>();
                     for(Match m : matches){
-                        if(m.isAvailable() && m.getType().equals("friendly"))
+                        if(m.isAvailable() && (m.getType().equals("friendly") || m.getType().equals("tournament")))
                             available.add(m);
                     }
                     this.senderClient.sendToClient(mex,"list",available);
@@ -321,8 +321,7 @@ public class Server extends Thread{
         try{
             String nameMatch = (String) mex.getMessage();
             if(nameMatch != null && nameMatch.length() > 0){
-                Match m = new Match("friendly",nameMatch, this.player,1);
-                boolean result = matchesList.checkElement(m);
+                boolean result = matchesList.checkElement(new Match(null,nameMatch, this.player,1));
                 if(result){
                     this.senderClient.sendToClient(mex,"NAME_CHECKER","Y");
                 }else{
@@ -415,7 +414,7 @@ public class Server extends Thread{
     }
 
     /**
-     * Metodo usato per la creazione di match di tipo friendly
+     * Metodo usato per la creazione di match di tipo friendly or tournament
      * */
     private void handleCreate(Message mex){
         try{
@@ -425,7 +424,8 @@ public class Server extends Thread{
                 int size = Integer.parseInt(splitted[1]);
                 int time = Integer.parseInt(splitted[2]);
                 int nQuestions = Integer.parseInt(splitted[3]);
-                this.match = new Match("friendly", name, this.player, size,time,nQuestions);
+                String type = splitted[4];
+                this.match = new Match(type, name, this.player, size,time,nQuestions);
                 this.player.setReady(false);
                 this.match.addPlayer(this.player);
                 this.match.setAvailable(true);
