@@ -37,8 +37,7 @@ public class ModeView {
 
         JRadioButton[] list = new JRadioButton[]{
                 new JRadioButton("Practice Mode", true),
-                new JRadioButton("Friendly Mode"),
-                new JRadioButton("Tournament Mode")};
+                new JRadioButton("Friendly/Tournament Mode")};
         ButtonGroup group = new ButtonGroup();
         int i = 2;
         for(JRadioButton el : list){

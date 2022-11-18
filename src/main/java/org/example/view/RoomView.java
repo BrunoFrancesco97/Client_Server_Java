@@ -32,24 +32,30 @@ public class RoomView {
 
         gcc.ipady = 0;
 
-        JLabel description = new JLabel("Max size: "+match.getSize());
+        JLabel description0 = new JLabel("Mode: "+match.getType());
         gcc.gridx = 0;
         gcc.gridy = 1;
+        panel.add(description0,gcc);
+
+
+        JLabel description = new JLabel("Max size: "+match.getSize());
+        gcc.gridx = 0;
+        gcc.gridy = 2;
         panel.add(description,gcc);
 
         JLabel questionsLabel = new JLabel("Number of questions: "+questions);
         gcc.gridx = 0;
-        gcc.gridy = 2;
+        gcc.gridy = 3;
         panel.add(questionsLabel,gcc);
 
         JLabel durationLabel = new JLabel("Maximum duration in minutes: "+time+":00");
         gcc.gridx = 0;
-        gcc.gridy = 3;
+        gcc.gridy = 4;
         panel.add(durationLabel,gcc);
 
         JLabel title = new JLabel("Players:");
         gcc.gridx = 0;
-        gcc.gridy = 4;
+        gcc.gridy = 5;
         panel.add(title,gcc);
 
         JPanel content = new JPanel();
@@ -76,14 +82,14 @@ public class RoomView {
         }
         scrollable.setViewportView(content);
         gcc.gridx = 0;
-        gcc.gridy = 5;
+        gcc.gridy = 6;
         panel.add(scrollable,gcc);
 
 
         JPanel pp = new JPanel();
         pp.setLayout(new GridBagLayout());
         gcc.gridx = 0;
-        gcc.gridy = 6;
+        gcc.gridy = 7;
         panel.add(pp,gcc);
 
         JButton start = null;
