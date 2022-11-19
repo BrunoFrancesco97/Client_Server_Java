@@ -17,7 +17,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class TournamentView {
     JPanel question;
-    public TournamentView(JFrame frame, String name, Question q, Sender sender, MatchChecker mm, JLabel timeLabel, int questions, int iterator, boolean casistic){
+    public TournamentView(JFrame frame, String name, Question q1, Sender sender, MatchChecker mm, JLabel timeLabel, int questions, int iterator, boolean casistic){
         question = new JPanel();
         question.setLayout(new GridBagLayout());
 
@@ -43,14 +43,14 @@ public class TournamentView {
             gcc.gridy = 1;
             question.add(questionLabel,gcc);
 
-            JLabel questionLabel2 = new JLabel(q.quest);
+            JLabel questionLabel2 = new JLabel(q1.quest);
             Font font = questionLabel2.getFont();
             questionLabel2.setFont(new Font(font.getFontName(),Font.BOLD,font.getSize()));
             gcc.gridx = 0;
             gcc.gridy = 2;
             question.add(questionLabel2,gcc);
 
-            ArrayList<String> answers = q.getAllAnswers();
+            ArrayList<String> answers = q1.getAllAnswers();
 
             for(String ans : answers){
                 elements.add(new JRadioButton(ans));
@@ -78,7 +78,7 @@ public class TournamentView {
             sendButton.setPreferredSize(new Dimension(120,50));
             question.add(sendButton,gcc);
 
-            mm.setQuestion(q);
+            mm.setQuestion(q1);
             mm.setPosition(iterator);
         }else{
             JLabel waiting = new JLabel("Waiting for  the other players");
@@ -86,7 +86,7 @@ public class TournamentView {
         }
 
         question.setVisible(true);
-        TournamentController tc = new TournamentController(frame, question,sendButton,elements,q,name,sender,mm,timeLabel,questions,iterator,casistic);
+        TournamentController tc = new TournamentController(frame, question,sendButton,elements,q1, name,sender,mm,timeLabel,questions,iterator,casistic);
 
 
     }

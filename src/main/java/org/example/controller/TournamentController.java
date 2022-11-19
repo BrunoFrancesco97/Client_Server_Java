@@ -30,18 +30,9 @@ public class TournamentController {
                     else timeLabel.setText("Time remained for this question: 00:"+got);
                     if(got == 0){ //30 seconds is the max time a question can take by default
                         t.cancel();
-                        Message response = sender.sendAndRead(new Message<>(name, "GAME",q));
-                        switch (response.getEvent().toLowerCase()){
-                            case "game":
-                                frame.remove(question);
-                                Question newQuestion = (Question) response.getMessage();
-                                frame.add(new TournamentView(frame, name, newQuestion, sender, mm, timeLabel,questions, iterator+1,false).getPanel());
-                                frame.validate();
-                                break;
-                            case "end":
-                                //printScoresFriendly(frame, question, response, name, sender, mm);
-                                break;
-                        }
+                        frame.remove(question);
+                        frame.add(new TournamentView(frame, name, q, sender, mm, null,questions, iterator,true).getPanel());
+                        frame.validate();
                     }
                 }
             };
@@ -56,38 +47,41 @@ public class TournamentController {
                         break;
                     }
                 }
-                q.checkAnswer(value);
-                q.setSeconds(DEFAULT_QUESTION_TIME-seconds.get());
-                Timer t2 = new Timer();
-                TimerTask tt2 = new TimerTask() {
-                    @Override
-                    public void run() {
-                        Message response1 = sender.sendAndRead(new Message<>(name, "UPDATE_NEXT",q));
-                        Message response2 = sender.sendAndRead(new Message<>(name, "GAME",q));
-                        Question newQuestion = (Question) response2.getMessage();
-                        switch (response2.getEvent().toLowerCase()){
-                            case "game":
-                                if(response1.getMessage().equals("no")){
-                                    t2.cancel();
-                                    frame.remove(question);
-                                    frame.add(new TournamentView(frame, name, newQuestion, sender, mm, null,questions, iterator,true).getPanel());
-                                    frame.validate();
-                                }else{
-                                    t2.cancel();
-                                    frame.remove(question);
-                                    frame.add(new TournamentView(frame, name, newQuestion, sender, mm, timeLabel,questions, iterator+1,false).getPanel());
-                                    frame.validate();
+                if(value != null){
+                    q.checkAnswer(value);
+                    q.setSeconds(DEFAULT_QUESTION_TIME-seconds.get());
+                    Timer t2 = new Timer();
+                    TimerTask tt2 = new TimerTask() {
+                        @Override
+                        public void run() {
+                            Message response1 = sender.sendAndRead(new Message<>(name, "UPDATE_NEXT",q));
+                            if(response1.getMessage().equals("no")){
+                                t2.cancel();
+                                frame.remove(question);
+                                frame.add(new TournamentView(frame, name, q, sender, mm, null,questions, iterator,true).getPanel());
+                                frame.validate();
+                            }else{
+                                t2.cancel();
+                                Message response2 = sender.sendAndRead(new Message<>(name, "GAME",q));
+                                Question newQuestion = (Question) response2.getMessage();
+                                switch (response2.getEvent().toLowerCase()){
+                                    case "game":
+                                        t2.cancel();
+                                        frame.remove(question);
+                                        frame.add(new TournamentView(frame, name, newQuestion, sender, mm, timeLabel,questions, iterator+1,false).getPanel());
+                                        frame.validate();
+                                        break;
+                                    case "end":
+                                        break;
                                 }
-                                break;
-                            case "end":
-                                //printScoresFriendly(frame, question, response, name, sender, mm);
-                                break;
+                            }
                         }
-                    }
-                };
-                t2.scheduleAtFixedRate(tt2,10,1000);
+                    };
+                    t2.scheduleAtFixedRate(tt2,10,1000);
+                }
             });
         }else{
+            System.out.println("Entered here");
             Timer t = new Timer();
             TimerTask tt = new TimerTask() {
                 @Override
@@ -95,9 +89,18 @@ public class TournamentController {
                     Message response1 = sender.sendAndRead(new Message<>(name, "UPDATE_NEXT",q));
                     if(response1.getMessage().equals("ok")){
                         t.cancel();
-                        frame.remove(question);
-                        frame.add(new TournamentView(frame, name, q, sender, mm, timeLabel,questions, iterator+1,false).getPanel());
-                        frame.validate();
+                        Message response2 = sender.sendAndRead(new Message<>(name, "GAME",q));
+                        Question newQuestion = (Question) response2.getMessage();
+                        switch (response2.getEvent().toLowerCase()){
+                            case "game":
+                                t.cancel();
+                                frame.remove(question);
+                                frame.add(new TournamentView(frame, name, newQuestion, sender, mm, new JLabel(),questions, iterator+1,false).getPanel());
+                                frame.validate();
+                                break;
+                            case "end":
+                                break;
+                        }
                     }
                 }
             };
