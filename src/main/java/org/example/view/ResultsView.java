@@ -19,7 +19,7 @@ public class ResultsView {
         gcc.insets = new Insets(5,5,5,5);
         gcc.anchor = GridBagConstraints.WEST;
 
-        if(!casistic){
+        if(!casistic && score != null){
             int size = score.questions.size();
 
             JLabel scoreLabel = new JLabel("RESULTS");

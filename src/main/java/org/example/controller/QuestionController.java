@@ -33,7 +33,7 @@ public class QuestionController {
                         tQuiz.cancel(); //Delete timer if test is taking more than n/60 minutes
                         Message response = sender.sendAndRead(new Message<>(name, "END_TIMER"));
                         if(response != null && response.getEvent().equals("END_TIMER") && response.getMessage() != null){
-                            printScoresFriendly(frame, question, response, name, sender, mm);
+                            printScoresFriendly(frame, question, name, sender, mm);
                         }
                     }
                 }
@@ -66,7 +66,7 @@ public class QuestionController {
                             case "friendly":
                                 if(tQuiz != null)
                                     tQuiz.cancel();
-                                printScoresFriendly(frame, question, response, name, sender, mm);
+                                printScoresFriendly(frame, question, name, sender, mm);
                                 break;
                         }
                 }
@@ -76,10 +76,9 @@ public class QuestionController {
 
     }
 
-    private void printScoresFriendly(JFrame frame, JPanel question, Message response, String name, Sender sender, MatchChecker mm){
+    private void printScoresFriendly(JFrame frame, JPanel question, String name, Sender sender, MatchChecker mm){
         frame.remove(question);
-        Score score2 = (Score) response.getMessage();
-        JPanel waiting = new ResultsView(frame,name,score2,sender, mm,true).getPanel();
+        JPanel waiting = new ResultsView(frame,name, (Score) null,sender, mm,true).getPanel();
         frame.add(waiting);
         frame.validate();
         Timer t = new Timer();

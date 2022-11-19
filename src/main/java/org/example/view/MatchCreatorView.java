@@ -58,7 +58,7 @@ public class MatchCreatorView {
         gcc.gridy = 8;
         panel.add(description3,gcc);
 
-        SpinnerModel time = new SpinnerNumberModel(2,2,10,2);
+        SpinnerModel time = new SpinnerNumberModel(1,1,10,1);
         JSpinner timeMatch = new JSpinner(time);
         gcc.gridy = 9;
         panel.add(timeMatch,gcc);
