@@ -86,7 +86,7 @@ public class TournamentView {
         }
 
         question.setVisible(true);
-        TournamentController tc = new TournamentController(frame, question,sendButton,elements,q,name,sender,mm,timeLabel,questions,iterator);
+        TournamentController tc = new TournamentController(frame, question,sendButton,elements,q,name,sender,mm,timeLabel,questions,iterator,casistic);
 
 
     }
