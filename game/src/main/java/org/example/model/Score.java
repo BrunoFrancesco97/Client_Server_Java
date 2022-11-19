@@ -45,6 +45,13 @@ public class Score implements Serializable {
             this.questions.add(q);
     }
 
+    public boolean containQuestion(Question q){
+        for(Question qq : this.questions){
+            if(qq.equals(q))
+                return true;
+        }
+        return false;
+    }
     @Override
     public String toString() {
         return "Score{" +

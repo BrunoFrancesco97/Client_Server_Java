@@ -3,10 +3,13 @@ package org.example.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Question implements Serializable {
     public String quest, answer, given,wrong1,wrong2,wrong3,wrong4;
     public boolean correct;
+    public int seconds; //Seconds passed in order to give the answer
     public Question(String quest, String answer){
         this.quest = quest;
         this.answer = answer;
@@ -27,6 +30,14 @@ public class Question implements Serializable {
         this.wrong2 = wrong2;
         this.wrong3 = wrong3;
         this.wrong4 = wrong4;
+    }
+
+    public int getSeconds() {
+        return seconds;
+    }
+
+    public void setSeconds(int seconds) {
+        this.seconds = seconds;
     }
 
     public final boolean checkAnswer(String answer){
@@ -63,5 +74,18 @@ public class Question implements Serializable {
         }
         Collections.shuffle(answers);
         return answers;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Question question = (Question) o;
+        return this.quest.equals((question.quest));
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(quest, answer, given, wrong1, wrong2, wrong3, wrong4, correct, seconds);
     }
 }

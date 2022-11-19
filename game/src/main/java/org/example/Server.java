@@ -50,7 +50,6 @@ public class Server extends Thread{
             while (!flag){
                 Message mex = (Message) this.in.readObject();
                 if(mex != null){ //TODO: CHECK IF MEX IS A REAL MESSAGE
-                    System.out.println("Client entered: "+mex);
                     switch (mex.getEvent()){
                         case "NAME":
                             this.player.setName(mex.getOwner());
@@ -114,6 +113,9 @@ public class Server extends Thread{
                         case "UPDATE_READY":
                             handleUpdateReady(mex);
                             break;
+                        case "UPDATE_NEXT":
+                            handleUpdateNext(mex);
+                            break;
                     }
                 }
             }
@@ -131,19 +133,15 @@ public class Server extends Thread{
 
 
     private void handleIsEnd(Message mex){
-        String result = "N";
+        boolean flag = false;
         if(this.match != null){
             for(Player p : this.match.getPlayers()){
-                System.out.println(p + " "+(p.hasQuestion() && !p.isHasFinished()));
-                System.out.println(p.hasQuestion());
-                System.out.println(!p.isHasFinished());
-                if((p.hasQuestion() && !p.isHasFinished())){
-                    System.out.println(p);
-                    result = "Y";
+                if((p.hasQuestion() || !p.isHasFinished())){
+                    flag = true;
                     break;
                 }
             }
-            if(result.equals("N")){
+            if(!flag){
                 ArrayList<Score> scores = new ArrayList<>();
                 for(Player p : this.match.getPlayers()){
                     scores.add(p.score);
@@ -154,7 +152,7 @@ public class Server extends Thread{
                 this.match = null;
                 this.senderClient.sendToClient(mex,"IS_END",scores);
             }else{
-                this.senderClient.sendToClient(mex,"IS_END","Y");
+                this.senderClient.sendToClient(mex,"IS_END");
             }
         }
 
@@ -222,27 +220,55 @@ public class Server extends Thread{
     }
 
     public void handleEndTimer(Message mex){
-        this.senderClient.sendToClient(mex,"end_timer",player.score);
-        player.setHasFinished(true);
+        this.player.setHasFinished(true);
+        this.player.clearQuestions();
+        this.senderClient.sendToClient(mex,"end_timer");
+
 
     }
 
+
+    public void handleUpdateNext(Message mex){
+        Match m;
+        boolean flag = false;
+        synchronized (lock){
+            m = this.matchesList.get(this.match);
+        }
+        if(m != null){
+            Question q = (Question) mex.getMessage();
+            if(!this.player.score.containQuestion(q)){
+                this.player.score.addQuestion(q);
+            }
+            for(Player p : m.getPlayers()){
+                if(!p.score.containQuestion(q)){ //Not all players have answered to the question
+                    flag = true;
+                    break;
+                }
+            }
+            if(flag)
+                this.senderClient.sendToClient(mex,"UPDATE_NEXT","no");
+            else this.senderClient.sendToClient(mex,"UPDATE_NEXT","ok");
+        }
+    }
     /**
-     * Metodo usato per la gestione di un match di tipo practice
+     * Metodo usato per la gestione di un match di tipo practice o friendly
      * */
     private void handleGaming(Message mex){
-        player.score.addQuestion((Question) mex.getMessage());
+        if(!this.match.getType().equals("tournament"))
+            player.score.addQuestion((Question) mex.getMessage());
         if(player.hasQuestion()){
             player.setHasFinished(false);
-            Question q = player.pickQuestion();
+            Question q;
+            if(!this.match.getType().equals("tournament"))
+                q = player.pickQuestion();
+            else q = player.popQuestion();
             if(q != null){
-                System.out.println(player.score);
                 this.senderClient.sendToClient(mex,"game",q);
             }
         }else{
+            player.score.setCompleted(true);
             switch (this.match.getType()){
                 case "practice":
-                    player.score.setCompleted(true);
                     this.senderClient.sendToClient(mex,"end",player.score);
                     this.player.score.questions.clear();
                     synchronized (lock){
@@ -251,7 +277,6 @@ public class Server extends Thread{
                     this.match = null;
                     break;
                 default:
-                    player.score.setCompleted(true);
                     this.senderClient.sendToClient(mex,"end",player.score);
                     break;
             }
