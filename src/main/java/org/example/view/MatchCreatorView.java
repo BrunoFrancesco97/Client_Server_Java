@@ -63,11 +63,12 @@ public class MatchCreatorView {
         gcc.gridy = 9;
         panel.add(timeMatch,gcc);
 
+
         JLabel description4 = new JLabel("Numbers of questions of the match:");
         gcc.gridy = 10;
         panel.add(description4,gcc);
 
-        SpinnerModel questions = new SpinnerNumberModel(5,5,15,1);
+        SpinnerModel questions = new SpinnerNumberModel(5,5,15,5);
         JSpinner questionsSize = new JSpinner(questions);
         gcc.gridy = 11;
         panel.add(questionsSize,gcc);
