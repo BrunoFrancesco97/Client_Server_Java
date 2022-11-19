@@ -19,7 +19,7 @@ public class FriendlyModeController {
 
     public FriendlyModeController(JFrame frame, JPanel panel, ArrayList<Match> matches, JButton create, JButton back, JButton reload, JPanel content, String name, Sender sender, MatchChecker mm){
         reload.addActionListener(e -> {
-            Message responsef = sender.sendAndRead(new Message<>(name, "START","friendly"));
+            Message responsef = sender.sendAndRead(new Message<>(name, "START","friendlytournament"));
             if(responsef != null && responsef.getEvent().equals("LIST") && responsef.getMessage() instanceof ArrayList<?>){
                 ArrayList<Match> newMatches = (ArrayList<Match>) responsef.getMessage();
                 content.removeAll();
