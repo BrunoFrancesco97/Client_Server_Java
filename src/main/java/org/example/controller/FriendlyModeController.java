@@ -38,10 +38,10 @@ public class FriendlyModeController {
                     JButton enter = new JButton("Enter");
                     content2.add(enter);
                     enter.addActionListener(e2 -> {
-                        mm.setType(m.getType());
                         Message response = sender.sendAndRead(new Message<>(name, "GET_IN",m.getName()));
                         if(response != null && response.getMessage() != null && response.getEvent().equals("GET_IN") && response.getMessage() instanceof Match){
                             Match mGet = (Match) response.getMessage();
+                            mm.setType(mGet.getType());
                             frame.remove(panel);
                             frame.add(new RoomView(frame, name, matches, mGet, sender, mm, false,mGet.getTime(),mGet.getNumberQuestions()).getPanel());
                             frame.validate();

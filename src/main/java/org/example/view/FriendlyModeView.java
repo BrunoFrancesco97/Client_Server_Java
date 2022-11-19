@@ -112,6 +112,7 @@ public class FriendlyModeView {
                 Message response = sender.sendAndRead(new Message<>(name, "GET_IN",m.getName()));
                 if(response != null && response.getMessage() != null && response.getEvent().equals("GET_IN") && response.getMessage() instanceof Match){
                     Match mGet = (Match) response.getMessage();
+                    mm.setType(mGet.getType());
                     frame.remove(panel);
                     frame.add(new RoomView(frame, name, matches, mGet, sender, mm, false, mGet.getTime(),mGet.getNumberQuestions()).getPanel());
                     frame.validate();
