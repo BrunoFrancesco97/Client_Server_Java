@@ -152,6 +152,7 @@ public class Server extends Thread{
                 }
                 qo.add(min);
             }
+            System.out.println(qo);
             for(QuestionOwner q : qo){
                 boolean flag = false;
                 for(Rank r : ranks){
@@ -165,8 +166,12 @@ public class Server extends Thread{
                     ranks.add(new Rank(q.getP(),1));
                 }
             }
-            Collections.sort(ranks);
+            Collections.reverse(ranks);
             this.senderClient.sendToClient(mex,"RETURN_RANK",ranks);
+            synchronized (lock){
+                this.matchesList.remove(this.match);
+                this.match = null;
+            }
         }
     }
 

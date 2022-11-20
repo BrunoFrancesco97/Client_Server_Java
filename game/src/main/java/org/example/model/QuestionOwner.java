@@ -23,4 +23,12 @@ public class QuestionOwner {
     public void setP(String p) {
         this.player = p;
     }
+
+    @Override
+    public String toString() {
+        return "QuestionOwner{" +
+                "quest=" + quest +
+                ", player='" + player + '\'' +
+                '}';
+    }
 }
