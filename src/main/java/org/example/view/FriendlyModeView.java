@@ -114,7 +114,7 @@ public class FriendlyModeView {
                     Match mGet = (Match) response.getMessage();
                     mm.setType(mGet.getType());
                     frame.remove(panel);
-                    frame.add(new RoomView(frame, name, matches, mGet, sender, mm, false, mGet.getTime(),mGet.getNumberQuestions()).getPanel());
+                    frame.add(new RoomView(frame, name, matches, mGet, sender, mm, mGet.getTime(),mGet.getNumberQuestions()).getPanel());
                     frame.validate();
                 }else{
                     JOptionPane.showMessageDialog(frame,"Can't join to this match!","Warning!",JOptionPane.WARNING_MESSAGE);

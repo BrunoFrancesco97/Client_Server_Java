@@ -14,7 +14,7 @@ import java.util.Timer;
 
 public class RoomView {
     private JPanel panel;
-    public RoomView(JFrame frame, String name, ArrayList<Match> matches, Match match, Sender sender, MatchChecker mm, boolean ready, int time, int questions){
+    public RoomView(JFrame frame, String name, ArrayList<Match> matches, Match match, Sender sender, MatchChecker mm, int time, int questions){
         panel = new JPanel();
         panel.setLayout(new GridBagLayout());
         GridBagConstraints gcc = new GridBagConstraints();
@@ -125,7 +125,7 @@ public class RoomView {
         gcc.gridy = 0;
         pp.add(close,gcc);
 
-        RoomController rc = new RoomController(frame, panel, close, start, readyB, content, name, matches, match, sender, mm, ready, time, questions, gcc, pp);
+        RoomController rc = new RoomController(frame, panel, close, start, readyB, content, name, matches, match, sender, mm, time, questions, gcc, pp);
         panel.setVisible(true);
     }
     public JPanel getPanel(){

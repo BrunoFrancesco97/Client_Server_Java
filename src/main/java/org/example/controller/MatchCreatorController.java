@@ -25,7 +25,7 @@ public class MatchCreatorController {
                         mm.setType((String) modeList.getSelectedItem());
                         mm.setGoingOn(true);
                         frame.remove(panel);
-                        frame.add(new RoomView(frame, name, matches,match, sender, mm,false, (Integer) timeMatch.getValue(), (Integer) questionsSize.getValue()).getPanel());
+                        frame.add(new RoomView(frame, name, matches,match, sender, mm, (Integer) timeMatch.getValue(), (Integer) questionsSize.getValue()).getPanel());
                         frame.validate();
                     }
                 }
