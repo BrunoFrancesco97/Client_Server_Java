@@ -10,7 +10,7 @@ In che linguaggio è stato programmato questo software?;Java;Python;Javascript;C
 Come si chiama il cane di Francesco?;Anita;Lilla;Stella;Roki;Mogwli
 Di che colore è il sole?;Giallo;Verde;Viola;Nero;Bianco
 Quanto fa logaritmo in base 2 di 8?;3;4;2;5;1
-Quanto fa logaritmo in base 2 di 16?;4;2;3;4;5
+Quanto fa logaritmo in base 2 di 16?;4;2;3;1;5
 Quanto fa logaritmo in base 2 di 32?;5;4;3;2;1
 Quanto fa logaritmo in base 2 di 64?;6;5;7;8;2
 Quando è finita la seconda guerra mondiale?;1945;1944;1943;1946;1950

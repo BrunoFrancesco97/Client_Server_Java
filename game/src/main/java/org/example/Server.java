@@ -7,6 +7,7 @@ import org.example.utils.Utility;
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 
 public class Server extends Thread{
@@ -49,6 +50,7 @@ public class Server extends Thread{
         try{
             while (!flag){
                 Message mex = (Message) this.in.readObject();
+                System.out.println("Entering : "+mex);
                 if(mex != null){ //TODO: CHECK IF MEX IS A REAL MESSAGE
                     switch (mex.getEvent()){
                         case "NAME":
@@ -116,12 +118,55 @@ public class Server extends Thread{
                         case "UPDATE_NEXT":
                             handleUpdateNext(mex);
                             break;
+                        case "RETURN_RANK":
+                            handleReturnRank(mex);
+                            break;
                     }
                 }
             }
         }
         catch (Exception ee){
             ee.printStackTrace();
+        }
+    }
+
+    private void handleReturnRank(Message mex){
+        if(this.match != null){
+            ArrayList<QuestionOwner> qo = new ArrayList<>();
+            ArrayList<QuestionOwner> questions = new ArrayList<>();
+            ArrayList<Rank> ranks = new ArrayList<>();
+            for(int i = 0; i < this.player.score.questions.size(); i++){
+                for(Player p : this.match.getPlayers()){ //Get all i-th questions of all players of the match
+                    questions.add(new QuestionOwner(p.score.getQuestion(i),p.name));
+                }
+                QuestionOwner min = questions.get(0);
+                for(Iterator<QuestionOwner> it = questions.iterator();it.hasNext();){ //Filter questions by deleting all uncorrect onces
+                    QuestionOwner q = it.next();
+                    if(!q.getQuest().correct) //Delete all uncorrect answers
+                        it.remove();
+                    else{
+                        if(q.getQuest().correct && q.getQuest().seconds < min.getQuest().seconds){
+                            min = q;
+                        }
+                    }
+                }
+                qo.add(min);
+            }
+            for(QuestionOwner q : qo){
+                boolean flag = false;
+                for(Rank r : ranks){
+                    if(q.getP().equals(r.name)){
+                        flag = true;
+                        r.addOne();
+                        break;
+                    }
+                }
+                if(!flag){
+                    ranks.add(new Rank(q.getP(),1));
+                }
+            }
+            Collections.sort(ranks);
+            this.senderClient.sendToClient(mex,"RETURN_RANK",ranks);
         }
     }
 
