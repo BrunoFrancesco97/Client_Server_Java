@@ -4,28 +4,24 @@ import org.example.model.*;
 import org.example.utils.Sender;
 import org.example.view.FriendlyModeView;
 import org.example.view.QuestionView;
-import org.example.view.RoomView;
 import org.example.view.TournamentView;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class RoomController {
-    public RoomController(JFrame frame, JPanel panel, JButton back, JButton start, JButton readyB, JPanel content, String name, ArrayList<Match> matches, Match match, Sender sender, MatchChecker mm, int time, int questions){
+    public RoomController(JFrame frame, JPanel panel, JButton back, JButton start, JButton readyB, JPanel content, String name, ArrayList<Match> matches, Match match, Sender sender, MatchChecker mm, int time, int questions, JLabel crome){
         if(!match.getHost().name.equals(name)){
             back.setText("Exit");
         }
         Timer t = new Timer(); //T is the timer that checks if players are ready or not
         Timer t2 = new Timer(); //T2 is the timer that checks if 5 seconds are passed if all players are ready
         TimerTask tt = new TimerTask() {
-            AtomicInteger timerStart = new AtomicInteger(0);
+            AtomicInteger timerStart = new AtomicInteger(5);
 
             @Override
             public void run() {
@@ -57,15 +53,18 @@ public class RoomController {
                         }else{ //Match is not started but update request is made
                             content.removeAll();
                             content.setLayout(new GridLayout((mmm.getPlayers().size()),1));
+                            timerStart.set(5); //TODO: NON DOVREBBE SERVIRE
                             int readyness = printerCicle(mmm,1,content);
                             if(readyness == mmm.getPlayers().size()){ //All players are ready
                                 if(mmm.getHost().name.equals(name)){
                                     start.setVisible(true);
+                                    crome.setVisible(true);
                                     TimerTask tt2 = new TimerTask() {
                                         @Override
                                         public void run() {
-                                            int val = timerStart.addAndGet(1);
-                                            if(val > 5){
+                                            int val = timerStart.decrementAndGet();
+                                            crome.setText("Seconds until start: "+val);
+                                            if(val == 0){
                                                 t2.cancel();
                                                 sender.send(new Message(name, "FRIENDLY_START",match.getName()));
                                             }
@@ -75,7 +74,7 @@ public class RoomController {
 
                                 }
                             }else{ //NOt all players are ready
-                                timerStart.set(0);
+                                timerStart.set(5);
                                 if(mmm.getHost().name.equals(name)){
                                     start.setVisible(false);
                                 }
@@ -136,6 +135,8 @@ public class RoomController {
 
 
         start.addActionListener(e -> {
+            t.cancel();
+            t2.cancel();
             sender.send(new Message(name, "FRIENDLY_START",match.getName()));
         });
     }

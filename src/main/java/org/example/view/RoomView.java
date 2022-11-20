@@ -125,7 +125,15 @@ public class RoomView {
         gcc.gridy = 0;
         pp.add(close,gcc);
 
-        RoomController rc = new RoomController(frame, panel, close, start, readyB, content, name, matches, match, sender, mm, time, questions);
+
+        JLabel crome = new JLabel();
+        gcc.gridx = 0;
+        gcc.gridy = 8;
+        crome.setVisible(false);
+        panel.add(crome,gcc);
+
+
+        RoomController rc = new RoomController(frame, panel, close, start, readyB, content, name, matches, match, sender, mm, time, questions,crome);
         panel.setVisible(true);
     }
     public JPanel getPanel(){
