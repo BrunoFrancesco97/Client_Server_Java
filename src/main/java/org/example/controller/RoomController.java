@@ -9,6 +9,8 @@ import org.example.view.TournamentView;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -16,12 +18,13 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class RoomController {
-    public RoomController(JFrame frame, JPanel panel, JButton back, JButton start, JPanel content, String name, ArrayList<Match> matches, Match match, Sender sender, MatchChecker mm, Timer t, boolean ready, int time, int questions, GridBagConstraints gcc, JPanel pp){
+    public RoomController(JFrame frame, JPanel panel, JButton back, JButton start, JButton readyB, JPanel content, String name, ArrayList<Match> matches, Match match, Sender sender, MatchChecker mm, boolean ready, int time, int questions, GridBagConstraints gcc, JPanel pp){
         if(!match.getHost().name.equals(name)){
             back.setText("Exit");
         }
+        Timer t = new Timer(); //T is the timer that checks if players are ready or not
         Timer t2 = new Timer(); //T2 is the timer that checks if 5 seconds are passed if all players are ready
-        TimerTask tt = new TimerTask() { //It does update players
+        TimerTask tt = new TimerTask() {
             AtomicBoolean startAdded = new AtomicBoolean(false);
             AtomicInteger timerStart = new AtomicInteger(0);
 
@@ -65,30 +68,17 @@ public class RoomController {
                                             int val = timerStart.addAndGet(1);
                                             if(val > 5){
                                                 t2.cancel();
-                                                adderActionListener(ready, t, name, sender, frame, panel, matches, mmm, mm, time, questions);
+                                                sender.send(new Message(name, "FRIENDLY_START",match.getName()));
                                             }
                                         }
                                     };
                                     t2.schedule(tt2, 400,1000);
                                     startAdded.set(true);
-                                    JButton startNew = new JButton("Start match");
-                                    startNew.setPreferredSize(new Dimension(120,50));
-                                    gcc.gridx = 1;
-                                    gcc.gridy = 0;
-                                    startNew.addActionListener(e -> {
-                                        adderActionListener(ready, t, name, sender, frame, panel, matches, mmm, mm, time, questions);
-                                    });
-                                    pp.add(startNew,gcc);
+
                                 }
                             }else{ //NOt all players are ready
                                 timerStart.set(0);
-                                if(mmm.getPlayers().size() > 1){
-                                    t2.cancel();
-                                    t.cancel();
-                                    frame.remove(panel);
-                                    frame.add(new RoomView(frame, name, matches, match, sender, mm, true, time, questions).getPanel());
-                                    frame.validate();
-                                }
+
 
                             }
                             content.setVisible(true);
@@ -133,9 +123,16 @@ public class RoomController {
             }
         });
 
+        readyB.addActionListener(e -> {
+            sender.send(new Message(name, "UPDATE_READY", true));
+            readyB.setVisible(false);
+            start.setVisible(true);
+        });
+
+
         if(start != null){
             start.addActionListener(e -> {
-                adderActionListener(ready, t, name, sender, frame, panel, matches, match, mm, time, questions);
+                sender.send(new Message(name, "FRIENDLY_START",match.getName()));
             });
         }
     }
@@ -159,7 +156,7 @@ public class RoomController {
         return readyness;
     }
 
-    private void adderActionListener(boolean ready, Timer t, String name, Sender sender, JFrame frame, JPanel panel, ArrayList<Match> matches, Match match, MatchChecker mm, int time, int questions){
+    /*private void adderActionListener(boolean ready, Timer t, String name, Sender sender, JFrame frame, JPanel panel, ArrayList<Match> matches, Match match, MatchChecker mm, int time, int questions){
         if(!ready){
             t.cancel();
             sender.send(new Message(name, "UPDATE_READY", true));
@@ -169,5 +166,5 @@ public class RoomController {
         }else{
             sender.send(new Message(name, "FRIENDLY_START",match.getName()));
         }
-    }
+    }*/
 }

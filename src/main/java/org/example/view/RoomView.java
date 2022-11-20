@@ -15,7 +15,6 @@ import java.util.Timer;
 public class RoomView {
     private JPanel panel;
     public RoomView(JFrame frame, String name, ArrayList<Match> matches, Match match, Sender sender, MatchChecker mm, boolean ready, int time, int questions){
-        Timer t = new Timer();
         panel = new JPanel();
         panel.setLayout(new GridBagLayout());
         GridBagConstraints gcc = new GridBagConstraints();
@@ -92,8 +91,20 @@ public class RoomView {
         gcc.gridy = 7;
         panel.add(pp,gcc);
 
-        JButton start = null;
-        if(!ready){
+
+        JButton readyB = new JButton("Ready");
+        readyB.setPreferredSize(new Dimension(120,50));
+        gcc.gridx = 1;
+        gcc.gridy = 0;
+        pp.add(readyB,gcc);
+
+        JButton start = new JButton("Start match");
+        start.setPreferredSize(new Dimension(120,50));
+        gcc.gridx = 1;
+        gcc.gridy = 0;
+        pp.add(start,gcc);
+        start.setVisible(false);
+        /*if(!ready){
             start = new JButton("Ready");
             start.setPreferredSize(new Dimension(120,50));
             gcc.gridx = 1;
@@ -106,7 +117,7 @@ public class RoomView {
             gcc.gridx = 1;
             gcc.gridy = 0;
             pp.add(start,gcc);
-        }
+        }*/
 
         JButton close = new JButton("Close match");
         close.setPreferredSize(new Dimension(120,50));
@@ -114,7 +125,7 @@ public class RoomView {
         gcc.gridy = 0;
         pp.add(close,gcc);
 
-        RoomController rc = new RoomController(frame, panel, close, start, content, name, matches, match, sender, mm, t, ready, time, questions, gcc, pp);
+        RoomController rc = new RoomController(frame, panel, close, start, readyB, content, name, matches, match, sender, mm, ready, time, questions, gcc, pp);
         panel.setVisible(true);
     }
     public JPanel getPanel(){
