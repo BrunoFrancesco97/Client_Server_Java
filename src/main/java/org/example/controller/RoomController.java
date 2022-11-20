@@ -25,7 +25,6 @@ public class RoomController {
         Timer t = new Timer(); //T is the timer that checks if players are ready or not
         Timer t2 = new Timer(); //T2 is the timer that checks if 5 seconds are passed if all players are ready
         TimerTask tt = new TimerTask() {
-            AtomicBoolean startAdded = new AtomicBoolean(false);
             AtomicInteger timerStart = new AtomicInteger(0);
 
             @Override
@@ -60,8 +59,8 @@ public class RoomController {
                             content.setLayout(new GridLayout((mmm.getPlayers().size()),1));
                             int readyness = printerCicle(mmm,1,content);
                             if(readyness == mmm.getPlayers().size()){ //All players are ready
-                                start.setVisible(true);
-                                if(mmm.getHost().name.equals(name)  && !startAdded.get()){
+                                if(mmm.getHost().name.equals(name)){
+                                    start.setVisible(true);
                                     TimerTask tt2 = new TimerTask() {
                                         @Override
                                         public void run() {
@@ -73,7 +72,6 @@ public class RoomController {
                                         }
                                     };
                                     t2.schedule(tt2, 400,1000);
-                                    startAdded.set(true);
 
                                 }
                             }else{ //NOt all players are ready
