@@ -9,8 +9,6 @@ import org.example.view.TournamentView;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -22,8 +20,8 @@ public class RoomController {
         if(!match.getHost().name.equals(name)){
             back.setText("Exit");
         }
-        Timer t2 = new Timer();
-        TimerTask tt = new TimerTask() {
+        Timer t2 = new Timer(); //T2 is the timer that checks if 5 seconds are passed if all players are ready
+        TimerTask tt = new TimerTask() { //It does update players
             AtomicBoolean startAdded = new AtomicBoolean(false);
             AtomicInteger timerStart = new AtomicInteger(0);
 
@@ -33,7 +31,7 @@ public class RoomController {
                 if(responsef != null && responsef.getMessage() != null && responsef.getEvent().equals("UPDATE_PLAYERS") && responsef.getMessage() instanceof Match){
                     Match mmm = (Match) responsef.getMessage();
                     if(mmm.getPlayers().size() > 0){
-                        if(!mmm.isAvailable()){
+                        if(!mmm.isAvailable()){ //Match started
                             t.cancel();
                             t2.cancel();
                             Message responseD = sender.sendAndRead(new Message<>(name, "DROP_QUESTION",match.getName()));
@@ -54,12 +52,12 @@ public class RoomController {
                                 }
 
                             }
-                        }else{
+                        }else{ //Match is not started but update request is made
                             content.removeAll();
                             content.setLayout(new GridLayout((mmm.getPlayers().size()),1));
                             int i = 1;
                             int readyness = printerCicle(mmm,i,content, 0);
-                            if(readyness == mmm.getPlayers().size()){ //TODO: FIX IN THE FUTURE
+                            if(readyness == mmm.getPlayers().size()){ //All players are ready
                                 if(mmm.getHost().name.equals(name) && ready && !startAdded.get()){
                                     TimerTask tt2 = new TimerTask() {
                                         @Override
@@ -82,21 +80,29 @@ public class RoomController {
                                     });
                                     pp.add(startNew,gcc);
                                 }
-                            }else{
+                            }else{ //NOt all players are ready
                                 timerStart.set(0);
+                                if(mmm.getPlayers().size() > 1){
+                                    t2.cancel();
+                                    t.cancel();
+                                    frame.remove(panel);
+                                    frame.add(new RoomView(frame, name, matches, match, sender, mm, true, time, questions).getPanel());
+                                    frame.validate();
+                                }
+
                             }
                             content.setVisible(true);
                             frame.revalidate();
                             frame.repaint();
                         }
-                    }else{
+                    }else{ //There are no players in the room because I left
                         t2.cancel();
                         t.cancel();
                         frame.remove(panel);
                         frame.add(new FriendlyModeView(frame, name, matches, sender, mm).getPanel());
                         frame.validate();
                     }
-                }else{
+                }else{ //Not valid response
                     t2.cancel();
                     t.cancel();
                     frame.remove(panel);
