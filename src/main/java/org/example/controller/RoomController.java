@@ -135,7 +135,6 @@ public class RoomController {
 
 
         start.addActionListener(e -> {
-            t.cancel();
             t2.cancel();
             sender.send(new Message(name, "FRIENDLY_START",match.getName()));
         });
