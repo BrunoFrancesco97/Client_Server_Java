@@ -78,7 +78,7 @@ public class RoomController {
                                 }
                             }else{ //NOt all players are ready
                                 timerStart.set(0);
-                                if(mmm.getHost().equals(name)){
+                                if(mmm.getHost().name.equals(name)){
                                     start.setVisible(false);
                                 }
                             }
@@ -132,7 +132,8 @@ public class RoomController {
         readyB.addActionListener(e -> {
             sender.send(new Message(name, "UPDATE_READY", true));
             readyB.setVisible(false);
-            start.setVisible(true);
+            if(match.getHost().name.equals(name))
+                start.setVisible(true);
         });
 
 
