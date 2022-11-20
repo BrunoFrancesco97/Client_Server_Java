@@ -60,6 +60,7 @@ public class RoomController {
                             content.setLayout(new GridLayout((mmm.getPlayers().size()),1));
                             int readyness = printerCicle(mmm,1,content);
                             if(readyness == mmm.getPlayers().size()){ //All players are ready
+                                start.setVisible(true);
                                 if(mmm.getHost().name.equals(name)  && !startAdded.get()){
                                     TimerTask tt2 = new TimerTask() {
                                         @Override
@@ -77,8 +78,9 @@ public class RoomController {
                                 }
                             }else{ //NOt all players are ready
                                 timerStart.set(0);
-
-
+                                if(mmm.getHost().equals(name)){
+                                    start.setVisible(false);
+                                }
                             }
                             content.setVisible(true);
                             frame.revalidate();
@@ -140,7 +142,7 @@ public class RoomController {
     }
 
     private int printerCicle(Match match, int i, JPanel content){
-        int readyness = 0;
+        int readiness = 0;
         for(Player p : match.getPlayers()){
             JPanel contentPl = new JPanel();
             JLabel el1 = new JLabel(i+". Name: ");
@@ -152,22 +154,10 @@ public class RoomController {
             contentPl.add(sp);
             i++;
             if(p.isReady())
-                readyness++;
+                readiness++;
             contentPl.setVisible(true);
             content.add(contentPl);
         }
-        return readyness;
+        return readiness;
     }
-
-    /*private void adderActionListener(boolean ready, Timer t, String name, Sender sender, JFrame frame, JPanel panel, ArrayList<Match> matches, Match match, MatchChecker mm, int time, int questions){
-        if(!ready){
-            t.cancel();
-            sender.send(new Message(name, "UPDATE_READY", true));
-            frame.remove(panel);
-            frame.add(new RoomView(frame, name, matches, match, sender, mm, true, time, questions).getPanel());
-            frame.validate();
-        }else{
-            sender.send(new Message(name, "FRIENDLY_START",match.getName()));
-        }
-    }*/
 }
