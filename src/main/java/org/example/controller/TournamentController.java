@@ -3,7 +3,9 @@ package org.example.controller;
 import org.example.model.MatchChecker;
 import org.example.model.Message;
 import org.example.model.Question;
+import org.example.model.Rank;
 import org.example.utils.Sender;
+import org.example.view.ResultsTournamentView;
 import org.example.view.TournamentView;
 
 import javax.swing.*;
@@ -55,23 +57,23 @@ public class TournamentController {
                         @Override
                         public void run() {
                             Message response1 = sender.sendAndRead(new Message<>(name, "UPDATE_NEXT",q));
-                            if(response1.getMessage().equals("no")){
+                            if(response1.getMessage().equals("no")){ //I've answered clicking the button but other players haven't answered yet
                                 t2.cancel();
                                 frame.remove(question);
                                 frame.add(new TournamentView(frame, name, q, sender, mm, null,questions, iterator,true).getPanel());
                                 frame.validate();
-                            }else{
+                            }else{ //I've answered clicking the button and all players have already answered
                                 t2.cancel();
                                 Message response2 = sender.sendAndRead(new Message<>(name, "GAME",q));
-                                Question newQuestion = (Question) response2.getMessage();
                                 switch (response2.getEvent().toLowerCase()){
                                     case "game":
-                                        t2.cancel();
+                                        Question newQuestion = (Question) response2.getMessage();
                                         frame.remove(question);
                                         frame.add(new TournamentView(frame, name, newQuestion, sender, mm, timeLabel,questions, iterator+1,false).getPanel());
                                         frame.validate();
                                         break;
                                     case "end":
+                                        handleEndTournament(frame, question,sender, name, mm);
                                         break;
                                 }
                             }
@@ -80,8 +82,7 @@ public class TournamentController {
                     t2.scheduleAtFixedRate(tt2,10,1000);
                 }
             });
-        }else{
-            System.out.println("Entered here");
+        }else{ //If I've entered here I was still waiting for other players to complete the quest
             Timer t = new Timer();
             TimerTask tt = new TimerTask() {
                 @Override
@@ -93,12 +94,12 @@ public class TournamentController {
                         Question newQuestion = (Question) response2.getMessage();
                         switch (response2.getEvent().toLowerCase()){
                             case "game":
-                                t.cancel();
                                 frame.remove(question);
                                 frame.add(new TournamentView(frame, name, newQuestion, sender, mm, new JLabel(),questions, iterator+1,false).getPanel());
                                 frame.validate();
                                 break;
                             case "end":
+                                handleEndTournament(frame, question,sender, name, mm);
                                 break;
                         }
                     }
@@ -108,4 +109,10 @@ public class TournamentController {
         }
     }
 
+    private void handleEndTournament(JFrame frame, JPanel question, Sender sender, String name, MatchChecker mm){
+        Message response = sender.sendAndRead(new Message<>(name, "RETURN_RANK"));
+        frame.remove(question);
+        frame.add(new ResultsTournamentView(frame, name, (ArrayList<Rank>) response.getMessage(), sender, mm).getPanel());
+        frame.validate();
+    }
 }

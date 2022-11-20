@@ -86,6 +86,7 @@ public class ResultsView {
 
             Font font = scoreLabel.getFont();
             scoreLabel.setFont(new Font(font.getFontName(),Font.BOLD,font.getSize()));
+
             JScrollPane scrollable = new JScrollPane();
             scrollable.setPreferredSize(new Dimension(400,350));
             scrollable.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);

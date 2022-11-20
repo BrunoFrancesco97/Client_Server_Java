@@ -52,6 +52,12 @@ public class Score implements Serializable {
         }
         return false;
     }
+
+    public Question getQuestion(int i){
+        if(i < questions.size())
+            return this.questions.get(i);
+        return null;
+    }
     @Override
     public String toString() {
         return "Score{" +

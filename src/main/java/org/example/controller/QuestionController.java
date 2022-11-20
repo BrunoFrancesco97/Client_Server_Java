@@ -32,7 +32,7 @@ public class QuestionController {
                     if(i > time * 60){
                         tQuiz.cancel(); //Delete timer if test is taking more than n/60 minutes
                         Message response = sender.sendAndRead(new Message<>(name, "END_TIMER"));
-                        if(response != null && response.getEvent().equals("END_TIMER") && response.getMessage() != null){
+                        if(response != null && response.getEvent().equals("END_TIMER")){
                             printScoresFriendly(frame, question, name, sender, mm);
                         }
                     }
