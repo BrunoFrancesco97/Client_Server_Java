@@ -18,7 +18,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class RoomController {
-    public RoomController(JFrame frame, JPanel panel, JButton back, JButton start, JButton readyB, JPanel content, String name, ArrayList<Match> matches, Match match, Sender sender, MatchChecker mm, int time, int questions, GridBagConstraints gcc, JPanel pp){
+    public RoomController(JFrame frame, JPanel panel, JButton back, JButton start, JButton readyB, JPanel content, String name, ArrayList<Match> matches, Match match, Sender sender, MatchChecker mm, int time, int questions){
         if(!match.getHost().name.equals(name)){
             back.setText("Exit");
         }
@@ -58,11 +58,9 @@ public class RoomController {
                         }else{ //Match is not started but update request is made
                             content.removeAll();
                             content.setLayout(new GridLayout((mmm.getPlayers().size()),1));
-                            int i = 1;
-                            int readyness = printerCicle(mmm,i,content, 0);
+                            int readyness = printerCicle(mmm,1,content);
                             if(readyness == mmm.getPlayers().size()){ //All players are ready
                                 if(mmm.getHost().name.equals(name)  && !startAdded.get()){
-                                    System.out.println("2");
                                     TimerTask tt2 = new TimerTask() {
                                         @Override
                                         public void run() {
@@ -105,6 +103,11 @@ public class RoomController {
         };
         t.scheduleAtFixedRate(tt,10,500);
 
+
+
+
+
+
         back.addActionListener(e -> {
             if(match.getHost().name.equals(name)){
                 Message response = sender.sendAndRead(new Message(name, "MATCH_REMOVER",match.getName()));
@@ -136,7 +139,8 @@ public class RoomController {
         });
     }
 
-    private int printerCicle(Match match, int i, JPanel content, int readyness){
+    private int printerCicle(Match match, int i, JPanel content){
+        int readyness = 0;
         for(Player p : match.getPlayers()){
             JPanel contentPl = new JPanel();
             JLabel el1 = new JLabel(i+". Name: ");

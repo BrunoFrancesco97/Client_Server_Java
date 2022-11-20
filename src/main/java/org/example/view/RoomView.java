@@ -125,7 +125,7 @@ public class RoomView {
         gcc.gridy = 0;
         pp.add(close,gcc);
 
-        RoomController rc = new RoomController(frame, panel, close, start, readyB, content, name, matches, match, sender, mm, time, questions, gcc, pp);
+        RoomController rc = new RoomController(frame, panel, close, start, readyB, content, name, matches, match, sender, mm, time, questions);
         panel.setVisible(true);
     }
     public JPanel getPanel(){
