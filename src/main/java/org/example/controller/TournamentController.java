@@ -91,9 +91,9 @@ public class TournamentController {
                     if(response1.getMessage().equals("ok")){
                         t.cancel();
                         Message response2 = sender.sendAndRead(new Message<>(name, "GAME",q));
-                        Question newQuestion = (Question) response2.getMessage();
                         switch (response2.getEvent().toLowerCase()){
                             case "game":
+                                Question newQuestion = (Question) response2.getMessage();
                                 frame.remove(question);
                                 frame.add(new TournamentView(frame, name, newQuestion, sender, mm, new JLabel(),questions, iterator+1,false).getPanel());
                                 frame.validate();
