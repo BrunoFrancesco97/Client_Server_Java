@@ -24,13 +24,13 @@ public class Sender {
     public Message sendAndRead(Message message){
         Object result;
         try{
+            System.out.println("Outcoming message: "+message);
             this.out.writeObject(message);
             this.out.flush();
             this.out.reset();
             result = this.in.readObject();
             Message result2;
             if(result != null){
-                System.out.println(result);
                 result2 = (Message) result;
                 System.out.println("Incoming message: "+result2);
                 return result2;
@@ -43,6 +43,7 @@ public class Sender {
 
     public void send(Message message){
         try{
+            System.out.println("Outcoming message: "+message);
             this.out.writeObject(message);
             this.out.flush();
             this.out.reset();
