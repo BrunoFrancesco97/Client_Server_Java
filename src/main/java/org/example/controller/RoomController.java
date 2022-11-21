@@ -54,6 +54,7 @@ public class RoomController {
                             content.removeAll();
                             content.setLayout(new GridLayout((mmm.getPlayers().size()),1));
                             timerStart.set(5); //TODO: NON DOVREBBE SERVIRE
+
                             int readyness = printerCicle(mmm,1,content);
                             if(readyness == mmm.getPlayers().size()){ //All players are ready
                                 if(mmm.getHost().name.equals(name)){
@@ -70,7 +71,7 @@ public class RoomController {
                                             }
                                         }
                                     };
-                                    t2.schedule(tt2, 400,1000);
+                                    t2.schedule(tt2, 100,1000);
 
                                 }
                             }else{ //NOt all players are ready
@@ -100,7 +101,7 @@ public class RoomController {
                 }
             }
         };
-        t.scheduleAtFixedRate(tt,100,800);
+        t.scheduleAtFixedRate(tt,100,1000);
 
 
 

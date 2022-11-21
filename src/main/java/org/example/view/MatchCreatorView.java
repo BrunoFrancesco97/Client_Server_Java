@@ -54,7 +54,7 @@ public class MatchCreatorView {
         gcc.gridy = 7;
         panel.add(maxSize,gcc);
 
-        JLabel description3 = new JLabel("Maximum duration of the match in minutes:");
+        JLabel description3 = new JLabel("Maximum duration of the match in minutes (only for friendly mode):");
         gcc.gridy = 8;
         panel.add(description3,gcc);
 
