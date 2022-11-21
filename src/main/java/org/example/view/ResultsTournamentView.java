@@ -33,13 +33,16 @@ public class ResultsTournamentView {
         content.setLayout(new GridLayout(ranks.size(),1));
         for(Rank rank : ranks){
             JPanel content2 = new JPanel();
-            content2.setLayout(new GridLayout(2,1));
+            content2.setLayout(new GridBagLayout());
             JLabel namePlayer = new JLabel("User: "+rank.name);
-            content2.add(namePlayer);
+            gcc.gridy=0;
+            content2.add(namePlayer,gcc);
             JLabel completed = new JLabel("Points: "+rank.points);
-            content2.add(completed);
+            gcc.gridy=1;
+            content2.add(completed,gcc);
+            gcc.gridy=2;
             JSeparator sp = new JSeparator();
-            content2.add(sp);
+            content2.add(sp,gcc);
             content.add(content2);
         }
         scrollable.setViewportView(content);
@@ -51,7 +54,7 @@ public class ResultsTournamentView {
         gcc.gridy = 2;
         results.add(button,gcc);
 
-        ResultsTournamentController rc = new ResultsTournamentController(frame, results, button, name, sender, mm);
+        ResultsTournamentController rc = new ResultsTournamentController(frame, results, button, name, sender, mm, ranks);
         results.setVisible(true);
     }
 
