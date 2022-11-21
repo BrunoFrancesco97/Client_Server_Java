@@ -89,16 +89,17 @@ public class TournamentController {
                 public void run() {
                     Message response1 = sender.sendAndRead(new Message<>(name, "UPDATE_NEXT",q));
                     if(response1.getMessage().equals("ok")){
-                        t.cancel();
                         Message response2 = sender.sendAndRead(new Message<>(name, "GAME",q));
                         switch (response2.getEvent().toLowerCase()){
                             case "game":
+                                t.cancel();
                                 Question newQuestion = (Question) response2.getMessage();
                                 frame.remove(question);
                                 frame.add(new TournamentView(frame, name, newQuestion, sender, mm, new JLabel(),questions, iterator+1,false).getPanel());
                                 frame.validate();
                                 break;
                             case "end":
+                                t.cancel();
                                 handleEndTournament(frame, question,sender, name, mm);
                                 break;
                         }
