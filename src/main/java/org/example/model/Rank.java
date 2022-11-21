@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class Rank implements Comparable<Rank>, Serializable {
-    public int points;
+    public float points;
     public String name;
     public Rank(String name){
         this.name = name;
@@ -19,7 +19,12 @@ public class Rank implements Comparable<Rank>, Serializable {
     public void addOne(){
         this.points = this.points + 1;
     }
-    public void set(int points){
+
+    public void addHalf(){
+        this.points = this.points + 0.5f;
+    }
+
+    public void set(float points){
         this.points = points;
     }
 
