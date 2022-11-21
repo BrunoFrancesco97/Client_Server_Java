@@ -100,7 +100,7 @@ public class RoomController {
                 }
             }
         };
-        t.scheduleAtFixedRate(tt,10,500);
+        t.scheduleAtFixedRate(tt,100,800);
 
 
 
