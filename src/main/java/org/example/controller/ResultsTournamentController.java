@@ -17,10 +17,10 @@ public class ResultsTournamentController{
             frame.add(new ModeView(frame,name,sender, mm).getPanel());
             frame.validate();
         });
-        float min = ranks.get(0).points;
+        float max = ranks.get(0).points;
         String nameP = ranks.get(0).name;
         for(Rank r : ranks){
-            if(r.points < min)
+            if(r.points > max)
                 nameP = r.name;
         }
         if(nameP.equals(name)){
