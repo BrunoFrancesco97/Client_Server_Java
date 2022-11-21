@@ -3,6 +3,7 @@ package org.example.model;
 public class QuestionOwner {
     private Question quest;
     private String player;
+
     public QuestionOwner(Question quest, String p){
         this.quest = quest;
         this.player = p;

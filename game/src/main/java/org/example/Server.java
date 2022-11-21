@@ -121,6 +121,8 @@ public class Server extends Thread{
                         case "RETURN_RANK":
                             handleReturnRank(mex);
                             break;
+                        case "COUNT_TOURNAMENT":
+                            handleCountTournament(mex);
                     }
                 }
             }
@@ -130,48 +132,88 @@ public class Server extends Thread{
         }
     }
 
+    private void handleCountTournament(Message mex){
+        this.match.removePlayer(this.player);
+        if(this.match.getPlayers().size() <= 0){
+            this.matchesList.remove(this.match);
+            this.match = null;
+        }
+    }
+
+
     private void handleReturnRank(Message mex){
         if(this.match != null){
             ArrayList<QuestionOwner> qo = new ArrayList<>();
             ArrayList<QuestionOwner> questions = new ArrayList<>();
+            ArrayList<QuestionOwner> totalQuestions = new ArrayList<>();
             ArrayList<Rank> ranks = new ArrayList<>();
             for(int i = 0; i < this.player.score.questions.size(); i++){
+                questions.clear();
                 for(Player p : this.match.getPlayers()){ //Get all i-th questions of all players of the match
                     questions.add(new QuestionOwner(p.score.getQuestion(i),p.name));
+                    totalQuestions.add(new QuestionOwner(p.score.getQuestion(i),p.name));
                 }
-                QuestionOwner min = questions.get(0);
-                for(Iterator<QuestionOwner> it = questions.iterator();it.hasNext();){ //Filter questions by deleting all uncorrect onces
-                    QuestionOwner q = it.next();
-                    if(!q.getQuest().correct) //Delete all uncorrect answers
-                        it.remove();
-                    else{
-                        if(q.getQuest().correct && q.getQuest().seconds < min.getQuest().seconds){
+                //questions contains the i-th answers given by people
+                QuestionOwner min = null;
+                boolean found = false;
+                //Finding the minimum time answers between the ones given by players
+                for(QuestionOwner q : questions){
+                    if(!q.getQuest().correct){ //Aggiungo
+                        boolean checker = false;
+                        for(Rank rr : ranks){
+                            if(rr.name.equals(q.getP())){
+                                checker = true;
+                                break;
+                            }
+                        }
+                        if(!checker){
+                            Rank r = new Rank(q.getP(),0);
+                            ranks.add(r);
+                        }
+                    }else{
+                        boolean checker = false;
+                        for(Rank rr : ranks){
+                            if(rr.name.equals(q.getP())){
+                                rr.addHalf();
+                                checker = true;
+                                break;
+                            }
+                        }
+                        if(!checker){
+                            Rank r = new Rank(q.getP(),0.5f);
+                            ranks.add(r);
+                        }
+                        if(q.getQuest().correct && !found){
+                            min = q;
+                            found = true;
+                        }
+                        if(found && q.getQuest().correct && q.getQuest().seconds < min.getQuest().seconds){
                             min = q;
                         }
                     }
                 }
-                qo.add(min);
+                if(min != null)
+                    qo.add(min);
             }
-            System.out.println(qo);
+            //Adding 1 points to all min answers
             for(QuestionOwner q : qo){
-                boolean flag = false;
+                boolean checker = false;
                 for(Rank r : ranks){
                     if(q.getP().equals(r.name)){
-                        flag = true;
-                        r.addOne();
+                        checker = true;
+                        r.addHalf();
                         break;
                     }
                 }
-                if(!flag){
-                    ranks.add(new Rank(q.getP(),1));
+                if(!checker){
+                    Rank r = new Rank(q.getP(),1);
+                    ranks.add(r);
                 }
             }
-            Collections.reverse(ranks);
+            boolean checker = false;
+            Collections.sort(ranks);
             this.senderClient.sendToClient(mex,"RETURN_RANK",ranks);
-            synchronized (lock){
-                this.matchesList.remove(this.match);
-                this.match = null;
-            }
+
         }
     }
 
