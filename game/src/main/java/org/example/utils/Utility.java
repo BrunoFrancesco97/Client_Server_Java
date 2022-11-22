@@ -18,7 +18,7 @@ public abstract class Utility {
             ArrayList<Question> quest = new ArrayList<>();
             while(scan.hasNextLine()){
                 String[] line = scan.nextLine().split(";");
-                Question q = new Question(line[0],line[1]);
+                Question q = new Question(line[0],line[1],line[2],line[3],line[4],line[5]);
                 quest.add(q);
             }
             Collections.shuffle(quest);

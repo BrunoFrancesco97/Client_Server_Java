@@ -21,10 +21,6 @@ public class Memory<K> {
         return this.memory.contains(el);
     }
 
-    public synchronized boolean checkElement(String el){
-        return this.memory.contains(el);
-    }
-
     public synchronized ArrayList<K> getMemory() {
         return memory;
     }
