@@ -20,7 +20,7 @@ public class Player implements Serializable {
         this.name = null;
         this.questions = new ArrayList<>();
         this.score = null;
-        this.id = Utility.randomIDGenerator(10000);
+        this.id = Utility.randomIDGenerator(Integer.MAX_VALUE-1);
         this.hasFinished = false;
         this.ready = false;
         this.indexLastQuestion = -1;
@@ -29,7 +29,7 @@ public class Player implements Serializable {
         this.name = name;
         this.questions = new ArrayList<>();
         this.score = new Score(this.name);
-        this.id = Utility.randomIDGenerator(10000);
+        this.id = Utility.randomIDGenerator(Integer.MAX_VALUE-1);
         this.hasFinished = false;
         this.ready = false;
         this.indexLastQuestion = -1;
