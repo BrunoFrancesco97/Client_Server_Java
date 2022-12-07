@@ -4,7 +4,7 @@ import org.example.model.Message;
 import java.io.*;
 import java.net.Socket;
 
-public class Sender {
+public class Sender{
     public ObjectOutputStream out;
     public ObjectInputStream in;
     public Socket socket;

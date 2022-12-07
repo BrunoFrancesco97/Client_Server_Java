@@ -20,10 +20,12 @@ public class ResultsTournamentController{
         float max = ranks.get(0).points;
         String nameP = ranks.get(0).name;
         for(Rank r : ranks){
-            if(r.points > max)
+            if(r.points > max){
                 nameP = r.name;
+                max = r.points;
+            }
         }
-        if(nameP.equals(name)){
+        if(nameP.equals(name) && max != 0){
             JOptionPane.showMessageDialog(frame,"You have won the tournament!","Winner!",JOptionPane.INFORMATION_MESSAGE);
         }else{
             JOptionPane.showMessageDialog(frame,"You have lost the tournament","You will win next time :(",JOptionPane.INFORMATION_MESSAGE);

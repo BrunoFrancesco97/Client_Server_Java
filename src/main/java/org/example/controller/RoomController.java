@@ -19,7 +19,6 @@ public class RoomController {
             back.setText("Exit");
         }
         Timer t = new Timer(); //T is the timer that checks if players are ready or not
-        Timer t2 = new Timer(); //T2 is the timer that checks if 5 seconds are passed if all players are ready
         TimerTask tt = new TimerTask() {
             AtomicInteger timerStart = new AtomicInteger(5);
 
@@ -31,7 +30,6 @@ public class RoomController {
                     if(mmm.getPlayers().size() > 0){
                         if(!mmm.isAvailable()){ //Match started
                             t.cancel();
-                            t2.cancel();
                             Message responseD = sender.sendAndRead(new Message<>(name, "DROP_QUESTION",match.getName()));
                             if(responseD != null && responseD.getMessage() != null && responseD.getMessage() instanceof Question){
                                 Timer tQuiz = new Timer();
@@ -53,31 +51,25 @@ public class RoomController {
                         }else{ //Match is not started but update request is made
                             content.removeAll();
                             content.setLayout(new GridLayout((mmm.getPlayers().size()),1));
-                            timerStart.set(5); //TODO: NON DOVREBBE SERVIRE
 
                             int readyness = printerCicle(mmm,1,content);
                             if(readyness == mmm.getPlayers().size()){ //All players are ready
                                 if(mmm.getHost().name.equals(name)){
                                     start.setVisible(true);
                                     crome.setVisible(true);
-                                    TimerTask tt2 = new TimerTask() {
-                                        @Override
-                                        public void run() {
-                                            int val = timerStart.decrementAndGet();
-                                            crome.setText("Seconds until start: "+val);
-                                            if(val == 0){
-                                                t2.cancel();
-                                                sender.send(new Message(name, "FRIENDLY_START",match.getName()));
-                                            }
-                                        }
-                                    };
-                                    t2.schedule(tt2, 100,1000);
-
+                                    System.out.println("Sono qui");
+                                    int val = timerStart.decrementAndGet();
+                                    System.out.println(val);
+                                    crome.setText("Seconds until start: "+val);
+                                    if(val == 0){
+                                        sender.send(new Message(name, "FRIENDLY_START",match.getName()));
+                                    }
                                 }
                             }else{ //NOt all players are ready
                                 timerStart.set(5);
                                 if(mmm.getHost().name.equals(name)){
                                     start.setVisible(false);
+                                    crome.setVisible(false);
                                 }
                             }
                             content.setVisible(true);
@@ -85,14 +77,12 @@ public class RoomController {
                             frame.repaint();
                         }
                     }else{ //There are no players in the room because I left
-                        t2.cancel();
                         t.cancel();
                         frame.remove(panel);
                         frame.add(new FriendlyModeView(frame, name, matches, sender, mm).getPanel());
                         frame.validate();
                     }
                 }else{ //Not valid response
-                    t2.cancel();
                     t.cancel();
                     frame.remove(panel);
                     frame.add(new FriendlyModeView(frame, name, matches, sender, mm).getPanel());
@@ -113,7 +103,7 @@ public class RoomController {
                 Message response = sender.sendAndRead(new Message(name, "MATCH_REMOVER",match.getName()));
                 if(response != null && response.getMessage() != null && response.getEvent().equals("MATCH_REMOVER") && response.getMessage().equals("ok")){
                     t.cancel();
-                    t2.cancel();
+                    //t2.cancel();
                     frame.remove(panel);
                     frame.add(new FriendlyModeView(frame, name, matches, sender, mm).getPanel());
                     frame.validate();
@@ -136,7 +126,7 @@ public class RoomController {
 
 
         start.addActionListener(e -> {
-            t2.cancel();
+            //t2.cancel();
             sender.send(new Message(name, "FRIENDLY_START",match.getName()));
         });
     }
