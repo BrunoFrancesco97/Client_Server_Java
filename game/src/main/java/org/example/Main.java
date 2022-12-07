@@ -17,11 +17,12 @@ public class Main {
             Memory<Match> matchesList = new Memory<>();
             Memory<Player> onlinePLayers = new Memory<>();
             Object memoryLock = new Object();
+            Object memoryLockSaved = new Object();
             System.out.println("SERVER LISTENING AT PORT "+PORT);
             while(true){
                 Socket socketClient = serverSocket.accept();
                 System.out.println("CONNECTION ESTABLISHED");
-                Server s = new Server(socketClient,matchesSaved, matchesList,onlinePLayers,memoryLock);
+                Server s = new Server(socketClient,matchesSaved, matchesList,onlinePLayers,memoryLock,memoryLockSaved);
                 s.start();
             }
         }catch(Exception e){

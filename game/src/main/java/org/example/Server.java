@@ -23,9 +23,9 @@ public class Server extends Thread{
 
     private SenderClient senderClient;
 
-    private Object lock;
+    private Object lock,lock2;
     private boolean flag;
-    public Server(Socket s, Memory<Match> matchesSaved, Memory<Match> matchesList, Memory<Player> usersConnected, Object lock){
+    public Server(Socket s, Memory<Match> matchesSaved, Memory<Match> matchesList, Memory<Player> usersConnected, Object lock, Object memoryLockSaved){
         this.s = s;
         this.match = null;
         this.player = new Player();
@@ -34,6 +34,7 @@ public class Server extends Thread{
         this.matchesList = matchesList;
         this.usersConnected = usersConnected;
         this.lock = lock;
+        this.lock2 = memoryLockSaved;
         try{
             this.in = new ObjectInputStream(this.s.getInputStream());
             this.out = new ObjectOutputStream(this.s.getOutputStream());
@@ -133,10 +134,12 @@ public class Server extends Thread{
     }
 
     private void handleCountTournament(Message mex){
-        this.match.removePlayer(this.player);
-        if(this.match.getPlayers().size() <= 0){
-            this.matchesList.remove(this.match);
-            this.match = null;
+        synchronized (lock){
+            this.match.removePlayer(this.player);
+            if(this.match.getPlayers().size() <= 0){
+                this.matchesList.remove(this.match);
+                this.match = null;
+            }
         }
     }
 
@@ -451,19 +454,19 @@ public class Server extends Thread{
     }
     private void handleContinueGame(Message mex){
         try{
-            switch(mex.getMessage().toString().toLowerCase()){
-                case "practice":
-                    this.matchesSaved.remove(this.match);
-                    this.player.score = this.match.getPlayer(mex.getOwner()).score;
-                    synchronized (lock){
+            synchronized (lock) {
+                switch (mex.getMessage().toString().toLowerCase()) {
+                    case "practice":
+                        this.matchesSaved.remove(this.match);
+                        this.player.score = this.match.getPlayer(mex.getOwner()).score;
                         this.matchesList.add(this.match);
-                    }
-                    this.player.questions = this.getPreviousQuestions(this.player.name, this.match);
-                    Question q = this.player.pickQuestion();
-                    if(q != null){
-                        this.senderClient.sendToClient(mex,"game",q);
-                    }
-                    break;
+                        this.player.questions = this.getPreviousQuestions(this.player.name, this.match);
+                        Question q = this.player.pickQuestion();
+                        if (q != null) {
+                            this.senderClient.sendToClient(mex, "game", q);
+                        }
+                        break;
+                }
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -475,8 +478,10 @@ public class Server extends Thread{
      * Metodo usato per la rimozione di un match salvato e non terminato
      * */
     private void handleRemove(Message mex){
-        this.matchesSaved.remove(this.match);
-        this.match = null;
+        synchronized (lock){
+            this.matchesSaved.remove(this.match);
+            this.match = null;
+        }
     }
 
     /**
@@ -484,18 +489,18 @@ public class Server extends Thread{
      * */
     private void handleClosing(Message mex, Object lock){
         System.out.println("Closing the connection");
-        if(mex.getMessage() != null && this.match != null && this.match.getType().equals("practice")){//It happens only if I'm in practice and I haven't ended the match
-            MatchChecker mm = (MatchChecker) mex.getMessage();
-            this.match.getPlayer(mex.getOwner()).questions.add(mm.getQuestion());
-            this.match.getPlayer(mex.getOwner()).setIndexLastQuestion(mm.getPosition());
-            synchronized (lock){
+        synchronized (lock){
+            if(mex.getMessage() != null && this.match != null && this.match.getType().equals("practice")){//It happens only if I'm in practice and I haven't ended the match
+                MatchChecker mm = (MatchChecker) mex.getMessage();
+                this.match.getPlayer(mex.getOwner()).questions.add(mm.getQuestion());
+                this.match.getPlayer(mex.getOwner()).setIndexLastQuestion(mm.getPosition());
                 this.matchesList.remove(this.match);
-            }
-            matchesSaved.add(this.match);//TODO: E SE IL MATCH FOSSE FRIENDLY O TOURNAMENT COME LO TRATTO?
-        }else{
-            if(this.match != null && this.match.getType().equals("practice")){ //It should not enter here since match couldn't be evaluated to something and at the same thing not entering on the previous branch of the if
-                synchronized (lock){
-                    this.matchesList.remove(this.match);
+                matchesSaved.add(this.match);//TODO: E SE IL MATCH FOSSE FRIENDLY O TOURNAMENT COME LO TRATTO?
+            }else{
+                if(this.match != null && this.match.getType().equals("practice")){ //It should not enter here since match couldn't be evaluated to something and at the same thing not entering on the previous branch of the if
+                    synchronized (lock){
+                        this.matchesList.remove(this.match);
+                    }
                 }
             }
         }
@@ -542,11 +547,11 @@ public class Server extends Thread{
                 int time = Integer.parseInt(splitted[2]);
                 int nQuestions = Integer.parseInt(splitted[3]);
                 String type = splitted[4];
-                this.match = new Match(type, name, this.player, size,time,nQuestions);
-                this.player.setReady(false);
-                this.match.addPlayer(this.player);
-                this.match.setAvailable(true);
                 synchronized (lock){
+                    this.match = new Match(type, name, this.player, size,time,nQuestions);
+                    this.player.setReady(false);
+                    this.match.addPlayer(this.player);
+                    this.match.setAvailable(true);
                     this.matchesList.add(this.match);
                 }
                 this.senderClient.sendToClient(mex,"create",this.match);
@@ -571,19 +576,23 @@ public class Server extends Thread{
      * Metodo usato per controllare se ci sono match in precedenza non terminati del mio player
      * */
     private synchronized Match checkPreviousMatches(){
-        for(Match m : this.matchesSaved.getMemory()){
-            if((m.getType().equals("practice")) && m.containsUser(this.player)){
-                return m;
+        synchronized (lock){
+            for(Match m : this.matchesSaved.getMemory()){
+                if((m.getType().equals("practice")) && m.containsUser(this.player)){
+                    return m;
+                }
             }
         }
         return null;
     }
 
     private ArrayList<Question> getPreviousQuestions(String name, Match m){
-        Player p = m.getPlayer(name);
-        if(p != null){
-            return p.questions;
+        synchronized (lock){
+            Player p = m.getPlayer(name);
+            if(p != null){
+                return p.questions;
+            }
+            return null;
         }
-        return null;
     }
 }
