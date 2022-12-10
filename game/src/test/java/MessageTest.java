@@ -12,7 +12,21 @@ public class MessageTest {
                 ()->Assertions.assertNull(m.getMessage())
         );
     }
+
+    @Test
     public void testConstructor2(){
+        Message<String> m = new Message<>("owner","event");
+        Assertions.assertAll(
+                ()->Assertions.assertNotNull(m.getOwner()),
+                ()->Assertions.assertNotNull(m.getEvent()),
+                ()->Assertions.assertNull(m.getMessage()),
+                ()->Assertions.assertEquals("owner",m.getOwner()),
+                ()->Assertions.assertEquals("event",m.getEvent())
+        );
+    }
+
+    @Test
+    public void testConstructor3(){
         Message<String> m = new Message<>("owner","event","message");
         Assertions.assertAll(
                 ()->Assertions.assertNotNull(m.getOwner()),
@@ -24,10 +38,11 @@ public class MessageTest {
         );
     }
 
-    public void testSetter(){
+    @Test
+    public void testSetterGetter(){
         Message<String> m = new Message<>("test");
         Assertions.assertNotNull(m.getEvent());
-        Assertions.assertNotNull(m.getMessage());
+        Assertions.assertNull(m.getMessage());
         m.setEvent("testEvent");
         Assertions.assertEquals("testEvent",m.getEvent());
         m.setMessage("testMessage");

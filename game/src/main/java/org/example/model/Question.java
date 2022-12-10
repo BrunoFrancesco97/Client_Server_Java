@@ -44,6 +44,8 @@ public class Question implements Serializable {
         String newString = answer.toLowerCase().replaceAll("\\s+","");
         if(newString.equals(this.answer.toLowerCase())){
             this.correct = true;
+        }else{
+            this.correct = false;
         }
         this.given = answer;
         return this.correct;

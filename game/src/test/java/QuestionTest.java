@@ -58,7 +58,6 @@ public class QuestionTest {
         Player p = new Player();
         Utility.readQuestionsFromFile(QUESTION_FILE, p, 5);
         Question q = p.popQuestion();
-        System.out.println(q);
         Assertions.assertAll(
                 () -> Assertions.assertTrue(q.checkAnswer(q.answer)),
                 () -> Assertions.assertFalse(q.checkAnswer(q.wrong1)),
@@ -68,6 +67,5 @@ public class QuestionTest {
                 () -> Assertions.assertTrue(q.checkAnswer(q.answer.toLowerCase())),
                 () -> Assertions.assertTrue(q.checkAnswer(q.answer.toUpperCase()))
         );
-
     }
 }

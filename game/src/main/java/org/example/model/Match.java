@@ -23,7 +23,7 @@ public class Match implements Serializable {
         this.players = new ArrayList<>();
         this.available = false ;
         this.type = null;
-        this.id = Utility.randomIDGenerator(10000);
+        this.id = Utility.randomIDGenerator(Integer.MAX_VALUE-1);
         this.name = ""+this.id;
         this.host = null;
         this.size = 0;
@@ -34,7 +34,7 @@ public class Match implements Serializable {
         this.players = new ArrayList<>();
         this.available = false ;
         this.type = type;
-        this.id = Utility.randomIDGenerator(10000);
+        this.id = Utility.randomIDGenerator(Integer.MAX_VALUE-1);
         this.name = ""+this.id;
         this.host = host;
         this.size = 1; //DEFAULT SIZE
@@ -45,17 +45,18 @@ public class Match implements Serializable {
         this.players = new ArrayList<>();
         this.available = false ;
         this.type = type;
-        this.id = Utility.randomIDGenerator(10000);
+        this.id = Utility.randomIDGenerator(Integer.MAX_VALUE-1);
         this.name = name;
         this.host = host;
         this.size = size;
         this.time = 0;
+        this.numberQuestions = 10;
     }
     public Match(String type, String name, Player host, int size, int time, int numberQuestions){
         this.players = new ArrayList<>();
         this.available = false ;
         this.type = type;
-        this.id = Utility.randomIDGenerator(10000);
+        this.id = Utility.randomIDGenerator(Integer.MAX_VALUE-1);
         this.name = name;
         this.host = host;
         this.size = size;

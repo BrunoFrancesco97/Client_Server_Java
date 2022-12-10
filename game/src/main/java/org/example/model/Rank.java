@@ -1,7 +1,6 @@
 package org.example.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Objects;
 
 public class Rank implements Comparable<Rank>, Serializable {

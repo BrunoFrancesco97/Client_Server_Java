@@ -54,7 +54,7 @@ public class Score implements Serializable {
     }
 
     public Question getQuestion(int i){
-        if(i < questions.size())
+        if(i >= 0 && i < questions.size())
             return this.questions.get(i);
         return null;
     }
