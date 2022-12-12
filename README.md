@@ -34,4 +34,6 @@ Repository is divided between two main folders
 
 2. *client*
 
-where each one is a Gradle Project. As the name suggets **client** contains the client application part, thus the part which allows the client to play using a graphic interface and so where all graphic logic is written. Meanwhile **server** contains all the algorithms that handle the communication between multiple clients/creation or partecipation to existing matches/answering and picking new questions.
+where each one is a Gradle Project. 
+
+As the name suggets **client** contains the client application part, thus the part which allows the client to play using a graphic interface and so where all graphic logic is written. Meanwhile **server** contains all the algorithms that handle the communication between multiple clients/creation or partecipation to existing matches/answering and picking new questions.
