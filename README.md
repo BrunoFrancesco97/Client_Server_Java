@@ -54,3 +54,5 @@ Future updates of the project will allow the client to pass metadata server info
 
 Since *server* and *client* projects share many common model java classes, it should be fine to separate them from both applications and then to build a unique shared JAR file, this solution will allow an easier maintainance. 
 At the moment files are both duplicated inside each projects since is easier to show them during a presentation.
+
+Another big implementation is to better handle thread concurrency over shared resources, now there is a bottleneck due to the lock on a single common object, this was made since it is a simple and rapid solution, other solutions coould be to create a mutex for each shared resource and lock only the one you need and not a generic one as now.
