@@ -37,3 +37,7 @@ Repository is divided between two main folders
 where each one is a Gradle Project. 
 
 As the name suggets **client** contains the client application part, thus the part which allows the client to play using a graphic interface and so where all graphic logic is written. Meanwhile **server** contains all the algorithms that handle the communication between multiple clients/creation or partecipation to existing matches/answering and picking new questions.
+
+## How to run it
+
+In order to run the project, you first need to run the **server** application, thus open its Gradle project with your preferred IDE and launch the program from the main file located at *\src\main\java\org\example\Main.java*
