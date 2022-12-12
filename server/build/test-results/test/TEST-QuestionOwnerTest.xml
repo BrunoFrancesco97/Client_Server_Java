@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="QuestionOwnerTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-12-12T09:30:44" hostname="LAPTOP-7GSFM02U" time="0.0">
+  <properties/>
+  <testcase name="test()" classname="QuestionOwnerTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

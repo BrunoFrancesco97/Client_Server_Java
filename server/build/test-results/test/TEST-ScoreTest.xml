@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ScoreTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-12-12T09:30:44" hostname="LAPTOP-7GSFM02U" time="0.011">
+  <properties/>
+  <testcase name="test()" classname="ScoreTest" time="0.011"/>
+  <system-out><![CDATA[Score{questions=[Question{quest='test1', answer='answer1', given='answer1', wrong1='null', wrong2='null', wrong3='null', wrong4='null', correct=true}, Question{quest='test2', answer='answer2', given='answer4', wrong1='null', wrong2='null', wrong3='null', wrong4='null', correct=false}, Question{quest='test3', answer='answer3', given='answer3', wrong1='null', wrong2='null', wrong3='null', wrong4='null', correct=true}], name='fra'}
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
