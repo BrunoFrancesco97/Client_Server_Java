@@ -1,5 +1,5 @@
 # Client_Server_Java
-Multi Client to one Server application using Java sockets and threads
+Multi Client to one Server application using Java sockets, threads and Java Swing graphic library.
 
 ## Requirements 
 
