@@ -12,7 +12,7 @@ Design and develop a simple client-server application implementing a simple Quiz
 6. In the **friendly** mode, when the game starts the server sends the same set of N questions to all users, but the competition is not in real-time: each session with a user/client is managed independently from the others and when all the users have answered all the questions then the final ranking is shown to all. Use a timeout to conclude the quiz and print the results.
 7. In the **tournament** mode, when the game starts the server send to all the clients a random question among N quizzes, loaded from a file, with the 5 possible answers that will be shown to the users (only one is correct).
 
-        a. The first user sending the correct answer will get one point.
+      a. The first user sending the correct answer will get one point.
   
         b. The winning user and the correct answer will be shown to all the users, along with the current rank.
   
