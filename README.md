@@ -40,4 +40,10 @@ As the name suggets **client** contains the client application part, thus the pa
 
 ## How to run it
 
-In order to run the project, you first need to run the **server** application, thus open its Gradle project with your preferred IDE and launch the program from the main file located at *\src\main\java\org\example\Main.java*
+In order to run the project, you first need to run the **server** application, thus open its Gradle project with your preferred IDE and launch the program from the **main** file located at *\src\main\java\org\example\Main.java*.
+
+Notice that server is now listening at a default port, in this case is 9002
+
+Now, after you have launched the server, you can also launch the client, so open its Gradle project as the server and run the project from the main file located at  *\src\main\java\org\example\Main.java*.
+
+Also in this case some default settings are present, in detail there is the address and the port of the server (address: localhost and port:9002), future updates of the project will allow to pass these information as parameters.
