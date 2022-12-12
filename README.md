@@ -24,3 +24,14 @@ Design and develop a simple client-server application implementing a simple Quiz
   2. Extend the client interface with a Swing GUI 
   3. Consider the tournament mode: how to guarantee fair treatment to all users considering that network delays can penalize some users with respect to others? For example, user A has a faster connection and it often receives the questions one second before the other participants: how the server could consider these delays to determine which user took actually less time to answer?
   4. Manage the case when one client disconnects during the game: how will you manage client reconnection?
+  
+  
+## Contents
+
+Repository is divided between two main folders
+
+1. *server*
+
+2. *client*
+
+where each one is a Gradle Project. As the name suggets **client** contains the client application part, thus the part which allows the client to play using a graphic interface and so where all graphic logic is written. Meanwhile **server** contains all the algorithms that handle the communication between multiple clients/creation or partecipation to existing matches/answering and picking new questions.
