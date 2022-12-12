@@ -51,3 +51,6 @@ Also in this case some default settings are present, in detail there is the addr
 ## Future implementations
 
 Future updates of the project will allow the client to pass metadata server information as PORT and ADDRESS as parameters so without manipulating code, also it could be fine to dockerize both applications in order to have a simpler deployment phase.
+
+Since *server* and *client* projects share many common model java classes, it should be fine to separate them from both applications and then to build a unique shared JAR file, this solution will allow an easier maintainance. 
+At the moment files are both duplicated inside each projects since is easier to show them during a presentation.
