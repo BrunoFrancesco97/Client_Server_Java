@@ -14,9 +14,9 @@ Design and develop a simple client-server application implementing a simple Quiz
 
       a. The first user sending the correct answer will get one point.
   
-        b. The winning user and the correct answer will be shown to all the users, along with the current rank.
+      b. The winning user and the correct answer will be shown to all the users, along with the current rank.
   
-        c. After N (configurable) questions the game ends and the final rank is visualized: a congratulation message is sent to the winner and a consolation message is sent to the others.
+      c. After N (configurable) questions the game ends and the final rank is visualized: a congratulation message is sent to the winner and a consolation message is   sent to the others.
   
   ### Optional Requirements
   1. Extend requirement 2 so that the game will start when a timeout elapses, instead of waiting for M players: this should be configured at start-time via configuration file or command line.
