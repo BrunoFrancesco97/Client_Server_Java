@@ -18,6 +18,7 @@ Design and develop a simple client-server application implementing a simple Quiz
   
       c. After N (configurable) questions the game ends and the final rank is visualized: a congratulation message is sent to the winner and a consolation message is   sent to the others.
   
+  8. Develop also Junit testcases for the game server
   ### Optional Requirements
   1. Extend requirement 2 so that the game will start when a timeout elapses, instead of waiting for M players: this should be configured at start-time via configuration file or command line.
   2. Extend the client interface with a Swing GUI 
