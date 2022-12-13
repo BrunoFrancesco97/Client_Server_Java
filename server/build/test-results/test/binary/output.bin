@@ -1,3 +1,0 @@
-
-ˆMatch{players=[], available=false, type='friendly', id=50538355, name='test', host=Player{name='name', questions=[], hasFinished=false, score=Score{questions=[], name='name'}, id=1511659021, ready=false, indexLastQuestion=-1}, size=4, time=0, numberQuestions=10}
--,²Score{questions=[Question{quest='test1', answer='answer1', given='answer1', wrong1='null', wrong2='null', wrong3='null', wrong4='null', correct=true}, Question{quest='test2', answer='answer2', given='answer4', wrong1='null', wrong2='null', wrong3='null', wrong4='null', correct=false}, Question{quest='test3', answer='answer3', given='answer3', wrong1='null', wrong2='null', wrong3='null', wrong4='null', correct=true}], name='fra'}
