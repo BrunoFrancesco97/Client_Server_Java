@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="MatchTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2022-12-13T11:01:43" hostname="LAPTOP-7GSFM02U" time="0.145">
+  <properties/>
+  <testcase name="matchID()" classname="MatchTest" time="0.091"/>
+  <testcase name="matchConstructor1()" classname="MatchTest" time="0.003"/>
+  <testcase name="matchConstructor2()" classname="MatchTest" time="0.004"/>
+  <testcase name="matchConstructor3()" classname="MatchTest" time="0.002"/>
+  <testcase name="matchConstructor4()" classname="MatchTest" time="0.002"/>
+  <testcase name="testSetters()" classname="MatchTest" time="0.004"/>
+  <testcase name="togglePlayers()" classname="MatchTest" time="0.035"/>
+  <system-out><![CDATA[Match{players=[], available=false, type='friendly', id=1987722143, name='test', host=Player{name='name', questions=[], hasFinished=false, score=Score{questions=[], name='name'}, id=986726128, ready=false, indexLastQuestion=-1}, size=4, time=0, numberQuestions=10}
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

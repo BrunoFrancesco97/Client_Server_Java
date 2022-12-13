@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="communicationTest" tests="14" skipped="0" failures="0" errors="0" timestamp="2022-12-13T11:01:43" hostname="LAPTOP-7GSFM02U" time="0.091">
+  <properties/>
+  <testcase name="testHandleStartGame()" classname="communicationTest" time="0.03"/>
+  <testcase name="testUpdateNext()" classname="communicationTest" time="0.004"/>
+  <testcase name="testHandleCreate()" classname="communicationTest" time="0.008"/>
+  <testcase name="testHandleGaming()" classname="communicationTest" time="0.004"/>
+  <testcase name="testHandleOthers()" classname="communicationTest" time="0.003"/>
+  <testcase name="testHandleUpdate()" classname="communicationTest" time="0.003"/>
+  <testcase name="testHandleMatchRemover()" classname="communicationTest" time="0.004"/>
+  <testcase name="testNameChecker()" classname="communicationTest" time="0.004"/>
+  <testcase name="testDropQuestion()" classname="communicationTest" time="0.004"/>
+  <testcase name="testHandleGetIn()" classname="communicationTest" time="0.003"/>
+  <testcase name="testHandleIsEnd()" classname="communicationTest" time="0.004"/>
+  <testcase name="testHandleEndTimer()" classname="communicationTest" time="0.004"/>
+  <testcase name="testHandleContinueGame()" classname="communicationTest" time="0.004"/>
+  <testcase name="testHandleName()" classname="communicationTest" time="0.006"/>
+  <system-out><![CDATA[Message{owner='test', event='ERROR', message='null'}
+Message{owner='test', event='ERROR', message='null'}
+Message{owner='test', event='ERROR', message='null'}
+Message{owner='test', event='ERROR', message='null'}
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

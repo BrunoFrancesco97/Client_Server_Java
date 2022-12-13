@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="MemoryTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2022-12-13T11:01:43" hostname="LAPTOP-7GSFM02U" time="0.009">
+  <properties/>
+  <testcase name="memoryDelete1()" classname="MemoryTest" time="0.002"/>
+  <testcase name="memoryDelete2()" classname="MemoryTest" time="0.001"/>
+  <testcase name="memoryCheck()" classname="MemoryTest" time="0.001"/>
+  <testcase name="memoryClone()" classname="MemoryTest" time="0.001"/>
+  <testcase name="memoryGet()" classname="MemoryTest" time="0.001"/>
+  <testcase name="memoryAdd1()" classname="MemoryTest" time="0.0"/>
+  <testcase name="memoryAdd2()" classname="MemoryTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

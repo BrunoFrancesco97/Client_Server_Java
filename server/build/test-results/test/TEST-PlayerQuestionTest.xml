@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="PlayerQuestionTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2022-12-13T11:01:43" hostname="LAPTOP-7GSFM02U" time="0.088">
+  <properties/>
+  <testcase name="playerHasQuestion()" classname="PlayerQuestionTest" time="0.001"/>
+  <testcase name="playerAddQuestion()" classname="PlayerQuestionTest" time="0.001"/>
+  <testcase name="playerPopQuestion()" classname="PlayerQuestionTest" time="0.003"/>
+  <testcase name="playerEquals()" classname="PlayerQuestionTest" time="0.002"/>
+  <testcase name="playerClearQuestion()" classname="PlayerQuestionTest" time="0.001"/>
+  <testcase name="playerPickQuestion()" classname="PlayerQuestionTest" time="0.0"/>
+  <testcase name="playerIndex()" classname="PlayerQuestionTest" time="0.001"/>
+  <testcase name="playerReadynessFinishing()" classname="PlayerQuestionTest" time="0.002"/>
+  <testcase name="playerID()" classname="PlayerQuestionTest" time="0.075"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
