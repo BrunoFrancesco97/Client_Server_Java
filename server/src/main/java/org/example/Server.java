@@ -11,7 +11,7 @@ import java.util.Collections;
 import java.util.Iterator;
 
 public class Server extends Thread{
-    private static final String QUESTION_FILE = "./questions.txt";
+    private static final String QUESTION_FILE = "questions.txt";
     private final Socket s;
     private Match match;
     private ObjectInputStream in;
