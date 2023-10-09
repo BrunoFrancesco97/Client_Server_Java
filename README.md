@@ -42,11 +42,15 @@ As the name suggets **client** contains the client application part, thus the pa
 
 In order to run the project, you first need to run the **server** application, thus open its Gradle project with your preferred IDE and launch the program from the **main** file located at *\src\main\java\org\example\Main.java*.
 
+Please note that you MUST open IDE on "server" folder and not other folders, otherwise some problems can occur regarding questions.txt file since the file is not correctly seen by the program.
+
 Notice that server is now listening at a default port, in this case is 9002
 
-Now, after you have launched the server, you can also launch the client, so open its Gradle project as the server and run the project from the main file located at  *\src\main\java\org\example\Main.java*.
+Now, after you have launched the server, you can also launch the client, so open its Gradle project ("client" folder) and run the project from the main file located at  *\src\main\java\org\example\Main.java*.
 
 Also in this case some default settings are present, in detail there is the address and the port of the server (address: localhost and port:9002).
+
+I suggest you to start two different IDE istances, one for the server folder and one for the client one, I noticed some problems regarding "questions.txt" file that isn't correctly seen if you open the project on parent Client_Server_Java-main folder, especially on Windows OS.
 
 ## Future implementations
 
